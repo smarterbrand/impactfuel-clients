@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Profile — Martin Perry</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12100E; --fuel:#E8591A; --fuel-dim:rgba(232,89,26,.1);
+    --offwhite:#FAF9F7; --gray:#6B6762; --gray-soft:#A8A39E;
+    --white:#FFFFFF; --cream:#F2EBE2;
+    --line:rgba(18,16,14,.13); --line-soft:rgba(18,16,14,.07);
+    --shadow:0 1px 1px rgba(18,16,14,.04), 0 18px 46px -30px rgba(18,16,14,.36);
+    --shadow-sm:0 1px 1px rgba(18,16,14,.04), 0 8px 22px -16px rgba(18,16,14,.24);
+    --maxw:940px; --display:"Inter",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+    --topbar:54px; --sidebar:210px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .fp{color:var(--fuel);}
+
+  /* Topbar */
+  .topbar{position:sticky;top:0;z-index:100;height:var(--topbar);background:rgba(250,249,247,.92);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+  .topbar .row{display:flex;align-items:center;gap:18px;height:100%;padding:0 40px;}
+  .brand{font-family:var(--display);font-weight:900;font-size:1.05rem;color:var(--ink);letter-spacing:-.05em;flex-shrink:0;}
+  .topbar .ttl{font-family:var(--display);font-weight:700;font-size:.83rem;color:var(--ink);padding:4px 8px;border-radius:6px;transition:.15s;}
+  .topbar .ttl:hover{background:rgba(18,16,14,.07);}
+  .mainnav{margin-left:auto;display:flex;gap:2px;align-items:center;}
+  .mn{font-family:var(--display);font-weight:600;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--gray);padding:6px 11px;border-radius:7px;transition:.15s;}
+  .mn:hover{background:rgba(18,16,14,.07);color:var(--ink);}
+  .mn--active{color:var(--ink);background:rgba(18,16,14,.07);}
+  @media(max-width:760px){.topbar .ttl{display:none;}}
+  @media(max-width:560px){.mainnav{display:none;}}
+
+  /* Layout */
+  .shell{display:flex;align-items:flex-start;}
+  .sidenav{width:var(--sidebar);flex-shrink:0;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));overflow-y:auto;border-right:1px solid var(--line);padding:36px 16px 60px 26px;background:var(--offwhite);}
+  .sn-lbl{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-soft);margin:0 0 12px;}
+  .sn-nav{display:flex;flex-direction:column;}
+  .sn-link{font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);padding:7px 8px 7px 12px;border-left:2px solid transparent;transition:color .15s, border-color .15s;line-height:1.2;}
+  .sn-link:hover{color:var(--ink);}
+  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel);}
+  @media(max-width:860px){
+    .shell{display:block;}
+    .sidenav{position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto;overflow-y:visible;white-space:nowrap;}
+    .sidenav .sn-lbl{display:none;}
+    .sn-nav{flex-direction:row;display:inline-flex;}
+    .sn-link{border-left:none;border-bottom:2px solid transparent;padding:10px 10px;display:inline-block;}
+    .sn-link.is-active{border-bottom-color:var(--fuel);border-left:none;}
+  }
+
+  .main{flex:1;min-width:0;overflow:hidden;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;}
+  @media(max-width:600px){.wrap{padding:0 20px;}}
+
+  /* Hero */
+  .hero{padding:72px 0 28px;}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:26px;}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--fuel);}
+  .eyebrow .mid{color:var(--gray);}
+  .docname{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(3rem,9vw,5.8rem);line-height:.88;letter-spacing:-.05em;margin:0 0 22px;color:var(--ink);}
+  .hero .sub{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.38rem);line-height:1.45;color:var(--ink);max-width:44ch;}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);}
+  .meta b{color:var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.68rem;}
+
+  /* Sections */
+  section{padding:52px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;padding-top:36px;}
+  .shead{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .shead .num,.shead .sep{color:var(--fuel);}
+  h2{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4.8vw,2.5rem);line-height:1.0;letter-spacing:-.04em;color:var(--ink);margin:0 0 .4em;}
+  h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ink);margin:1.8em 0 .4em;letter-spacing:-.02em;}
+  p{margin:0 0 1.05em;}
+  .lede{font-family:var(--serif);font-size:1.22rem;line-height:1.48;color:var(--ink);max-width:52ch;}
+  strong{font-weight:600;color:var(--ink);}
+
+  /* Q&A style */
+  .qa{margin-top:24px;}
+  .qa-item{border-top:1px solid var(--line);padding:24px 0;}
+  .qa-item:first-child{border-top:none;padding-top:0;}
+  .qa-q{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fuel);margin-bottom:12px;}
+  .qa-a{font-family:var(--serif);font-size:1.05rem;line-height:1.6;color:var(--ink);}
+  .qa-a p{margin:0 0 .8em;}
+  .qa-a p:last-child{margin:0;}
+
+  /* Identity block */
+  .id-block{background:var(--ink);color:var(--offwhite);border-radius:8px;padding:38px 42px;box-shadow:var(--shadow);margin-top:24px;}
+  .id-block .id-lbl{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel);margin-bottom:16px;}
+  .id-block p{font-family:var(--serif);font-size:clamp(1.15rem,2.8vw,1.5rem);line-height:1.5;margin:0 0 1em;}
+  .id-block p:last-child{margin:0;}
+  .id-block .hl{color:var(--fuel);font-style:italic;}
+
+  /* Do/Don't table */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--white);box-shadow:var(--shadow-sm);margin-top:18px;}
+  table{border-collapse:collapse;width:100%;min-width:440px;}
+  thead th{background:var(--ink);color:var(--offwhite);text-align:left;font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:13px 18px;}
+  tbody td{padding:14px 18px;border-top:1px solid var(--line-soft);vertical-align:top;font-family:var(--display);font-size:.9rem;line-height:1.5;}
+  tbody tr:nth-child(even){background:var(--offwhite);}
+  td .go{color:var(--fuel);font-weight:800;margin-right:7px;}
+  td .no{color:var(--gray-soft);font-weight:800;margin-right:7px;}
+  td strong{font-weight:700;color:var(--ink);}
+
+  /* Cringe list */
+  .cringe{margin-top:20px;}
+  .cringe-item{border:1px solid var(--line);background:var(--white);border-radius:8px;padding:20px 22px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+  .cringe-item .who{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-soft);margin-bottom:6px;}
+  .cringe-item .phrase{font-family:var(--display);font-weight:800;font-size:1.05rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.02em;}
+  .cringe-item .why{font-family:var(--serif);font-size:.9rem;color:var(--gray);line-height:1.5;}
+
+  /* Writing mechanics */
+  .mech-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:18px;}
+  .mcard{background:var(--offwhite);padding:22px 22px;}
+  .mcard .mk{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel);margin-bottom:10px;}
+  .mcard p{font-family:var(--serif);font-size:.95rem;line-height:1.5;margin:0;color:var(--ink);}
+  @media(max-width:640px){.mech-grid{grid-template-columns:1fr;}}
+
+  /* Callout */
+  .callout{border-left:3px solid var(--fuel);padding:18px 22px;margin:24px 0;background:var(--fuel-dim);border-radius:0 8px 8px 0;}
+  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .callout p{font-family:var(--serif);font-size:1rem;margin:0;line-height:1.55;}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:38px 0 70px;}
+  .fgrid{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  footer .brand{font-family:var(--display);font-weight:900;font-size:1.4rem;letter-spacing:-.05em;color:var(--ink);}
+  footer .c{font-family:var(--display);font-weight:500;font-size:.77rem;color:var(--gray);line-height:1.8;}
+  footer .c b{color:var(--ink);font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="row">
+    <a href="/" class="brand">impact fuel<span class="fp">.</span></a>
+    <a href="/martin-perry" class="ttl">Martin Perry</a>
+    <nav class="mainnav">
+      <a href="/martin-perry/voice" class="mn mn--active">Voice</a>
+      <a href="/martin-perry/positioning" class="mn">Positioning</a>
+      <a href="/martin-perry/audience" class="mn">Audience</a>
+      <a href="/martin-perry/content-engine" class="mn">Content Engine</a>
+    </nav>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="sidenav">
+    <p class="sn-lbl">On this page</p>
+    <div class="sn-nav">
+      <a href="#identity" class="sn-link">Core Identity</a>
+      <a href="#beliefs" class="sn-link">Beliefs &amp; Takes</a>
+      <a href="#mechanics" class="sn-link">Writing Mechanics</a>
+      <a href="#phrases" class="sn-link">Phrases to Avoid</a>
+      <a href="#guardrails" class="sn-link">Guardrails</a>
+    </div>
+  </nav>
+
+  <div class="main">
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="eyebrow"><span class="dot"></span>Martin Perry <span class="mid">&nbsp;·&nbsp; Brand</span></div>
+      <div class="docname">Voice Profile</div>
+      <h1>How Martin sounds<span class="fp">.</span></h1>
+      <p class="sub">The beliefs, mechanics, and guardrails that keep every piece of content sounding like Martin — not a brochure.</p>
+      <div class="meta">
+        <span><b>Use this for</b> &nbsp;Every draft, every post, every email</span>
+        <span><b>Prepared by</b> &nbsp;John Mahood, Impact Fuel</span>
+      </div>
+    </header>
+
+    <section id="identity">
+      <div class="shead"><span class="sep">·</span> Core Identity</div>
+      <h2>Who he is on the page<span class="fp">.</span></h2>
+      <p class="lede">Martin Perry is a Pittsburgh-based commercial real estate advisor — not a broker in the transactional sense, but an advisor in the truest one.</p>
+
+      <div class="id-block">
+        <div class="id-lbl">The defining tension</div>
+        <p>Where most brokers are looking to close and move on, Martin is looking 10 to 15 years down the road. He will <span class="hl">talk a client out of a deal if it isn't right for them,</span> turn down a listing if the owner isn't realistic, and walk away from a commission rather than compromise his integrity or a friendship.</p>
+        <p>His north star: honest, thoughtful, and always in the client's best interest — whether there's a transaction at the end of it or not.</p>
+      </div>
+
+      <div class="callout" style="margin-top:26px;">
+        <div class="ct">How the writing should feel</div>
+        <p>Direct, real, grounded in 20-plus years of Pittsburgh deal-making, and completely free of the ego and hollow language that saturates his industry. It should read like a conversation with him, never a brochure. He is not flashy. He does not advertise his wins. The writing should feel the same way.</p>
+      </div>
+    </section>
+
+    <section id="beliefs">
+      <div class="shead"><span class="num">01</span><span class="sep">·</span> Beliefs &amp; Contrarian Takes</div>
+      <h2>What he actually thinks<span class="fp">.</span></h2>
+      <p>Verbatim from workshop Q&amp;A. These are the raw beliefs that fuel every piece of content — use them as source material, not as copy to paste.</p>
+
+      <div class="qa">
+        <div class="qa-item">
+          <div class="qa-q">Q: When someone asks what you do, what do you actually say?</div>
+          <div class="qa-a"><p>I say I'm a commercial real estate advisor. And when they ask what that means, I say I help individuals and companies of all shapes and sizes identify and manage their commercial real estate — their space, whether that's a commercial building, a space within a building. If they're looking to expand, shrink, buy, sell, or just figure out their overall real estate strategy, that's what I do.</p></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Q: What do you wish people understood about you that they usually miss?</div>
+          <div class="qa-a"><p>That I'm not transactional. I'm relationship-based and long-term thinking. If you come to me with a commercial real estate need, I'm not going to look at your immediate problem — I'm going to look 10, 15 years down the road and make sure it's the right long-term solution. Not the immediate band-aid.</p></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Q: What does the transactional crowd get wrong that actually costs their clients money?</div>
+          <div class="qa-a"><p>Most brokers are looking at what's available right now and trying to close it. They're not digging into demographics, traffic studies, long-term growth potential. An advisor treats the client's business as if it were their own. A transactional broker treats it like a commission waiting to happen.</p><p>I've been on the other side of deals and told my own clients, "There's no reason you should be signing this." Transactional brokers don't do that. They want to close the deal, get their commission, move on. I can sleep at night.</p></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Q: What advice do you give that surprises clients?</div>
+          <div class="qa-a"><p>Patience. An 88% occupied office building in a soft market — most brokers list it immediately. I told that client to wait 12 to 18 months. Focus on the financials, fill the remaining vacancy, increase the value. That's what an advisor does. Most clients don't hear that because most brokers aren't thinking about it.</p><p>I also told a friend opening his third retail location to stop — don't open a fourth yet. Focus on revenue and managing your employees for six months first. He called me six months later and thanked me. That deal would have been a commission for me. I said no anyway.</p></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Q: Where do you see the market going that most people aren't ready for?</div>
+          <div class="qa-a"><p>Office space will keep shrinking. Work from home changed the math permanently, and AI is accelerating it. You have downtown towers that are essentially empty — the BNY Mellon building in Pittsburgh is a good example — and there's no single tenant big enough to fill them. Cities are going to feel this in their tax revenue for years. Real estate tax revenue in some areas has dropped 50%. That's a wave of distressed assets coming between 2026 and 2028, and most of the market isn't positioned for it.</p><p>GLP-1 medications are going to do to restaurants what work-from-home did to offices. Appetite for food and alcohol goes down, restaurant demand goes down, out-parcels around malls start to empty. It's already starting. Nobody's talking about it yet.</p></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Q: Your hill to die on — the one belief you'll never compromise on.</div>
+          <div class="qa-a"><p>Honesty and thoughtfulness. If you're honest and always have the best interest of your client in mind — whether you transact or not — the best thing that comes out of it is a referral. I've had deals that never closed, and those clients still sent me business because they knew I gave them great advice. Sometimes referrals are even better than transactions.</p></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Q: What do clients assume about commercial real estate brokers that you'd like to challenge?</div>
+          <div class="qa-a"><p>That our business works like residential. List it, get offers in 45 days, done. Our business is archaic and inefficient by comparison. An easy deal is 6 to 9 months. A complex deal is 12 to 18. And almost none of that timeline is in my control — it's architects, municipalities, environmental agencies, attorneys. My job is to set that expectation on day one, not let it become a surprise in month four.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mechanics">
+      <div class="shead"><span class="num">02</span><span class="sep">·</span> Writing Mechanics</div>
+      <h2>How he actually writes<span class="fp">.</span></h2>
+      <p>Every draft should pass these mechanics before it goes out.</p>
+
+      <div class="mech-grid">
+        <div class="mcard">
+          <div class="mk">Length &amp; density</div>
+          <p>Short, sweet, to the point. The people he's writing for — their time is their most important commodity. Get their interest first. Save the story for the in-person meeting.</p>
+        </div>
+        <div class="mcard">
+          <div class="mk">How to open</div>
+          <p>"Here's why I'm calling. Here's why I'm emailing." Get to the point. Lead with "I appreciate your time" and mean it — then get to the reason. No warm-up sentences.</p>
+        </div>
+        <div class="mcard">
+          <div class="mk">How to close</div>
+          <p>Thank them for their time in advance. That's typically how he leaves his first outreach before meeting someone in person. One ask, stated simply.</p>
+        </div>
+        <div class="mcard">
+          <div class="mk">Explaining something complicated</div>
+          <p>Walk them through it day one through taking the keys. Separate what's in Martin's control from what isn't — and what's in the client's control. No excuses — managing expectations early.</p>
+        </div>
+        <div class="mcard">
+          <div class="mk">Analogies &amp; comparisons</div>
+          <p>Mostly through examples. Real deals. Real timelines. Real consequences. A specific story from something he's actually been through lands better than any hypothetical.</p>
+        </div>
+        <div class="mcard">
+          <div class="mk">What makes him keep reading</div>
+          <p>Specificity and a point of view. General observations he's heard before, he moves on. Give him something real. He reads industry news constantly — looking for growth, expansion, distress, closures.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="phrases">
+      <div class="shead"><span class="num">03</span><span class="sep">·</span> Phrases to Avoid</div>
+      <h2>The cringe list<span class="fp">.</span></h2>
+      <p>Phrases that signal the wrong thing. Cut them from every draft, no exceptions.</p>
+
+      <div class="cringe">
+        <div class="cringe-item">
+          <div class="who">From buyers</div>
+          <div class="phrase">"I'll just write a check."</div>
+          <div class="why">When a buyer says this, Martin immediately knows they can't afford the property. It's always the flashiest, least humble people in the room who say it. The ones who actually have the money never do.</div>
+        </div>
+        <div class="cringe-item">
+          <div class="who">From buyers</div>
+          <div class="phrase">"I'll close in 30 days."</div>
+          <div class="why">Impossible. It cannot happen with the third-party vendors — attorneys, title companies — who handle the closing of every deal. When a buyer says this, they're either uninformed or performing confidence they don't have.</div>
+        </div>
+        <div class="cringe-item">
+          <div class="who">Industry language</div>
+          <div class="phrase">"Best and final offer."</div>
+          <div class="why">The artificial deadline it creates is the problem. His test: if a better offer comes in tomorrow, are you actually walking away? If not, don't say it — it's a bluff and seasoned people know it.</div>
+        </div>
+        <div class="cringe-item">
+          <div class="who">Marketing language</div>
+          <div class="phrase">"Best in the market." / "Premier." / "World-class."</div>
+          <div class="why">Hype. He won't say anything he wouldn't say to a client's face. These phrases would make him cringe in a real conversation — they don't belong on the page either.</div>
+        </div>
+      </div>
+
+      <div class="tablewrap" style="margin-top:28px;">
+        <table>
+          <thead><tr><th>Sounds like Martin</th><th>Avoid</th></tr></thead>
+          <tbody>
+            <tr><td><span class="go">✓</span> Advisor · relationship-based · thoughtful</td><td><span class="no">✕</span> "Broker" or "agent" as a self-label; anything "salesy"</td></tr>
+            <tr><td><span class="go">✓</span> Honest · fair · generous · patient</td><td><span class="no">✕</span> High-pressure language; anything "cutthroat"</td></tr>
+            <tr><td><span class="go">✓</span> Value-add · fixer · due diligence</td><td><span class="no">✕</span> Volume metrics; "close it and move on"</td></tr>
+            <tr><td><span class="go">✓</span> Realistic about timelines and risk</td><td><span class="no">✕</span> Hype, inflated promises, invented urgency</td></tr>
+            <tr><td><span class="go">✓</span> Direct and specific — real deals, real numbers</td><td><span class="no">✕</span> Vague generalizations; "market leaders say…"</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="guardrails">
+      <div class="shead"><span class="num">04</span><span class="sep">·</span> Guardrails</div>
+      <h2>The won't-say list<span class="fp">.</span></h2>
+      <p>Run every draft past these before it publishes. If it trips one, cut it — no exceptions.</p>
+
+      <div class="callout">
+        <div class="ct">Non-negotiable rules</div>
+        <p><strong>No fabrication, ever.</strong> Only deals he genuinely closed or worked on. No invented stories, no borrowed credit.<br><br>
+        <strong>No disparaging borrowers, clients, or any party.</strong> Respectful and tactful, always — even when describing a situation that went badly.<br><br>
+        <strong>No hype, no ego, no "best in the market."</strong> Nothing he wouldn't say to a client's face.<br><br>
+        <strong>Never claim asset-class specialization he doesn't want to own.</strong> Frame the breadth as deliberate: "knowledgeable across classes, expert at getting deals done here."<br><br>
+        <strong>Don't overpromise speed or certainty.</strong> The whole brand rests on honest timelines. The messaging must never undercut that.</p>
+      </div>
+
+      <div class="mech-grid" style="margin-top:24px;">
+        <div class="mcard">
+          <div class="mk">60-second gut check before publish</div>
+          <p>One idea — not three?<br>Would his best client read it and say "that's true"?<br>Is the example real, specific, and his?<br>Exactly one next step?<br>Does it sound like him talking — or like a brochure?</p>
+        </div>
+        <div class="mcard">
+          <div class="mk">When in doubt, ask</div>
+          <p>If you're not sure whether something sounds like Martin, read it out loud. If it sounds like it belongs in a listing brochure, cut it. If it sounds like something he'd say over coffee to a bank officer, it's probably right.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fgrid">
+        <span class="brand">impact fuel<span class="fp">.</span></span>
+        <div class="c">
+          <b>John Mahood</b> · Principal, Impact Fuel<br>
+          john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wrap -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+(function(){
+  var links = Array.from(document.querySelectorAll('.sn-link[href^="#"]'));
+  var ids = links.map(function(l){ return l.getAttribute('href').slice(1); });
+  var sects = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var TOPBAR = 62;
+  function spy(){
+    var y = window.scrollY || window.pageYOffset;
+    var active = null;
+    for(var i = sects.length - 1; i >= 0; i--){
+      if(y >= sects[i].offsetTop - TOPBAR - 40){ active = ids[i]; break; }
+    }
+    links.forEach(function(l){ l.classList.toggle('is-active', l.getAttribute('href').slice(1) === active); });
+  }
+  window.addEventListener('scroll', spy, { passive: true });
+  spy();
+})();
+</script>
+</body>
+</html>

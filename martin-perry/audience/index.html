@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audience Profiles — Martin Perry</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12100E; --fuel:#E8591A; --fuel-dim:rgba(232,89,26,.1);
+    --offwhite:#FAF9F7; --gray:#6B6762; --gray-soft:#A8A39E;
+    --white:#FFFFFF; --cream:#F2EBE2;
+    --line:rgba(18,16,14,.13); --line-soft:rgba(18,16,14,.07);
+    --shadow:0 1px 1px rgba(18,16,14,.04), 0 18px 46px -30px rgba(18,16,14,.36);
+    --shadow-sm:0 1px 1px rgba(18,16,14,.04), 0 8px 22px -16px rgba(18,16,14,.24);
+    --maxw:940px; --display:"Inter",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+    --topbar:54px; --sidebar:210px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .fp{color:var(--fuel);}
+
+  /* ─── TOPBAR ─────────────────────────────────────── */
+  .topbar{position:sticky;top:0;z-index:100;height:var(--topbar);background:rgba(250,249,247,.92);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+  .topbar .row{display:flex;align-items:center;gap:18px;height:100%;padding:0 40px;}
+  .brand{font-family:var(--display);font-weight:900;font-size:1.05rem;color:var(--ink);letter-spacing:-.05em;flex-shrink:0;}
+  .topbar .ttl{font-family:var(--display);font-weight:700;font-size:.83rem;letter-spacing:-.02em;color:var(--ink);padding:4px 8px;border-radius:6px;transition:.15s;}
+  .topbar .ttl:hover{background:rgba(18,16,14,.07);}
+  .mainnav{margin-left:auto;display:flex;gap:2px;align-items:center;}
+  .mn{font-family:var(--display);font-weight:600;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--gray);padding:6px 11px;border-radius:7px;transition:.15s;}
+  .mn:hover{background:rgba(18,16,14,.07);color:var(--ink);}
+  .mn--active{color:var(--ink);background:rgba(18,16,14,.07);}
+  @media(max-width:760px){.topbar .ttl{display:none;}}
+  @media(max-width:560px){.mainnav{display:none;}}
+
+  /* ─── LAYOUT ──────────────────────────────────────── */
+  .shell{display:flex;align-items:flex-start;}
+
+  /* ─── SIDEBAR ─────────────────────────────────────── */
+  .sidenav{width:var(--sidebar);flex-shrink:0;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));overflow-y:auto;border-right:1px solid var(--line);padding:36px 16px 60px 26px;background:var(--offwhite);}
+  .sn-lbl{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-soft);margin:0 0 12px;}
+  .sn-nav{display:flex;flex-direction:column;}
+  .sn-link{font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);padding:7px 8px 7px 12px;border-left:2px solid transparent;transition:color .15s, border-color .15s;line-height:1.2;}
+  .sn-link:hover{color:var(--ink);}
+  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel);}
+  .sn-divider{height:1px;background:var(--line);margin:14px 0;}
+  .sn-cat{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-soft);padding:10px 8px 4px 12px;}
+  @media(max-width:860px){
+    .shell{display:block;}
+    .sidenav{position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto;overflow-y:visible;white-space:nowrap;}
+    .sidenav .sn-lbl,.sn-cat,.sn-divider{display:none;}
+    .sn-nav{flex-direction:row;display:inline-flex;gap:0;}
+    .sn-link{border-left:none;border-bottom:2px solid transparent;padding:10px 10px;display:inline-block;}
+    .sn-link.is-active{border-bottom-color:var(--fuel);border-left:none;}
+  }
+
+  /* ─── MAIN ─────────────────────────────────────────── */
+  .main{flex:1;min-width:0;overflow:hidden;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;}
+  @media(max-width:600px){.wrap{padding:0 20px;}}
+
+  /* Hero */
+  .hero{padding:72px 0 28px;}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:26px;}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--fuel);}
+  .eyebrow .mid{color:var(--gray);}
+  .docname{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(3rem,9vw,5.8rem);line-height:.88;letter-spacing:-.05em;margin:0 0 22px;color:var(--ink);}
+  .hero .sub{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.38rem);line-height:1.42;color:var(--ink);max-width:42ch;}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);}
+  .meta b{color:var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.68rem;}
+
+  /* Tab switcher */
+  .tab-bar{display:flex;gap:2px;margin-top:48px;padding:4px;background:rgba(18,16,14,.07);border-radius:10px;width:fit-content;}
+  .tab-btn{font-family:var(--display);font-weight:600;font-size:.82rem;letter-spacing:-.01em;color:var(--gray);padding:10px 22px;border-radius:7px;border:none;background:transparent;cursor:pointer;transition:.15s;}
+  .tab-btn:hover{color:var(--ink);}
+  .tab-btn.active{background:var(--white);color:var(--ink);box-shadow:0 1px 3px rgba(18,16,14,.12);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* Profile sections */
+  section{padding:52px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;padding-top:36px;}
+  .shead{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .shead .num,.shead .sep{color:var(--fuel);}
+  h2{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.0;letter-spacing:-.04em;color:var(--ink);margin:0 0 .4em;}
+  h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ink);margin:1.8em 0 .5em;letter-spacing:-.02em;}
+  p{margin:0 0 1em;}
+  .lede{font-family:var(--serif);font-size:1.2rem;line-height:1.45;color:var(--ink);max-width:56ch;}
+  strong{font-weight:600;color:var(--ink);}
+
+  /* Glance grid */
+  .glance{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:24px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .gcard{background:var(--offwhite);padding:22px 20px;}
+  .gcard .k{font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .gcard .v{font-family:var(--display);font-weight:700;font-size:1.0rem;line-height:1.2;color:var(--ink);letter-spacing:-.02em;}
+  @media(max-width:640px){.glance{grid-template-columns:repeat(2,1fr);}}
+
+  /* 2-col detail grid */
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:18px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .dgcell{background:var(--offwhite);padding:22px 22px;}
+  .dgcell .dk{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+  .dgcell ul{margin:0;padding:0 0 0 1.2em;}
+  .dgcell ul li{font-family:var(--display);font-size:.88rem;line-height:1.5;color:var(--ink);margin:.4em 0;padding-left:.2em;}
+  .dgcell ul li::marker{color:var(--fuel);}
+  .dgcell p{font-family:var(--display);font-size:.88rem;line-height:1.5;color:var(--ink);margin:0;}
+  @media(max-width:640px){.detail-grid{grid-template-columns:1fr;}}
+
+  /* Quote blocks */
+  .q-warm{margin:36px 0 0;background:var(--cream);border-radius:8px;padding:32px 44px 38px 56px;position:relative;}
+  .q-warm .q-lbl{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;}
+  .q-warm p{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.2rem,3vw,1.7rem);line-height:1.35;margin:0;color:var(--ink);}
+  .q-warm::before{content:"\201C";position:absolute;left:18px;top:48px;font-family:var(--serif);font-size:4rem;line-height:1;color:var(--fuel);}
+  .q-warm .hl{font-style:italic;color:var(--fuel);font-weight:600;}
+  .q-dark{background:var(--ink);color:var(--offwhite);border-radius:8px;padding:38px 42px;box-shadow:var(--shadow);}
+  .q-dark .q-lbl{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel);margin-bottom:16px;}
+  .q-dark p{font-family:var(--display);font-weight:800;font-size:clamp(1.3rem,3.4vw,1.9rem);line-height:1.18;letter-spacing:-.03em;margin:0;}
+  .q-dark .hl{color:var(--fuel);}
+
+  /* Tables */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--white);box-shadow:var(--shadow-sm);margin-top:18px;}
+  table{border-collapse:collapse;width:100%;min-width:480px;}
+  thead th{background:var(--ink);color:var(--offwhite);text-align:left;font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:13px 18px;}
+  tbody td{padding:14px 18px;border-top:1px solid var(--line-soft);vertical-align:top;font-family:var(--display);font-size:.9rem;line-height:1.5;}
+  tbody tr:nth-child(even){background:var(--offwhite);}
+  td strong{color:var(--fuel);}
+
+  /* Pills */
+  .pill{display:inline-block;font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fuel);background:var(--fuel-dim);padding:3px 10px;border-radius:20px;margin:4px 3px 4px 0;}
+
+  /* Callout */
+  .callout{border-left:3px solid var(--fuel);padding:18px 22px;margin:24px 0;background:var(--fuel-dim);border-radius:0 8px 8px 0;}
+  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .callout p{font-family:var(--serif);font-size:1rem;margin:0;line-height:1.5;}
+
+  /* Content strategy block */
+  .strategy{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:28px 28px;box-shadow:var(--shadow-sm);margin-top:20px;}
+  .strategy h4{font-family:var(--display);font-weight:700;font-size:1.0rem;margin:0 0 .6em;letter-spacing:-.02em;}
+  .strategy p{font-family:var(--serif);font-size:.96rem;line-height:1.5;margin:0 0 .8em;color:var(--gray);}
+  .strategy p:last-child{margin:0;}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:38px 0 70px;}
+  .fgrid{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  footer .brand{font-size:1.4rem;}
+  footer .c{font-family:var(--display);font-weight:500;font-size:.77rem;color:var(--gray);line-height:1.8;}
+  footer .c b{color:var(--ink);font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="row">
+    <a href="/" class="brand">impact fuel<span class="fp">.</span></a>
+    <a href="/martin-perry" class="ttl">Martin Perry</a>
+    <nav class="mainnav">
+      <a href="/martin-perry/voice" class="mn">Voice</a>
+      <a href="/martin-perry/positioning" class="mn">Positioning</a>
+      <a href="/martin-perry/audience" class="mn mn--active">Audience</a>
+      <a href="/martin-perry/content-engine" class="mn">Content Engine</a>
+    </nav>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="sidenav">
+    <p class="sn-lbl">On this page</p>
+    <div class="sn-cat">Lender Profile</div>
+    <div class="sn-nav" id="lender-nav">
+      <a href="#l-who" class="sn-link">Who they are</a>
+      <a href="#l-goals" class="sn-link">Goals &amp; Challenges</a>
+      <a href="#l-solutions" class="sn-link">What we offer</a>
+      <a href="#l-voice" class="sn-link">Their voice</a>
+      <a href="#l-win" class="sn-link">How we win them</a>
+    </div>
+    <div class="sn-divider"></div>
+    <div class="sn-cat">Owner Profile</div>
+    <div class="sn-nav" id="owner-nav">
+      <a href="#o-who" class="sn-link">Who they are</a>
+      <a href="#o-goals" class="sn-link">Goals &amp; Challenges</a>
+      <a href="#o-solutions" class="sn-link">What we offer</a>
+      <a href="#o-voice" class="sn-link">Their voice</a>
+      <a href="#o-win" class="sn-link">How we win them</a>
+    </div>
+  </nav>
+
+  <div class="main">
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="eyebrow"><span class="dot"></span>Martin Perry <span class="mid">&nbsp;·&nbsp; Strategy</span></div>
+      <div class="docname">Audience Profiles</div>
+      <h1>Two readers.<br>One voice<span class="fp">.</span></h1>
+      <p class="sub">Martin serves two distinct audiences who need him in very different moments. Every piece of content should know which seat it's written for.</p>
+      <div class="meta">
+        <span><b>Profiles</b> &nbsp;The Lender · The Owner</span>
+        <span><b>Prepared by</b> &nbsp;John Mahood, Impact Fuel</span>
+      </div>
+    </header>
+
+    <!-- TAB SWITCHER -->
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" data-tab="lender" role="tab" aria-selected="true">Profile 01 · The Lender</button>
+      <button class="tab-btn" data-tab="owner" role="tab" aria-selected="false">Profile 02 · The Owner</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- LENDER PANEL -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="tab-panel active" id="panel-lender">
+
+      <section id="l-who">
+        <div class="shead"><span class="num">01</span><span class="sep">·</span> Who they are</div>
+        <h2>The Lender<span class="fp">.</span></h2>
+        <p class="lede">Distressed &amp; troubled asset professionals. The people who have a bad loan and need someone to take it off their hands — or better yet, save it.</p>
+
+        <div class="glance">
+          <div class="gcard">
+            <div class="k">Job Description</div>
+            <div class="v">Minimize net loss on troubled commercial real-estate loans</div>
+          </div>
+          <div class="gcard">
+            <div class="k">Entry Point</div>
+            <div class="v">Special assets team → Chief Credit Officer</div>
+          </div>
+          <div class="gcard">
+            <div class="k">Typical Spend</div>
+            <div class="v">Significant at $5M+ deals (2–3× larger in bigger markets)</div>
+          </div>
+        </div>
+
+        <div class="detail-grid" style="margin-top:1px;">
+          <div class="dgcell">
+            <div class="dk">Who holds this role</div>
+            <ul>
+              <li>Chief Credit Officer · Chief Lending Officer</li>
+              <li>Head of Special Assets / Head of Distressed Assets</li>
+              <li>Special Asset Officer · Workout Officer · Asset Resolution Officer</li>
+              <li>Any member of the special-assets group</li>
+              <li>Outside legal counsel (creditors'-rights &amp; real-estate attorneys)</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Where they work</div>
+            <ul>
+              <li>National banks (e.g., PNC)</li>
+              <li>Large regional banks (United Bank, First National Bank)</li>
+              <li>Regional &amp; community banks (S&amp;T, First Commonwealth)</li>
+              <li>Out-of-state lenders</li>
+              <li>CMBS asset managers · special servicers · credit unions · FDIC</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Keywords they use</div>
+            <ul>
+              <li>"special asset" · "distressed asset" · "workout"</li>
+              <li>"asset resolution" · "special asset solutions"</li>
+              <li>"court-appointed receiver" · "receivership"</li>
+              <li>Geographic: markets others avoid (West Virginia)</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Decision &amp; timeframe</div>
+            <ul>
+              <li>Day-to-day: Head of Special Assets + team</li>
+              <li>Escalates to Chief Credit Officer (or direct contact at community banks)</li>
+              <li>Attorneys heavily influence the decision — a referral gets Martin ~90% there</li>
+              <li>Usually engage 12–18 months after default (some wait 3 years)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="l-goals">
+        <div class="shead"><span class="num">02</span><span class="sep">·</span> Goals &amp; Challenges</div>
+        <h2>What keeps them up at night<span class="fp">.</span></h2>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Goals — what success looks like</div>
+            <ul>
+              <li>Minimize net loss to the bank; preserve collateral value</li>
+              <li>Resolve the problem fast — every day costs money</li>
+              <li>Look like a superstar to leadership &amp; protect their career</li>
+              <li>Recover the bank's money through a clean disposition</li>
+              <li>Avoid damaging borrower relationships they personally built</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Challenges — what they're fighting</div>
+            <ul>
+              <li>Missed payments, defaults, broken loan covenants</li>
+              <li>Borrower fraud, property neglect, deferred maintenance</li>
+              <li>Unforeseeable events never underwritten (washed-out bridge in WV)</li>
+              <li>Illness/death of a key owner; heirs handing back the keys</li>
+              <li>Acquired banks carrying bad loans never properly underwritten</li>
+              <li>Conflict of interest — the borrower is often a friend</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="l-solutions">
+        <div class="shead"><span class="num">03</span><span class="sep">·</span> What we offer</div>
+        <h2>Solutions &amp; results<span class="fp">.</span></h2>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Our services for this audience</div>
+            <ul>
+              <li>Special-asset solutions: workout, resolution &amp; disposition</li>
+              <li>Court-appointed receivership</li>
+              <li>Step in to secure records, assume rents, pay bills, preserve collateral</li>
+              <li>Rapid, prioritized troubleshooting &amp; financial analysis</li>
+              <li>Front-end risk assessment on acquisitions ("fireproofing")</li>
+              <li>Access to investor/takeout-buyer pool for fast sales</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Results they can expect</div>
+            <ul>
+              <li>Erie 205-unit apartment: turned around in ~90 days, sold at a profit</li>
+              <li>Diffused armed-guard takeover in 15 minutes; secured ~$500K</li>
+              <li>Squirrel Hill: $8.5M projected loss reduced to ~$2M</li>
+              <li>Proven across every asset class — including two prisons (2020–21)</li>
+              <li>Transparent process that minimizes net loss</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:28px;">
+          <div class="ct">The critical window</div>
+          <p>Lenders typically engage 12–18 months after default — some wait 3 years. Martin's push: engage early, as a front-end advisor, not just when it's already on fire. The predicted flood of distressed inventory is coming in the back-half of 2026 through 2027–2028 — a ~6-year runway.</p>
+        </div>
+      </section>
+
+      <section id="l-voice">
+        <div class="shead"><span class="num">04</span><span class="sep">·</span> Their voice</div>
+        <h2>In their own words<span class="fp">.</span></h2>
+        <p>Real quotes from lender engagements. The language of the problem, in their voice — not paraphrased.</p>
+
+        <div class="q-warm" style="margin-bottom:18px;">
+          <div class="q-lbl">On absorbing bad loans</div>
+          <p>"We absorb so many bad loans because of aggressive acquisitions that we just <span class="hl">didn't underwrite.</span>"</p>
+        </div>
+        <div class="q-warm" style="margin-bottom:18px;">
+          <div class="q-lbl">After a successful resolution</div>
+          <p>"You knew exactly who to target and you <span class="hl">got this thing out from under us.</span>"</p>
+        </div>
+        <div class="q-warm" style="margin-bottom:28px;">
+          <div class="q-lbl">United Bank — Head of Special Assets</div>
+          <p>"I hope we can <span class="hl">do a lot more business together.</span>"</p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Why they don't call sooner</div>
+            <ul>
+              <li>Not embarrassment — "we've exhausted everything we know / the bank will do"</li>
+              <li>Habit of waiting far too long before calling</li>
+              <li>Handing a troubled asset to an outsider requires a lot of trust</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">What they need to see first</div>
+            <ul>
+              <li>Experience, case studies, transparency, speed</li>
+              <li>Analytical and reserved at first; warm up over coffee, lunch, in-person</li>
+              <li>Want a disinterested third party for awkward borrower conversations</li>
+              <li>Looking for a trusted "my guy" they can call and stop thinking about it</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="l-win">
+        <div class="shead"><span class="num">05</span><span class="sep">·</span> How we win them</div>
+        <h2>Message &amp; content strategy<span class="fp">.</span></h2>
+
+        <div class="q-dark">
+          <div class="q-lbl">Our core message to this audience</div>
+          <p>The advisor to call when facing headwinds <span class="hl">typical brokers can't navigate.</span> Engage me early — consult on the front end, don't just call when it's on fire.</p>
+        </div>
+
+        <div class="detail-grid" style="margin-top:20px;">
+          <div class="dgcell">
+            <div class="dk">Content that reaches them</div>
+            <ul>
+              <li>Genericized case studies (no bank names) + bank logos shown separately for credibility</li>
+              <li>90-second case-study videos (AI-assisted) to a growing list of ~150 lenders</li>
+              <li>One-pagers distilled from long project decks</li>
+              <li>Weekly blog/newsletter on issues they face (covenants, surprises, repurposing office &amp; data centers)</li>
+              <li>Seminars hosted with law firms for their bank clients</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Tone guidelines</div>
+            <ul>
+              <li>Respectful, tactful — never disparage borrowers</li>
+              <li>Analytical and direct — they're under real career pressure</li>
+              <li>"Engage me early" framing throughout</li>
+              <li>Proof-first: experience, case studies, transparency, speed</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /lender panel -->
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- OWNER PANEL -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-owner">
+
+      <section id="o-who">
+        <div class="shead"><span class="num">01</span><span class="sep">·</span> Who they are</div>
+        <h2>The Legacy &amp; Best-Fit Owner<span class="fp">.</span></h2>
+        <p class="lede">Investors, family offices, nonprofits, and business owners acquiring, owning, or occupying commercial real estate to build wealth — or to serve their mission.</p>
+
+        <div class="glance">
+          <div class="gcard">
+            <div class="k">Job Description</div>
+            <div class="v">Acquire, own, or occupy CRE to build wealth or serve their mission</div>
+          </div>
+          <div class="gcard">
+            <div class="k">Ideal Deal Size</div>
+            <div class="v">$5M–$15M (Pittsburgh market sweet spot)</div>
+          </div>
+          <div class="gcard">
+            <div class="k">Timeframe</div>
+            <div class="v">Should engage early; 1031 exchanges run on ~45-day windows</div>
+          </div>
+        </div>
+
+        <div class="detail-grid" style="margin-top:1px;">
+          <div class="dgcell">
+            <div class="dk">Who they are</div>
+            <ul>
+              <li>High-net-worth investors; family offices; institutional investors</li>
+              <li>Long-term owners; syndicators; takeout/buyer groups</li>
+              <li>Business owners &amp; occupiers leasing or buying space</li>
+              <li>Nonprofit leadership — CEO + real-estate decision-makers</li>
+              <li>Corporate real-estate decision-makers</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Keywords they use</div>
+            <ul>
+              <li>Generic &amp; geographic, not technical</li>
+              <li>"buy an apartment building in Pittsburgh"</li>
+              <li>"office building in Pittsburgh"</li>
+              <li>Real estate in a specific area/neighborhood</li>
+              <li><em>(Contrast: lenders use specific workout terminology)</em></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="o-goals">
+        <div class="shead"><span class="num">02</span><span class="sep">·</span> Goals &amp; Challenges</div>
+        <h2>What drives their decisions<span class="fp">.</span></h2>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Goals — what success looks like</div>
+            <ul>
+              <li>Buy well — opportunistic, off-market, distressed deals at a discount ("30 cents on the dollar")</li>
+              <li>Build &amp; preserve wealth; double or triple their money</li>
+              <li>Defer taxes (1031 exchanges) with proper planning</li>
+              <li>Secure favorable debt structure &amp; interest rates</li>
+              <li>Nonprofits/corporates: real-estate strategy aligned to mission &amp; growth</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Challenges — what they're fighting</div>
+            <ul>
+              <li>Finding off-market opportunities others can't see</li>
+              <li>Avoiding costly mistakes — overpaying or buying the wrong asset</li>
+              <li>Navigating slow process &amp; timelines (permits, zoning, construction)</li>
+              <li>Not getting good advice early enough</li>
+              <li>Tired of arrogant, transactional broker egos</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="o-solutions">
+        <div class="shead"><span class="num">03</span><span class="sep">·</span> What we offer</div>
+        <h2>Solutions &amp; results<span class="fp">.</span></h2>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Our services for this audience</div>
+            <ul>
+              <li>Marrying the investor pool with distressed/off-market deals from bank relationships</li>
+              <li>Underwriting, financial analysis, debt sourcing &amp; structuring via lender relationships</li>
+              <li>Advisory from search → financing → close (and for the life of the asset)</li>
+              <li>Corporate real-estate strategy &amp; footprint advisory</li>
+              <li>Nonprofit advisory (Goodwill since 2008)</li>
+              <li>1031/tax-deferral coordination with the client's tax advisor</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Results they can expect</div>
+            <ul>
+              <li>Off-market deals at steep discounts no one else surfaced</li>
+              <li>Investors who doubled/tripled their money — and became loyal</li>
+              <li>Better debt terms that carry through the life of the asset</li>
+              <li>Redeveloped a vacant Kmart (Uniontown) — new tenants, higher tax revenue</li>
+              <li>A trusted advisor for every future transaction</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="o-voice">
+        <div class="shead"><span class="num">04</span><span class="sep">·</span> Their voice</div>
+        <h2>In their own words<span class="fp">.</span></h2>
+        <p>Real quotes from owner and investor engagements. The language of the problem, unfiltered.</p>
+
+        <div class="q-warm" style="margin-bottom:18px;">
+          <div class="q-lbl">On off-market opportunity</div>
+          <p>"This deal's not even on the market and I could buy it at <span class="hl">30 cents on the dollar.</span>"</p>
+        </div>
+        <div class="q-warm" style="margin-bottom:18px;">
+          <div class="q-lbl">After a costly mistake</div>
+          <p>"I should have listened to you a long time ago. <span class="hl">I made a huge mistake.</span>" — RV-park buyer</p>
+        </div>
+        <div class="q-warm" style="margin-bottom:28px;">
+          <div class="q-lbl">On realizing Martin's scope</div>
+          <p>"I didn't realize you're in commercial real estate — <span class="hl">I'd have been using you this whole time.</span>"</p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="dgcell">
+            <div class="dk">Common objections</div>
+            <ul>
+              <li>Perceive Martin as expensive ("more than I budgeted")</li>
+              <li>Loyalty to an existing broker</li>
+              <li>Don't realize they should engage early</li>
+              <li>Unrealistic timeline &amp; pricing expectations</li>
+              <li>"Most brokers are jerks / arrogant / big egos"</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Their demeanor</div>
+            <ul>
+              <li>Fiercely loyal once Martin finds them a deal no one else had</li>
+              <li>Want a collaborative advisor — not an arrogant, transactional broker</li>
+              <li>Will pay for value once they see it</li>
+              <li>Opportunistic; chasing off-market, discounted deals</li>
+              <li>Easily regret calling too late</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="o-win">
+        <div class="shead"><span class="num">05</span><span class="sep">·</span> How we win them</div>
+        <h2>Message &amp; content strategy<span class="fp">.</span></h2>
+
+        <div class="q-dark">
+          <div class="q-lbl">Our core message to this audience</div>
+          <p>Relationship-focused, not transactional — <span class="hl">treats every deal like his own.</span> Will advise against a bad deal even when it costs him the commission.</p>
+        </div>
+
+        <div class="detail-grid" style="margin-top:20px;">
+          <div class="dgcell">
+            <div class="dk">Content that reaches them</div>
+            <ul>
+              <li>Genericized success stories + Martin's personal, relatable side</li>
+              <li>~80% shared with lender content / ~20% tweaked for this audience</li>
+              <li>Case studies showing off-market wins</li>
+              <li>Geographic content (West Virginia, Pittsburgh)</li>
+              <li>Self-selection content so wrong-fit prospects opt out</li>
+            </ul>
+          </div>
+          <div class="dgcell">
+            <div class="dk">Key positioning points</div>
+            <ul>
+              <li>Relatable, not an intimidating "Ivy League" type — public school, West Virginia</li>
+              <li>Understands financials, debt &amp; due diligence — makes you money</li>
+              <li>Premium execution (drone, pro photo/video, AI tools, spend front-loaded in first 21 days)</li>
+              <li>Engage early to avoid costly mistakes</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /owner panel -->
+
+    <footer>
+      <div class="fgrid">
+        <span class="brand">impact fuel<span class="fp">.</span></span>
+        <div class="c">
+          <b>John Mahood</b> · Principal, Impact Fuel<br>
+          john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wrap -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+// Tab switching
+(function(){
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tab = btn.dataset.tab;
+      btns.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+      var panel = document.getElementById('panel-' + tab);
+      if(panel){ panel.classList.add('active'); }
+      // Update sidebar visibility / URL hash
+      window.location.hash = tab;
+    });
+  });
+  // Restore from hash
+  var hash = window.location.hash.slice(1);
+  if(hash === 'owner'){
+    document.querySelector('[data-tab="owner"]').click();
+  }
+})();
+
+// Scroll-spy for sidebar
+(function(){
+  var links = Array.from(document.querySelectorAll('.sn-link[href^="#"]'));
+  var TOPBAR = 62;
+  function getActive(){
+    var y = window.scrollY || window.pageYOffset;
+    var active = null;
+    var sects = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+    for(var i = sects.length - 1; i >= 0; i--){
+      if(sects[i] && y >= sects[i].offsetTop - TOPBAR - 40){ active = links[i]; break; }
+    }
+    links.forEach(function(l){ l.classList.remove('is-active'); });
+    if(active){ active.classList.add('is-active'); }
+  }
+  window.addEventListener('scroll', getActive, { passive: true });
+  getActive();
+})();
+</script>
+</body>
+</html>

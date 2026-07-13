@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Positioning Memo — Martin Perry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1A1A;
+    --fuel:#E8591A;
+    --offwhite:#FAFAF8;
+    --slate:#1E2A38;
+    --gray:#65696F;
+    --gray-soft:#9A9DA2;
+    --cream:#EFE8DB;
+    --white:#FFFFFF;
+    --line:rgba(26,26,26,.14);
+    --line-soft:rgba(26,26,26,.07);
+    --shadow:0 1px 1px rgba(26,26,26,.04), 0 18px 46px -30px rgba(26,26,26,.4);
+    --shadow-sm:0 1px 1px rgba(26,26,26,.05), 0 8px 22px -16px rgba(26,26,26,.34);
+    --maxw:940px;
+    --display:"Inter",system-ui,sans-serif;
+    --serif:"Source Serif 4",Georgia,serif;
+    --topbar:54px;
+    --sidebar:210px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);
+    font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .pp{color:var(--fuel);}
+  em{font-style:italic;}
+  .cap{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);}
+
+  /* ─── TOPBAR ──────────────────────────────────────────────── */
+  .topbar{
+    position:sticky;top:0;z-index:100;height:var(--topbar);
+    background:rgba(250,250,248,.92);backdrop-filter:saturate(160%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .row{
+    display:flex;align-items:center;gap:20px;height:100%;
+    padding:0 40px;
+  }
+  .brand{
+    font-family:var(--display);font-weight:900;font-size:1.05rem;
+    color:var(--ink);letter-spacing:-.05em;text-decoration:none;flex-shrink:0;
+  }
+  /* client name — left side, links back to hub */
+  .topbar .ttl{
+    font-family:var(--display);font-weight:700;font-size:.85rem;
+    letter-spacing:-.02em;color:var(--ink);
+    text-decoration:none;padding:4px 8px;border-radius:6px;transition:.15s;
+  }
+  .topbar .ttl:hover{background:rgba(26,26,26,.07);}
+  /* global nav — links between deliverables */
+  .mainnav{margin-left:auto;display:flex;gap:2px;align-items:center;}
+  .mn{
+    font-family:var(--display);font-weight:600;font-size:.7rem;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--gray);
+    text-decoration:none;padding:6px 11px;border-radius:7px;transition:.15s;
+  }
+  .mn:hover{background:rgba(26,26,26,.07);color:var(--ink);}
+  .mn--active{color:var(--ink);background:rgba(26,26,26,.07);}
+  @media(max-width:760px){.topbar .ttl{display:none;}}
+  @media(max-width:560px){.mainnav{display:none;}}
+
+  /* ─── LAYOUT SHELL ────────────────────────────────────────── */
+  .shell{display:flex;align-items:flex-start;}
+
+  /* ─── SIDEBAR TOC ─────────────────────────────────────────── */
+  .sidenav{
+    width:var(--sidebar);flex-shrink:0;
+    position:sticky;top:var(--topbar);
+    height:calc(100vh - var(--topbar));overflow-y:auto;
+    border-right:1px solid var(--line);
+    padding:40px 16px 60px 28px;
+    background:var(--offwhite);
+  }
+  .sn-lbl{
+    font-family:var(--display);font-weight:700;font-size:.6rem;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--gray-soft);
+    margin:0 0 14px;
+  }
+  .sn-nav{display:flex;flex-direction:column;}
+  .sn-link{
+    font-family:var(--display);font-weight:500;font-size:.77rem;
+    color:var(--gray);text-decoration:none;
+    padding:7px 8px 7px 12px;
+    border-left:2px solid transparent;
+    transition:color .15s, border-color .15s;
+    line-height:1.2;
+  }
+  .sn-link:hover{color:var(--ink);}
+  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel);}
+
+  /* mobile: sidebar becomes a horizontal scrollable strip */
+  @media(max-width:860px){
+    .shell{display:block;}
+    .sidenav{
+      position:static;width:100%;height:auto;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 20px;overflow-x:auto;overflow-y:visible;
+      white-space:nowrap;
+    }
+    .sidenav .sn-lbl{display:none;}
+    .sn-nav{flex-direction:row;display:inline-flex;gap:0;}
+    .sn-link{
+      border-left:none;border-bottom:2px solid transparent;
+      padding:10px 10px;display:inline-block;
+    }
+    .sn-link.is-active{border-bottom-color:var(--fuel);border-left:none;}
+  }
+
+  /* ─── MAIN CONTENT ────────────────────────────────────────── */
+  .main{flex:1;min-width:0;overflow:hidden;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;}
+
+  /* hero */
+  .hero{padding:80px 0 30px;}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:11px;margin-bottom:30px;}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--fuel);}
+  .eyebrow .mid{color:var(--gray);}
+  .docname{font-family:var(--display);font-weight:700;font-size:clamp(.85rem,2.4vw,.98rem);letter-spacing:.18em;text-transform:uppercase;color:var(--gray);margin-bottom:12px;}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(3.4rem,10vw,6.6rem);line-height:.86;letter-spacing:-.045em;margin:0 0 26px;color:var(--ink);}
+  .hero .sub{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,2.8vw,1.5rem);line-height:1.4;color:var(--ink);max-width:34ch;}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 30px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-family:var(--display);font-weight:500;font-size:.78rem;letter-spacing:.01em;color:var(--gray);}
+  .meta b{color:var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;}
+
+  /* pull-quote warm */
+  .q-warm{margin:46px 0 0;background:var(--cream);border-radius:6px;padding:36px 48px 44px 64px;position:relative;}
+  .q-warm .q-lbl{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;}
+  .q-warm p{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.4rem,3.6vw,2.05rem);line-height:1.32;margin:0;color:var(--ink);}
+  .q-warm::before{content:"\201C";position:absolute;left:22px;top:58px;font-family:var(--serif);font-size:4.6rem;line-height:1;color:var(--fuel);}
+  .q-warm .hl{font-style:italic;color:var(--fuel);font-weight:600;}
+
+  /* dark statement block */
+  .q-dark{background:var(--ink);color:var(--offwhite);border-radius:6px;padding:44px;box-shadow:var(--shadow);}
+  .q-dark .q-lbl{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel);margin-bottom:20px;}
+  .q-dark p{font-family:var(--display);font-weight:800;font-size:clamp(1.45rem,3.8vw,2.1rem);line-height:1.16;letter-spacing:-.03em;margin:0;}
+  .q-dark .hl{color:var(--fuel);}
+
+  /* glance */
+  .glance{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:1px 0 0;background:var(--line);border:1px solid var(--line);}
+  .gcard{background:var(--offwhite);padding:22px 20px;}
+  .gcard .k{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--fuel);margin-bottom:10px;}
+  .gcard .v{font-family:var(--display);font-weight:700;font-size:1.08rem;line-height:1.1;color:var(--ink);letter-spacing:-.02em;}
+  @media(max-width:720px){.glance{grid-template-columns:repeat(2,1fr);}}
+
+  /* sections */
+  section{padding:64px 0;border-top:1px solid var(--line);}
+  .shead{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .shead .num,.shead .sep{color:var(--fuel);}
+  h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,5.6vw,3rem);line-height:1.0;letter-spacing:-.05em;color:var(--ink);margin:0 0 .45em;max-width:19ch;}
+  h3{font-family:var(--display);font-weight:700;font-size:1.12rem;color:var(--ink);margin:1.9em 0 .55em;letter-spacing:-.02em;}
+  p{margin:0 0 1.05em;}
+  .lede{font-family:var(--serif);font-size:1.3rem;line-height:1.45;color:var(--ink);max-width:58ch;}
+  strong,.lead-in{font-weight:600;color:var(--ink);}
+  .lead-in{font-weight:700;}
+
+  /* lists */
+  ul.clean{margin:0 0 1.1em;padding:0 0 0 1.3em;}
+  ul.clean li{margin:.55em 0;padding-left:.3em;}
+  ul.clean li::marker{color:var(--fuel);}
+  ol.clean{counter-reset:c;list-style:none;padding-left:0;margin:0 0 1.1em;}
+  ol.clean li{counter-increment:c;position:relative;padding-left:2.7em;margin:.9em 0;}
+  ol.clean li::before{content:counter(c,decimal-leading-zero) ".";position:absolute;left:0;top:.05em;font-family:var(--display);font-weight:800;color:var(--fuel);font-size:.92rem;}
+
+  /* tables */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--white);box-shadow:var(--shadow-sm);}
+  table{border-collapse:collapse;width:100%;min-width:540px;}
+  thead th{background:var(--ink);color:var(--offwhite);text-align:left;font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding:14px 18px;}
+  tbody td{padding:15px 18px;border-top:1px solid var(--line-soft);vertical-align:top;font-size:.98rem;line-height:1.5;}
+  tbody tr:nth-child(even){background:var(--offwhite);}
+  td .who{font-family:var(--display);font-weight:700;color:var(--ink);font-size:.98rem;letter-spacing:-.01em;}
+  td .sm{color:var(--gray);font-size:.74rem;font-family:var(--display);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:3px;}
+  .sa td:first-child{border-left:3px solid var(--fuel);font-weight:500;}
+  .sa td:last-child{color:var(--gray);}
+  .sa .x{color:var(--gray);font-weight:800;margin-right:8px;font-family:var(--display);}
+
+  /* positioning map */
+  .mapcard{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:30px 28px 22px;box-shadow:var(--shadow-sm);}
+  .map{position:relative;width:100%;max-width:580px;margin:8px auto 6px;aspect-ratio:1/.82;border:1px solid var(--line);
+    background:repeating-linear-gradient(0deg,transparent,transparent 25px,rgba(26,26,26,.035) 25px,rgba(26,26,26,.035) 26px),
+      repeating-linear-gradient(90deg,transparent,transparent 25px,rgba(26,26,26,.035) 25px,rgba(26,26,26,.035) 26px);}
+  .map .axis{position:absolute;background:var(--line);}
+  .map .axis.v{left:50%;top:0;bottom:0;width:1px;}
+  .map .axis.h{top:50%;left:0;right:0;height:1px;}
+  .map .qz{position:absolute;font-family:var(--display);font-weight:600;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-soft);}
+  .map .marker{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;width:120px;}
+  .map .dot{width:12px;height:12px;border-radius:50%;background:var(--gray-soft);border:2px solid var(--white);box-shadow:0 0 0 1px var(--gray-soft);}
+  .map .marker .nm{font-family:var(--display);font-size:.72rem;line-height:1.15;color:var(--gray);font-weight:600;}
+  .map .marker.star .dot{width:18px;height:18px;background:var(--fuel);box-shadow:0 0 0 1px var(--fuel),0 0 0 6px rgba(232,89,26,.18);}
+  .map .marker.star .nm{color:var(--ink);font-weight:800;font-size:.92rem;letter-spacing:-.01em;}
+  .map .marker.ghost .dot{background:transparent;border:2px dashed var(--fuel);box-shadow:none;}
+  .map .marker.ghost .nm{color:var(--fuel);}
+  .axislabel{font-family:var(--display);font-weight:600;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);}
+  .axisrow,.axiscol{display:flex;max-width:580px;margin:2px auto 0;}
+  .axisrow{justify-content:center;}
+  .axiscol{justify-content:space-between;align-items:center;}
+  @media(max-width:620px){.map .marker .nm{font-size:.6rem;}.map .marker{width:84px;}}
+
+  /* stat strip */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:8px 0 0;background:var(--line);border:1px solid var(--line);}
+  .stat{background:var(--white);padding:26px 18px;}
+  .stat .big{font-family:var(--display);font-weight:800;font-size:2.2rem;color:var(--ink);line-height:.9;letter-spacing:-.05em;}
+  .stat .cap{font-family:var(--serif);font-size:.84rem;color:var(--gray);margin-top:10px;line-height:1.3;}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* differentiator cards */
+  .diffs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+  .diff{position:relative;background:var(--white);padding:26px 24px 24px;}
+  .diff .ix{font-family:var(--display);font-weight:800;font-size:.8rem;color:var(--fuel);letter-spacing:0;}
+  .diff h4{font-family:var(--display);font-weight:700;font-size:1.06rem;color:var(--ink);margin:.5em 0 .4em;letter-spacing:-.02em;}
+  .diff p{margin:0;font-size:.96rem;color:var(--gray);line-height:1.5;}
+  .diff.invert{background:var(--ink);}
+  .diff.invert .ix{color:var(--fuel);}
+  .diff.invert h4{color:var(--offwhite);}
+  .diff.invert p{color:#D9DBDE;font-style:italic;font-size:1.04rem;}
+  @media(max-width:640px){.diffs{grid-template-columns:1fr;}}
+
+  /* tabs */
+  .tablist{display:flex;gap:0;flex-wrap:wrap;border-bottom:1px solid var(--line);}
+  .tab{appearance:none;border:none;background:none;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);padding:14px 16px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.16s;}
+  .tab:hover{color:var(--ink);}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--fuel);}
+  .panel{display:none;padding:26px 2px 4px;animation:fade .28s ease;}
+  .panel[data-active="true"]{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .who-line{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fuel);margin-bottom:12px;}
+
+  /* accordion */
+  .accwrap{border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-sm);}
+  details.acc{background:var(--white);border-bottom:1px solid var(--line);}
+  details.acc:last-child{border-bottom:none;}
+  details.acc summary{list-style:none;cursor:pointer;padding:20px 56px 20px 22px;position:relative;font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--ink);line-height:1.28;letter-spacing:-.02em;}
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-family:var(--display);font-weight:600;font-size:1.4rem;color:var(--fuel);transition:.2s;}
+  details.acc[open] summary::after{content:"\2013";}
+  details.acc[open] summary{padding-bottom:8px;}
+  .acc .body{padding:0 22px 22px;font-size:1rem;color:var(--ink);line-height:1.55;}
+  .acc .body p{color:#33363b;}
+  .acc .body p:last-child{margin-bottom:0;}
+  .fuel{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--display);font-weight:600;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fuel);border:1px solid var(--fuel);border-radius:999px;padding:5px 14px;}
+
+  /* callout */
+  .callout{border:1px solid var(--line);border-left:3px solid var(--fuel);background:var(--white);border-radius:6px;padding:20px 22px;margin:20px 0;box-shadow:var(--shadow-sm);}
+  .callout .ct{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel);margin-bottom:9px;}
+  .callout p{margin:0;color:#33363b;}
+
+  /* roadmap */
+  .road{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:10px;}
+  .step{background:var(--white);padding:24px 20px;}
+  .step .n{font-family:var(--display);font-weight:800;font-size:.82rem;color:var(--fuel);margin-bottom:12px;}
+  .step h4{font-family:var(--display);font-weight:700;margin:0 0 .35em;font-size:1.02rem;color:var(--ink);letter-spacing:-.02em;}
+  .step p{font-size:.9rem;color:var(--gray);margin:0;line-height:1.45;}
+  @media(max-width:720px){.road{grid-template-columns:1fr;}}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);margin-top:24px;padding:42px 0 72px;}
+  .fgrid{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  footer .brand{font-size:1.7rem;}
+  footer .c{font-family:var(--display);font-weight:500;font-size:.8rem;color:var(--gray);line-height:1.8;}
+  footer .c b{color:var(--ink);font-weight:700;}
+  .fnote{font-family:var(--serif);font-size:.82rem;color:var(--gray);margin-top:28px;padding-top:18px;border-top:1px solid var(--line-soft);max-width:74ch;line-height:1.55;}
+  sup{font-size:.62em;color:var(--fuel);font-weight:800;font-family:var(--display);}
+
+  @media print{
+    body{background:#fff;font-size:11.5pt;}
+    .topbar,.sidenav{display:none;}
+    .main,.shell{display:block;}
+    .wrap{max-width:none;padding:0;}
+    section{padding:22px 0;page-break-inside:avoid;border-color:#ccc;}
+    .panel{display:block !important;}
+    .tablist{display:none;}
+    details.acc[open] summary::after,details.acc summary::after{display:none;}
+    .q-warm,.q-dark,.diff,.gcard,.stat,.mapcard,.callout,.tablewrap,.accwrap{box-shadow:none;}
+    a{color:inherit;text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<!-- ── Global topbar ───────────────────────────────────────── -->
+<div class="topbar">
+  <div class="row">
+    <a class="brand" href="/martin-perry">impact fuel<span class="fp">.</span></a>
+    <a class="ttl" href="/martin-perry">Martin Perry</a>
+    <nav class="mainnav">
+      <a href="/martin-perry/voice" class="mn">Voice</a>
+      <a href="/martin-perry/positioning" class="mn mn--active">Positioning</a>
+      <a href="/martin-perry/audience" class="mn">Audience</a>
+      <a href="/martin-perry/content-engine" class="mn">Content Engine</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ── Layout shell: sidebar + main content ─────────────────── -->
+<div class="shell">
+
+  <!-- Sidebar TOC (desktop: fixed left; mobile: horizontal strip) -->
+  <aside class="sidenav" aria-label="Page sections">
+    <p class="sn-lbl">On this page</p>
+    <nav class="sn-nav">
+      <a href="#position"    class="sn-link">Position</a>
+      <a href="#audience"    class="sn-link">Audience</a>
+      <a href="#competition" class="sn-link">Competition</a>
+      <a href="#diff"        class="sn-link">Differentiators</a>
+      <a href="#pov"         class="sn-link">Point of View</a>
+      <a href="#proof"       class="sn-link">Proof</a>
+      <a href="#messaging"   class="sn-link">Messaging</a>
+      <a href="#next"        class="sn-link">Next Steps</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+  <div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span>Impact Fuel <span class="mid">&nbsp;·&nbsp; Week One Deliverable</span></div>
+    <div class="docname">Positioning Memo</div>
+    <h1>Martin Perry<span class="fp">.</span></h1>
+    <p class="sub">The working position behind every post, email, and excerpt we&rsquo;ll write. The unflattering version — not the brochure.</p>
+    <div class="meta">
+      <span><b>Prepared&nbsp;by</b> &nbsp;John Mahood, Impact Fuel</span>
+      <span><b>For</b> &nbsp;Martin Perry, Corporate Real Estate Advisor</span>
+      <span><b>Date</b> &nbsp;June 2026</span>
+    </div>
+
+    <div class="q-warm">
+      <div class="q-lbl">The position, in one line</div>
+      <p>Martin Perry is the corporate real estate advisor you call when a deal — or an asset — is <span class="hl">in trouble</span>, and most brokers don&rsquo;t know how to navigate it.</p>
+    </div>
+
+    <div class="glance">
+      <div class="gcard"><div class="k">Identity</div><div class="v">Corporate Real Estate Advisor</div></div>
+      <div class="gcard"><div class="k">Growth Focus</div><div class="v">Distressed CRE Debt</div></div>
+      <div class="gcard"><div class="k">Market</div><div class="v">Greater Pittsburgh</div></div>
+      <div class="gcard"><div class="k">The Edge</div><div class="v">Financials + Relationships</div></div>
+    </div>
+  </header>
+
+  <section id="position">
+    <div class="shead"><span class="num">01</span><span class="sep">·</span> Market Position</div>
+    <h2>An advisor. Not a transaction<span class="fp">.</span></h2>
+    <p class="lede">You lead with three words: <em>corporate real estate advisor.</em> Not &ldquo;broker,&rdquo; not &ldquo;agent.&rdquo; The label is the strategy — it signals counsel over commission and sets up everything else in this memo.</p>
+
+    <h3>What you want people to understand</h3>
+    <ul class="clean">
+      <li><span class="lead-in">Advisor, not broker.</span> You&rsquo;re paid on commission, but the job is advising — reading the financials and the debt behind a deal so it works as well as possible for your client, whether they&rsquo;re buying, leasing, or recovering an asset.</li>
+      <li><span class="lead-in">Relationship-first, by design.</span> You treat every deal like your own regardless of size, work at the pace the deal deserves, and will tell a client <em>not</em> to do a deal when your gut says it&rsquo;s unsound. You&rsquo;re comfortable not being the right fit for people who only want speed.</li>
+      <li><span class="lead-in">The center of gravity is shifting.</span> A niche you built resolving distressed debt for banks is becoming your main business — now spanning financial analysis, management services, and front-end advisory, with brokerage as one piece. <span class="lead-in">This is where the marketing should point.</span></li>
+    </ul>
+
+    <h3>Where you sit in the market</h3>
+    <p>Two axes capture your core differentiation: how transactional vs. advisory the work is, and how volume- vs. relationship-driven the practice is. You&rsquo;re deliberately in the corner almost nobody else occupies.</p>
+
+    <div class="mapcard">
+      <div class="axisrow"><span class="axislabel">↑ Relationship-driven</span></div>
+      <div class="map">
+        <div class="axis v"></div>
+        <div class="axis h"></div>
+        <span class="qz" style="left:8px;top:8px;">Patient · advisory</span>
+        <span class="qz" style="right:8px;top:8px;text-align:right;">The whitespace</span>
+        <span class="qz" style="left:8px;bottom:8px;">Commodity</span>
+        <span class="qz" style="right:8px;bottom:8px;text-align:right;">Sophisticated, but transactional</span>
+
+        <div class="marker star" style="left:80%;top:22%;"><span class="dot"></span><span class="nm">You</span></div>
+        <div class="marker ghost" style="left:74%;top:62%;width:140px;"><span class="dot"></span><span class="nm">Distressed / workout specialists — almost nobody</span></div>
+        <div class="marker" style="left:46%;top:48%;"><span class="dot"></span><span class="nm">The big four (CBRE, JLL, Newmark, Colliers)</span></div>
+        <div class="marker" style="left:34%;top:70%;"><span class="dot"></span><span class="nm">Local boutiques</span></div>
+        <div class="marker" style="left:20%;top:84%;"><span class="dot"></span><span class="nm">Typical broker (~90%)</span></div>
+      </div>
+      <div class="axiscol"><span class="axislabel">← Transactional</span><span class="axislabel">Advisory →</span></div>
+    </div>
+  </section>
+
+  <section id="audience">
+    <div class="shead"><span class="num">02</span><span class="sep">·</span> Best-Fit Audience</div>
+    <h2>Who this is for<span class="fp">.</span></h2>
+    <p class="lede">Two audiences, one filter. The content should pre-qualify — pulling the right people in and letting the wrong ones quietly self-select out.</p>
+
+    <div class="tabs">
+      <div class="tablist" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="t1">Primary — Growth Target</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="t2">Secondary — Legacy Base</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="t3">The Fit Test</button>
+      </div>
+
+      <div class="panel" id="t1" data-active="true">
+        <div class="who-line">Financial institutions with distressed CRE debt</div>
+        <p>The special-asset, asset-resolution, and workout officers inside banks like <span class="lead-in">PNC</span>. They call when an asset has gone sideways and they need one trusted person to step in, preserve the collateral, and sell it.</p>
+        <p style="margin-bottom:.4em;font-weight:600;">What pushes them to call:</p>
+        <ul class="clean">
+          <li>Borrower fraud</li>
+          <li>Property neglect &amp; deferred maintenance</li>
+          <li>Over-leveraged deals handed back to the lender</li>
+          <li>An owner who has died, fallen ill, or simply walked away</li>
+        </ul>
+      </div>
+
+      <div class="panel" id="t2" data-active="false">
+        <div class="who-line">The relationship base across asset classes</div>
+        <p>Buyers, tenants, sellers, and investors across the greater Pittsburgh market who value honest counsel and a long relationship over a fast transaction — the clients who remember you at the next lease or sale, sometimes 10–15 years later.</p>
+        <p>This base keeps your lights on and feeds referrals. The marketing won&rsquo;t lead here, but it should never alienate it.</p>
+      </div>
+
+      <div class="panel" id="t3" data-active="false">
+        <div class="who-line">The one thing that decides fit</div>
+        <p><span class="lead-in">Alignment on communication and pace.</span> The right client wants an advisor who&rsquo;ll be honest about timeline and risk. The wrong client wants a sign in the yard and a closing in 45 days.</p>
+        <div class="callout" style="margin-top:6px;">
+          <div class="ct">Why it matters</div>
+          <p>Misaligned engagements burn money — marketing spent up front, then a relationship that breaks before closing. Screening for fit isn&rsquo;t fussiness; it&rsquo;s economics. The named buyer profiles come in the next session (the Ideal Client Profile).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="competition">
+    <div class="shead"><span class="num">03</span><span class="sep">·</span> Competitive Context</div>
+    <h2>Everyone sounds the same. That&rsquo;s the opening<span class="fp">.</span></h2>
+    <p class="lede">On traditional brokerage, the field is four national firms plus local boutiques. On distressed work, the more telling competitor is <em>almost no one.</em></p>
+
+    <div class="tablewrap" style="margin:22px 0 6px;">
+      <table>
+        <thead><tr><th style="width:26%">Firm</th><th>How they position</th></tr></thead>
+        <tbody>
+          <tr><td><span class="who">CBRE</span></td><td>Scale and reach. The biggest brand, most offices, longest arm.</td></tr>
+          <tr><td><span class="who">JLL</span></td><td>Sophisticated corporate services and advisory — &ldquo;more than transactions.&rdquo;</td></tr>
+          <tr><td><span class="who">Newmark</span></td><td>&ldquo;We hire the best talent&rdquo; — fewer brokers, top performers.</td></tr>
+          <tr><td><span class="who">Colliers</span></td><td>Rounds out the big four; less distinct messaging.</td></tr>
+          <tr><td><span class="who">Local boutiques</span><div class="sm">Pittsburgh Atlantic · Hanna Commercial · Echo Realty</div></td><td>Market-specific players, active but smaller in reach.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="ct">The gap</div>
+      <p>An estimated <strong>90%+ of brokers</strong> come from a sales background and run volume-driven and purely transactional — zero diligence, zero advisory. And very few brokers seek out workout and special-asset work, because it&rsquo;s hard. That scarcity, in both directions, is exactly where you live.</p>
+    </div>
+  </section>
+
+  <section id="diff">
+    <div class="shead"><span class="num">04</span><span class="sep">·</span> Key Differentiators</div>
+    <h2>What actually sets you apart<span class="fp">.</span></h2>
+    <p class="lede">Five things that are true, provable, and rare in this business.</p>
+
+    <div class="diffs">
+      <div class="diff"><span class="ix">01.</span><h4>You read the financials and the debt</h4><p>Underwriting, due diligence, development math — plus lender relationships that find your clients favorable debt structures and rates. That value carries for the life of the asset, not just to closing.</p></div>
+      <div class="diff"><span class="ix">02.</span><h4>You&rsquo;re a fixer</h4><p>Proven ability to inject into a troubled property, work a disgruntled borrower, or take a property over and run it outright to preserve and recover value for the lender.</p></div>
+      <div class="diff"><span class="ix">03.</span><h4>A knowledgeable generalist, deliberately</h4><p>Rather than betting on one asset class, you stay broadly expert within a focused geography — the quarterback who knows every player in Pittsburgh and gets deals done with all of them.</p></div>
+      <div class="diff"><span class="ix">04.</span><h4>You&rsquo;ll talk a client out of a bad deal</h4><p>Even at the cost of your own commission. Clients keep coming back to the same words: honesty, fairness, generosity, patience, thoroughness.</p></div>
+      <div class="diff"><span class="ix">05.</span><h4>You won&rsquo;t play cutthroat</h4><p>You won&rsquo;t bid against friends in the business — you&rsquo;ll walk away rather than burn a relationship. In a commission-driven field, that&rsquo;s rare, and it&rsquo;s real.</p></div>
+      <div class="diff invert"><span class="ix">In one breath</span><h4>The whole thing</h4><p>You understand the money, not just the deal — and you&rsquo;d rather keep the relationship than win the commission.</p></div>
+    </div>
+  </section>
+
+  <section id="pov">
+    <div class="shead"><span class="num">05</span><span class="sep">·</span> Core Point of View</div>
+    <h2>Things worth saying out loud<span class="fp">.</span></h2>
+    <p class="lede">The honest, slightly uncomfortable truths that make content memorable. Each one is raw material for the editorial calendar — expand for the angle.</p>
+
+    <div class="accwrap">
+    <details class="acc" open>
+      <summary>CRE isn&rsquo;t residential — and pretending otherwise sets everyone up to fail.</summary>
+      <div class="body">
+        <p>Deals don&rsquo;t close in 45 days. The business is slow and inefficient by nature: architects need six to eight weeks, building permits 30–60 days, construction 90+ — and almost none of it is inside a broker&rsquo;s control. A client can fall in love with a building in 24 hours and still wait 120 days to occupy it.</p>
+        <p>Setting a realistic timeline up front is the advisor&rsquo;s real job. Most won&rsquo;t do it because clients don&rsquo;t want to hear it.</p>
+        <span class="fuel">◆ Content angle · Strong candidate for Post #1</span>
+      </div>
+    </details>
+    <details class="acc">
+      <summary>Pittsburgh is a shrinking market — brokers are recycling tenants, not winning growth.</summary>
+      <div class="body">
+        <p>Here, the game is largely moving existing tenants from one building to another, not capturing net-new demand the way an exploding market like Dallas does. It&rsquo;s not good for the brokers, and it&rsquo;s not good for the city.</p>
+        <p>It&rsquo;s an uncomfortable truth — which is exactly why it lands the moment it&rsquo;s said by someone credible enough to say it.</p>
+        <span class="fuel">◆ Content angle · The local truth-teller post</span>
+      </div>
+    </details>
+    <details class="acc">
+      <summary>The office reckoning is already visible downtown.</summary>
+      <div class="body">
+        <p>A landmark tower like BNY Mellon — roughly 1.6M square feet, near 10% of downtown office<sup>1</sup> — risks going dark, with no single anchor tenant large enough to fill it. It&rsquo;s a bellwether for where downtown is headed.</p>
+        <span class="fuel">◆ Content angle · Market-watch / contrarian forecast</span>
+      </div>
+    </details>
+    <details class="acc">
+      <summary>The next few years favor the fixer, not the dealmaker.</summary>
+      <div class="body">
+        <p>Higher interest rates are turning over over-leveraged deals, and you anticipate a wave of distressed inventory from late 2026 through 2028 and beyond. It&rsquo;s work that scales in any market — and gets busiest precisely when everyone else is hurting.</p>
+        <span class="fuel">◆ Content angle · Why now / the case for distressed</span>
+      </div>
+    </details>
+    </div>
+
+    <h3 style="margin-top:2em;">The market, in four numbers</h3>
+    <div class="stats">
+      <div class="stat"><div class="big">90%+</div><div class="cap">of brokers are purely transactional</div></div>
+      <div class="stat"><div class="big">~1.6M</div><div class="cap">sq ft at risk in one downtown tower<sup>1</sup></div></div>
+      <div class="stat"><div class="big">~10%</div><div class="cap">of downtown office that represents<sup>1</sup></div></div>
+      <div class="stat"><div class="big">&rsquo;26&ndash;&rsquo;28</div><div class="cap">anticipated distressed-inventory wave<sup>1</sup></div></div>
+    </div>
+  </section>
+
+  <section id="proof">
+    <div class="shead"><span class="num">06</span><span class="sep">·</span> Proof Points</div>
+    <h2>The receipts<span class="fp">.</span></h2>
+    <p class="lede">Real engagements that make the positioning concrete. No invented stories — a hard line for you, and a credibility asset for us.</p>
+
+    <div class="tablewrap" style="margin-top:22px;">
+      <table>
+        <thead><tr><th style="width:22%">Engagement</th><th style="width:38%">The situation</th><th>The outcome</th></tr></thead>
+        <tbody>
+          <tr><td><span class="who">Erie, PA apartments</span></td><td>Fraud-laden complex; borrowers went to prison. Needed an immediate takeover.</td><td>Stepped in with an armed guard, reassured staff and 200 tenants, fixed life-safety issues, turned it around and sold at a profit for the lender — inside the promised year.</td></tr>
+          <tr><td><span class="who">Uniontown, PA Kmart</span></td><td>Vacant big-box in a declining market — a key piece of local real estate gone dark.</td><td>Found the right buyer, assisted the redevelopment, brought in new tenants, and lifted local tax revenue.</td></tr>
+          <tr><td><span class="who">South Point office</span></td><td>A building &ldquo;left for dead&rdquo; by its lender.</td><td>In progress on landing a headquarters tenant — a story in the making.</td></tr>
+          <tr><td><span class="who">Two prisons</span><div class="sm">2020–21</div></td><td>A bank needed to offload two correctional properties.</td><td>Took them over and disposed of both — evidence you&rsquo;ve touched nearly every asset class.</td></tr>
+          <tr><td><span class="who">A 1,200 sq ft brand</span></td><td>A small concept ready to grow.</td><td>Helping it expand and franchise across multiple states — proof the advisory mindset scales down as well as up.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="messaging">
+    <div class="shead"><span class="num">07</span><span class="sep">·</span> Messaging Direction</div>
+    <h2>How it should sound<span class="fp">.</span></h2>
+    <p class="lede">Advisory, analytical, honest, relationship-driven, unmistakably local — and plain-spoken. It should read like a conversation with you, never a brochure.</p>
+
+    <div class="tablewrap" style="margin:22px 0 6px;">
+      <table class="sa">
+        <thead><tr><th style="width:50%">Sounds like you</th><th>Avoid</th></tr></thead>
+        <tbody>
+          <tr><td>Advisor · relationship-based · thoughtful</td><td><span class="x">✕</span>Broker / agent as a self-label; &ldquo;salesy&rdquo;</td></tr>
+          <tr><td>Honest · fair · generous · patient</td><td><span class="x">✕</span>High-pressure; &ldquo;cutthroat&rdquo; (a word you dislike)</td></tr>
+          <tr><td>Value-add · fixer · due diligence</td><td><span class="x">✕</span>Volume; &ldquo;close it and move on&rdquo;</td></tr>
+          <tr><td>Realistic about timelines and risk</td><td><span class="x">✕</span>Hype, inflated promises, anything fabricated</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="q-dark" style="margin-top:28px;">
+      <div class="q-lbl">The line that started it all</div>
+      <p>Martin Perry is the commercial real estate advisor you call when you need a true advisor in challenging times — or facing headwinds <span class="hl">most brokers don&rsquo;t know how to navigate.</span></p>
+    </div>
+
+    <h3>Claims to avoid</h3>
+    <ol class="clean">
+      <li><span class="lead-in">No fabrication, ever.</span> Only deals you genuinely closed or worked on. No invented stories, no borrowed credit.</li>
+      <li><span class="lead-in">Don&rsquo;t claim asset-class specialization you don&rsquo;t want to own.</span> Frame the breadth as deliberate — &ldquo;knowledgeable across classes, expert at getting deals done here&rdquo; — rather than overstating depth in any one niche.</li>
+      <li><span class="lead-in">Don&rsquo;t overpromise speed or certainty.</span> The whole brand rests on honest timelines; the messaging must never undercut that.</li>
+    </ol>
+  </section>
+
+  <section id="next">
+    <div class="shead"><span class="num">08</span><span class="sep">·</span> What&rsquo;s Next</div>
+    <h2>From here<span class="fp">.</span></h2>
+    <p class="lede">Mark up anything that doesn&rsquo;t ring true and we&rsquo;ll lock this. Then the engine starts.</p>
+
+    <div class="road">
+      <div class="step"><div class="n">01.</div><h4>Finalize this memo</h4><p>Your edits, then we set it as the foundation.</p></div>
+      <div class="step"><div class="n">02.</div><h4>Ideal Client Profile</h4><p>Named buyer profiles and the questions they ask before calling.</p></div>
+      <div class="step"><div class="n">03.</div><h4>12-week editorial calendar</h4><p>Topics sequenced — with the CRE-timeline piece as Post #1.</p></div>
+      <div class="step"><div class="n">04.</div><h4>The engine runs</h4><p>Weekly post, email, and three LinkedIn excerpts. Expertise, compounded.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="fgrid">
+      <span class="brand">impact fuel<span class="fp">.</span></span>
+      <div class="c">
+        <b>John Mahood</b> · Principal, Impact Fuel<br>
+        john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
+      </div>
+    </div>
+    <p class="fnote"><sup>1</sup> Market figures (BNY Mellon square footage, share of downtown office, and the projected 2026–2028 distressed-inventory wave) reflect your own estimates from the workshop and should be verified before appearing in published content.</p>
+  </footer>
+
+</div>
+
+  </div><!-- /wrap -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+  // Tab panels
+  document.querySelectorAll('.tablist').forEach(function(list){
+    var tabs = list.querySelectorAll('.tab');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        tabs.forEach(function(t){ t.setAttribute('aria-selected','false'); });
+        tab.setAttribute('aria-selected','true');
+        var container = list.closest('.tabs');
+        container.querySelectorAll('.panel').forEach(function(p){ p.setAttribute('data-active','false'); });
+        var target = container.querySelector('#' + tab.dataset.tab);
+        if(target){ target.setAttribute('data-active','true'); }
+      });
+    });
+  });
+
+  // Sidebar scroll-spy
+  (function(){
+    var links   = Array.from(document.querySelectorAll('.sn-link[href^="#"]'));
+    var ids     = links.map(function(l){ return l.getAttribute('href').slice(1); });
+    var sects   = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+    var TOPBAR  = 60; // px offset to account for sticky topbar
+
+    function spy(){
+      var y = window.scrollY || window.pageYOffset;
+      var active = null;
+      for(var i = sects.length - 1; i >= 0; i--){
+        if(y >= sects[i].offsetTop - TOPBAR - 40){
+          active = ids[i]; break;
+        }
+      }
+      links.forEach(function(l){
+        l.classList.toggle('is-active', l.getAttribute('href').slice(1) === active);
+      });
+    }
+
+    window.addEventListener('scroll', spy, { passive: true });
+    spy();
+  })();
+</script>
+</body>
+</html>

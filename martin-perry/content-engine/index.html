@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Engine — Martin Perry</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12100E; --fuel:#E8591A; --fuel-dim:rgba(232,89,26,.1);
+    --offwhite:#FAF9F7; --gray:#6B6762; --gray-soft:#A8A39E;
+    --white:#FFFFFF; --cream:#F2EBE2;
+    --line:rgba(18,16,14,.13); --line-soft:rgba(18,16,14,.07);
+    --shadow:0 1px 1px rgba(18,16,14,.04), 0 18px 46px -30px rgba(18,16,14,.36);
+    --shadow-sm:0 1px 1px rgba(18,16,14,.04), 0 8px 22px -16px rgba(18,16,14,.24);
+    --maxw:940px; --display:"Inter",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+    --topbar:54px; --sidebar:210px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .fp{color:var(--fuel);}
+
+  /* Topbar */
+  .topbar{position:sticky;top:0;z-index:100;height:var(--topbar);background:rgba(250,249,247,.92);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+  .topbar .row{display:flex;align-items:center;gap:18px;height:100%;padding:0 40px;}
+  .brand{font-family:var(--display);font-weight:900;font-size:1.05rem;color:var(--ink);letter-spacing:-.05em;flex-shrink:0;}
+  .topbar .ttl{font-family:var(--display);font-weight:700;font-size:.83rem;color:var(--ink);padding:4px 8px;border-radius:6px;transition:.15s;}
+  .topbar .ttl:hover{background:rgba(18,16,14,.07);}
+  .mainnav{margin-left:auto;display:flex;gap:2px;align-items:center;}
+  .mn{font-family:var(--display);font-weight:600;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--gray);padding:6px 11px;border-radius:7px;transition:.15s;}
+  .mn:hover{background:rgba(18,16,14,.07);color:var(--ink);}
+  .mn--active{color:var(--ink);background:rgba(18,16,14,.07);}
+  @media(max-width:760px){.topbar .ttl{display:none;}}
+  @media(max-width:560px){.mainnav{display:none;}}
+
+  /* Layout */
+  .shell{display:flex;align-items:flex-start;}
+  .sidenav{width:var(--sidebar);flex-shrink:0;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));overflow-y:auto;border-right:1px solid var(--line);padding:36px 16px 60px 26px;background:var(--offwhite);}
+  .sn-lbl{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-soft);margin:0 0 12px;}
+  .sn-nav{display:flex;flex-direction:column;}
+  .sn-link{font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);padding:7px 8px 7px 12px;border-left:2px solid transparent;transition:color .15s, border-color .15s;line-height:1.2;}
+  .sn-link:hover{color:var(--ink);}
+  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel);}
+  @media(max-width:860px){
+    .shell{display:block;}
+    .sidenav{position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto;overflow-y:visible;white-space:nowrap;}
+    .sidenav .sn-lbl{display:none;}
+    .sn-nav{flex-direction:row;display:inline-flex;}
+    .sn-link{border-left:none;border-bottom:2px solid transparent;padding:10px 10px;display:inline-block;}
+    .sn-link.is-active{border-bottom-color:var(--fuel);border-left:none;}
+  }
+  .main{flex:1;min-width:0;overflow:hidden;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;}
+  @media(max-width:600px){.wrap{padding:0 20px;}}
+
+  /* Hero */
+  .hero{padding:72px 0 28px;}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:26px;}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--fuel);}
+  .eyebrow .mid{color:var(--gray);}
+  .docname{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(3rem,9vw,5.8rem);line-height:.88;letter-spacing:-.05em;margin:0 0 22px;color:var(--ink);}
+  .hero .sub{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.38rem);line-height:1.45;color:var(--ink);max-width:44ch;}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);}
+  .meta b{color:var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.68rem;}
+
+  /* Sections */
+  section{padding:52px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;padding-top:36px;}
+  .shead{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .shead .num,.shead .sep{color:var(--fuel);}
+  h2{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4.8vw,2.5rem);line-height:1.0;letter-spacing:-.04em;color:var(--ink);margin:0 0 .4em;}
+  h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ink);margin:1.8em 0 .5em;letter-spacing:-.02em;}
+  p{margin:0 0 1.05em;}
+  .lede{font-family:var(--serif);font-size:1.22rem;line-height:1.48;color:var(--ink);max-width:52ch;}
+  strong{font-weight:600;color:var(--ink);}
+
+  /* Stat grid */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:24px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .stat{background:var(--offwhite);padding:24px 20px;}
+  .stat .big{font-family:var(--display);font-weight:900;font-size:2rem;letter-spacing:-.04em;color:var(--fuel);line-height:1;}
+  .stat .cap{font-family:var(--display);font-weight:600;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:8px;line-height:1.3;}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* Steps / process */
+  .steps{margin-top:24px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .step{background:var(--offwhite);padding:24px 26px;display:flex;gap:20px;align-items:flex-start;}
+  .step .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--fuel);letter-spacing:-.04em;min-width:44px;line-height:1;}
+  .step .body h4{font-family:var(--display);font-weight:700;font-size:1.0rem;color:var(--ink);margin:0 0 .3em;letter-spacing:-.02em;}
+  .step .body p{font-family:var(--serif);font-size:.95rem;color:var(--gray);margin:0;line-height:1.5;}
+
+  /* Week view */
+  .week{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:20px;}
+  .wday{background:var(--offwhite);padding:20px 18px;}
+  .wday .wk{font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .wday .wd{font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em;}
+  .wday p{font-family:var(--display);font-size:.8rem;color:var(--gray);margin:0;line-height:1.45;}
+  @media(max-width:640px){.week{grid-template-columns:repeat(2,1fr);}}
+
+  /* Brief template */
+  .brief{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:28px 30px;box-shadow:var(--shadow-sm);margin-top:20px;}
+  .brief h4{font-family:var(--display);font-weight:700;font-size:.9rem;margin:0 0 .4em;letter-spacing:-.02em;}
+  .brief .q-list{margin:0;padding:0;list-style:none;}
+  .brief .q-list li{font-family:var(--display);font-size:.85rem;color:var(--gray);line-height:1.55;padding:10px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:12px;}
+  .brief .q-list li:last-child{border-bottom:none;}
+  .brief .q-list li .qnum{font-weight:800;color:var(--fuel);font-size:.75rem;flex-shrink:0;padding-top:2px;}
+  .brief .q-list li p{margin:0;}
+  .brief .q-list li strong{color:var(--ink);}
+
+  /* Output block */
+  .output{background:var(--ink);color:var(--offwhite);border-radius:8px;padding:32px 36px;margin-top:16px;box-shadow:var(--shadow);}
+  .output .o-lbl{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel);margin-bottom:16px;}
+  .output ul{margin:0;padding:0 0 0 1.2em;}
+  .output ul li{font-family:var(--display);font-size:.9rem;color:var(--offwhite);line-height:1.5;margin:.5em 0;padding-left:.2em;}
+  .output ul li::marker{color:var(--fuel);}
+
+  /* Callout */
+  .callout{border-left:3px solid var(--fuel);padding:18px 22px;margin:24px 0;background:var(--fuel-dim);border-radius:0 8px 8px 0;}
+  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .callout p{font-family:var(--serif);font-size:1rem;margin:0;line-height:1.55;}
+  .callout p + p{margin-top:.6em;}
+
+  /* Guardrail */
+  .guardrail{border:1px solid var(--line);background:var(--white);border-radius:8px;padding:22px 24px;box-shadow:var(--shadow-sm);margin-bottom:10px;}
+  .guardrail .g-lbl{font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-soft);margin-bottom:6px;}
+  .guardrail .g-rule{font-family:var(--display);font-weight:700;font-size:.98rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em;}
+  .guardrail .g-why{font-family:var(--serif);font-size:.9rem;color:var(--gray);line-height:1.5;}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:38px 0 70px;}
+  .fgrid{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  footer .brand{font-family:var(--display);font-weight:900;font-size:1.4rem;letter-spacing:-.05em;color:var(--ink);}
+  footer .c{font-family:var(--display);font-weight:500;font-size:.77rem;color:var(--gray);line-height:1.8;}
+  footer .c b{color:var(--ink);font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="row">
+    <a href="/" class="brand">impact fuel<span class="fp">.</span></a>
+    <a href="/martin-perry" class="ttl">Martin Perry</a>
+    <nav class="mainnav">
+      <a href="/martin-perry/voice" class="mn">Voice</a>
+      <a href="/martin-perry/positioning" class="mn">Positioning</a>
+      <a href="/martin-perry/audience" class="mn">Audience</a>
+      <a href="/martin-perry/content-engine" class="mn mn--active">Content Engine</a>
+    </nav>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="sidenav">
+    <p class="sn-lbl">On this page</p>
+    <div class="sn-nav">
+      <a href="#how" class="sn-link">How it works</a>
+      <a href="#cadence" class="sn-link">Monthly cadence</a>
+      <a href="#brief" class="sn-link">The post brief</a>
+      <a href="#outputs" class="sn-link">What we produce</a>
+      <a href="#guardrails" class="sn-link">Guardrails</a>
+    </div>
+  </nav>
+
+  <div class="main">
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="eyebrow"><span class="dot"></span>Martin Perry <span class="mid">&nbsp;·&nbsp; Work</span></div>
+      <div class="docname">Content Engine</div>
+      <h1>Interview to publish<span class="fp">.</span></h1>
+      <p class="sub">Four posts a month, every month. One weekly conversation turns into a post, an email, and three LinkedIn excerpts. Martin talks; we do the rest.</p>
+      <div class="meta">
+        <span><b>Cadence</b> &nbsp;4 posts/month · weekly interview</span>
+        <span><b>Outputs</b> &nbsp;Post · Email · 3 LinkedIn excerpts</span>
+        <span><b>Managed by</b> &nbsp;John Mahood, Impact Fuel</span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="big">4</div><div class="cap">Posts published per month</div></div>
+      <div class="stat"><div class="big">1</div><div class="cap">Weekly interview (≈30 min)</div></div>
+      <div class="stat"><div class="big">4×</div><div class="cap">Content pieces per interview</div></div>
+      <div class="stat"><div class="big">2</div><div class="cap">Audiences — Lender &amp; Owner</div></div>
+    </div>
+
+    <section id="how">
+      <div class="shead"><span class="num">01</span><span class="sep">·</span> How it works</div>
+      <h2>One conversation.<br>Four pieces<span class="fp">.</span></h2>
+      <p class="lede">The engine is simple: Martin determines what's worth talking about, we design the questions, record the conversation, and produce everything from it — AI trained on his voice and positioning.</p>
+
+      <div class="callout">
+        <div class="ct">The core principle</div>
+        <p>You determine what's worth talking about and who knows the most about it. You schedule the interview — every week. We do the rest: questionnaire design, recording, content creation, distribution.</p>
+        <p>The goal is an 800–1,200 word post that sounds exactly like Martin talking to a bank officer over coffee. One idea, one reader, one next step.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="n">01.</div>
+          <div class="body"><h4>Set the frame (Monday)</h4><p>Martin answers 9 questions in ~5 minutes mid-week, before the interview. Not writing the post — just answering honestly, the way he'd explain it to a client across the table. Who is this for? What's the one point? What's the contrarian truth?</p></div>
+        </div>
+        <div class="step">
+          <div class="n">02.</div>
+          <div class="body"><h4>Record the interview</h4><p>30-minute conversation, recorded. Martin talks; we listen and guide. The recording is the raw material for everything — blog post, email, LinkedIn excerpts, and eventually a short-form video.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">03.</div>
+          <div class="body"><h4>Produce the content</h4><p>AI trained on Martin's voice and guardrails drafts the post, email, and three LinkedIn excerpts from the recording. Impact Fuel reviews against the voice profile before anything leaves our hands.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">04.</div>
+          <div class="body"><h4>Review &amp; approve</h4><p>Martin reviews the draft. One round of edits, then we schedule and publish. The rule: if it doesn't sound like something he'd say to a client's face, it doesn't go out.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">05.</div>
+          <div class="body"><h4>Distribute</h4><p>Blog post goes live. Email goes to his list. Three LinkedIn excerpts post across the week — one observation, one story, one list — from the same source material.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cadence">
+      <div class="shead"><span class="num">02</span><span class="sep">·</span> Monthly Cadence</div>
+      <h2>The monthly rhythm<span class="fp">.</span></h2>
+      <p>Every month runs on the same four-week framework. Predictable for Martin, manageable for us, consistent for his audience.</p>
+
+      <div class="week">
+        <div class="wday">
+          <div class="wk">Week 1</div>
+          <div class="wd">Plan the month</div>
+          <p>Pick the topic and the person who knows the most about it. Send the invite and topic questionnaire so they can prepare.</p>
+        </div>
+        <div class="wday">
+          <div class="wk">Week 2</div>
+          <div class="wd">Record the interview</div>
+          <p>Have and record the conversation. ~30 minutes. Simple setup — record on your meeting app or place a phone on the table.</p>
+        </div>
+        <div class="wday">
+          <div class="wk">Week 3</div>
+          <div class="wd">Create the content</div>
+          <p>We produce the blog post, email, three social posts, and optionally a short podcast clip from the recording — with AI assistance, reviewed by Impact Fuel.</p>
+        </div>
+        <div class="wday">
+          <div class="wk">Week 4</div>
+          <div class="wd">Publish &amp; post</div>
+          <p>Post the blog and send the email. LinkedIn excerpts go out across the week. Engage with Martin's network throughout the month.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:24px;">
+        <div class="ct">Scale path</div>
+        <p>Martin starts at monthly (4 posts). As the engine matures and the audience responds, the cadence can move to bi-weekly and eventually weekly — using the same interview format, just more often. The process doesn't change; only the frequency does.</p>
+      </div>
+    </section>
+
+    <section id="brief">
+      <div class="shead"><span class="num">03</span><span class="sep">·</span> The Post Brief</div>
+      <h2>Nine questions.<br>One great post<span class="fp">.</span></h2>
+      <p>Martin answers these before every interview. Takes ~5 minutes. The answers become the spine of the conversation and the brief for the draft. The golden rule: <strong>one post, one idea, one reader, one next step.</strong> If an answer splits into two, you've got two posts — bank the second one.</p>
+
+      <div class="brief">
+        <h4>Part 1 · Set the frame</h4>
+        <ul class="q-list">
+          <li><div class="qnum">Q1</div><p><strong>Who is this for?</strong> Pick ONE. The Lender (special-assets officer, chief credit officer, creditors'-rights attorney) or The Owner / Investor (family office, HNW buyer, nonprofit or corporate occupier). Name the actual person in your head — "the head of special assets at a regional bank who's three years into a loan that never paid" beats "lenders."</p></li>
+          <li><div class="qnum">Q2</div><p><strong>What problem are they facing right now that this post helps with?</strong> In their words, not industry jargon. What's keeping this person up this week? <em>Lender example: "We've absorbed bad loans from acquisitions we never underwrote." Owner example: "There's a deal I could buy at a discount but I'm on a 45-day clock and I'm not ready."</em></p></li>
+          <li><div class="qnum">Q3</div><p><strong>What's the ONE point I'm making?</strong> One sentence. The whole post defends this and nothing else.</p></li>
+          <li><div class="qnum">Q4</div><p><strong>What's the contrarian truth — the thing only I'd say out loud?</strong> The industry line you'd push back on. No POV = no reason to read. <em>e.g., "Patience is a competitive advantage." "Extend-and-pretend is over." "You don't have to do the deal — your client does."</em></p></li>
+        </ul>
+      </div>
+
+      <div class="brief" style="margin-top:12px;">
+        <h4>Part 2 · Make it stick</h4>
+        <ul class="q-list">
+          <li><div class="qnum">Q5</div><p><strong>What's the one thing I want them to remember a week later?</strong> The line they could repeat to a colleague. Write it as you'd actually say it.</p></li>
+          <li><div class="qnum">Q6</div><p><strong>What real example proves it?</strong> A deal, a moment, a mistake you saw firsthand. Real numbers when you have them — before → after, and how long it took. Never a borrower's, client's, or bank's name. Never a deal you weren't part of.</p></li>
+          <li><div class="qnum">Q7</div><p><strong>What does this look like when it goes wrong?</strong> The cost of ignoring the point. <em>e.g., the buyer who called on day 42 of a 45-day exchange; the bank that waited three years; the third retail location that should never have opened.</em></p></li>
+        </ul>
+      </div>
+
+      <div class="brief" style="margin-top:12px;">
+        <h4>Part 3 · The ask</h4>
+        <ul class="q-list">
+          <li><div class="qnum">Q8</div><p><strong>What do I want them to do next?</strong> ONE next step, matched to this reader. Not "call me." A specific, useful action. <em>e.g., "If you're 12–18 months from a maturity, ask your team one question: are we firefighting or fireproofing?" Then the soft line: that's the conversation I'm built for.</em></p></li>
+          <li><div class="qnum">Q9</div><p><strong>Who should read this and opt OUT?</strong> Name the wrong-fit reader. Saying who this isn't for is how you earn trust with who it is for. <em>e.g., small-retail bargain-hunters, anyone who wants a sign in the yard and offers next week.</em></p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="outputs">
+      <div class="shead"><span class="num">04</span><span class="sep">·</span> What we produce</div>
+      <h2>One interview.<br>Four outputs<span class="fp">.</span></h2>
+      <p>Every recorded interview produces four pieces of content — all from the same source material, all in Martin's voice.</p>
+
+      <div class="output">
+        <div class="o-lbl">From every interview</div>
+        <ul>
+          <li><strong>Blog post (800–1,200 words)</strong> — The full argument. Hook → Problem → Point → Proof → So what → Close. Published on martintypeplace.com and shared in email.</li>
+          <li><strong>Email to the list</strong> — A shorter version of the post, or a "here's what I published this week" wrapper with the key pull-quote. Goes to the full list.</li>
+          <li><strong>LinkedIn: The observation post</strong> — Martin's Q4 contrarian truth, standalone. Short, specific, a point of view anyone in CRE should have seen but no one's said yet.</li>
+          <li><strong>LinkedIn: The story post</strong> — The Q6 example, told in 3–5 short paragraphs. Real deal, anonymized, with the mechanics of what he did step by step.</li>
+          <li><strong>LinkedIn: The list post</strong> — 3 sub-points drawn from inside the post. "3 things banks wait too long to do." "2 reasons the office reckoning is worse than people think." Self-writing once the post exists.</li>
+        </ul>
+      </div>
+
+      <div class="callout" style="margin-top:24px;">
+        <div class="ct">LinkedIn cadence</div>
+        <p>Three LinkedIn excerpts post across the week — spaced out, not all at once. The same week's post fuels the whole LinkedIn week. Martin only needs to look at one thing, once: the original interview.</p>
+      </div>
+    </section>
+
+    <section id="guardrails">
+      <div class="shead"><span class="num">05</span><span class="sep">·</span> Guardrails</div>
+      <h2>What never goes out<span class="fp">.</span></h2>
+      <p>Every piece of content — post, email, or LinkedIn — must pass these before it publishes.</p>
+
+      <div class="guardrail">
+        <div class="g-lbl">Rule 1</div>
+        <div class="g-rule">No fabrication, ever.</div>
+        <div class="g-why">Only deals Martin genuinely closed or worked on. No invented stories, no borrowed credit, no statistics he didn't generate. A hard line — and a credibility asset.</div>
+      </div>
+      <div class="guardrail">
+        <div class="g-lbl">Rule 2</div>
+        <div class="g-rule">No fake or artificial urgency.</div>
+        <div class="g-why">"Best and final," invented deadlines, manufactured scarcity. Martin's whole brand rests on honest timelines — the messaging can never undercut that.</div>
+      </div>
+      <div class="guardrail">
+        <div class="g-lbl">Rule 3</div>
+        <div class="g-rule">No disparaging borrowers, clients, or any party.</div>
+        <div class="g-why">Respectful and tactful, always — even when describing a situation that went badly. The business lives on relationships and referrals. That includes how we write about every party in every deal.</div>
+      </div>
+      <div class="guardrail">
+        <div class="g-lbl">Rule 4</div>
+        <div class="g-rule">No hype, no ego, no "best in the market."</div>
+        <div class="g-why">Nothing he wouldn't say to a client's face. These phrases would make him cringe in a real conversation — they don't belong on the page either. One idea, one reader, one next step.</div>
+      </div>
+      <div class="guardrail">
+        <div class="g-lbl">Rule 5</div>
+        <div class="g-rule">Never claim a deal you weren't in.</div>
+        <div class="g-why">If you can't share numbers, share the mechanics — what you did, step by step. The specificity is more persuasive than any claimed result anyway.</div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fgrid">
+        <span class="brand">impact fuel<span class="fp">.</span></span>
+        <div class="c">
+          <b>John Mahood</b> · Principal, Impact Fuel<br>
+          john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wrap -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+(function(){
+  var links = Array.from(document.querySelectorAll('.sn-link[href^="#"]'));
+  var ids = links.map(function(l){ return l.getAttribute('href').slice(1); });
+  var sects = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var TOPBAR = 62;
+  function spy(){
+    var y = window.scrollY || window.pageYOffset;
+    var active = null;
+    for(var i = sects.length - 1; i >= 0; i--){
+      if(sects[i] && y >= sects[i].offsetTop - TOPBAR - 40){ active = ids[i]; break; }
+    }
+    links.forEach(function(l){ l.classList.toggle('is-active', l.getAttribute('href').slice(1) === active); });
+  }
+  window.addEventListener('scroll', spy, { passive: true });
+  spy();
+})();
+</script>
+</body>
+</html>
