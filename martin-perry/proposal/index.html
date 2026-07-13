@@ -784,15 +784,23 @@
   }, {passive:true});
 
   // Mouse wheel → horizontal navigation
+  // Uses delta accumulation so Magic Mouse momentum doesn't skip slides
+  let wheelAccum = 0;
   let wheelLocked = false;
   document.addEventListener('wheel', e=>{
     e.preventDefault();
     if(wheelLocked) return;
-    const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
-    if(Math.abs(delta) < 5) return;
-    wheelLocked = true;
-    go(delta > 0 ? 1 : -1);
-    setTimeout(()=>{ wheelLocked = false; }, 600);
+    // Prefer horizontal axis if present, otherwise vertical
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    wheelAccum += delta;
+    if(Math.abs(wheelAccum) >= 80){
+      const dir = wheelAccum > 0 ? 1 : -1;
+      wheelAccum = 0;
+      wheelLocked = true;
+      go(dir);
+      // Long enough for Magic Mouse momentum to exhaust
+      setTimeout(()=>{ wheelLocked = false; wheelAccum = 0; }, 950);
+    }
   }, {passive:false});
 </script>
 
