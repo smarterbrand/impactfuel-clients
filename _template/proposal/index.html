@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[Enter Service Type] Proposal — [Enter Organization Name] | Impactfuel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000; --pink:#ff7bac; --gray:#86868b; --light-gray:#f5f5f7;
+  --white:#fff; --display:'Outfit',system-ui,sans-serif;
+  --body:'Poppins','Outfit',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--body);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+
+/* ── TOPBAR ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(255,255,255,.92);backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid rgba(0,0,0,.08);}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:600;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);border:1px solid rgba(0,0,0,.12);border-radius:4px;padding:5px 10px;transition:.15s;}
+.back-btn:hover{color:var(--ink);border-color:var(--ink);}
+.back-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.topbar-title{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);}
+.topbar-title span{color:var(--gray);font-weight:500;}
+.topbar-right{display:flex;align-items:center;gap:20px;}
+.slide-counter{font-family:var(--display);font-weight:600;font-size:.72rem;color:var(--gray);letter-spacing:.06em;min-width:60px;text-align:right;}
+.nav-arrows{display:flex;gap:6px;}
+.nav-btn{width:32px;height:32px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;font-size:1rem;color:var(--ink);-webkit-user-select:none;user-select:none;}
+.nav-btn:hover{background:var(--ink);color:var(--white);border-color:var(--ink);}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed;}
+.nav-btn:disabled:hover{background:var(--white);color:var(--ink);border-color:rgba(0,0,0,.12);}
+
+/* ── SCROLL ── */
+.scroll-track{position:fixed;top:52px;left:0;right:0;bottom:0;display:flex;overflow-x:hidden;}
+.slides-inner{display:flex;height:100%;transition:transform .55s cubic-bezier(.4,0,.2,1);will-change:transform;}
+
+/* ── SLIDES ── */
+.slide{flex-shrink:0;width:100vw;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.slide-inner{width:100%;max-width:1200px;padding:40px 60px;height:100%;display:flex;flex-direction:column;justify-content:center;}
+
+/* Dark slides */
+.slide.dark{background:var(--ink);color:var(--white);}
+.slide.dark-split{background:var(--ink);color:var(--white);}
+.split-layout{display:flex;width:100vw;height:100%;}
+.split-left{width:50%;display:flex;flex-direction:column;justify-content:center;padding:60px 80px;}
+.split-right{width:50%;overflow:hidden;}
+.split-right img{width:100%;height:100%;object-fit:cover;}
+.split-right-photo{width:50%;overflow:hidden;position:relative;}
+.split-right-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);}
+
+/* Gray split slides */
+.slide.gray-split{background:var(--white);}
+.gray-left{width:42%;background:var(--light-gray);display:flex;flex-direction:column;justify-content:center;padding:60px 60px;}
+.white-right{width:58%;display:flex;flex-direction:column;justify-content:center;padding:60px 60px;overflow-y:auto;}
+
+/* Photo-text split (like Our Story) */
+.photo-left{width:40%;overflow:hidden;position:relative;}
+.photo-left img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);}
+.photo-left .if-mark{position:absolute;top:80px;left:80px;font-family:var(--display);font-size:2.5rem;font-weight:800;color:var(--white);}
+.photo-left .if-mark .dot{color:var(--pink);}
+.text-right{width:60%;display:flex;flex-direction:column;justify-content:center;padding:60px 80px;}
+
+/* ── DOTS ── */
+.dots{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:100;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.15);cursor:pointer;transition:.2s;}
+.dot.active{width:24px;border-radius:4px;background:var(--pink);}
+.slide.dark ~ .dots .dot,.slide.dark-split ~ .dots .dot{background:rgba(255,255,255,.3);}
+.nav-hint{position:fixed;bottom:20px;right:32px;font-family:var(--display);font-size:.7rem;color:var(--gray);letter-spacing:.04em;z-index:100;display:flex;align-items:center;gap:8px;}
+.nav-hint kbd{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;border:1px solid rgba(0,0,0,.12);border-radius:3px;font-size:.65rem;font-family:var(--display);}
+
+/* ── TYPOGRAPHY ── */
+.if-mark-large{font-family:var(--display);font-size:2.5rem;font-weight:800;margin-bottom:8px;}
+.if-mark-large .dot{color:var(--pink);}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;margin-bottom:16px;}
+h1 .dot{color:var(--pink);}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.1;margin-bottom:16px;}
+h2 .dot{color:var(--pink);}
+h3{font-family:var(--display);font-weight:700;font-size:1.15rem;margin-bottom:8px;}
+.section-label{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);margin-bottom:12px;}
+.lead{font-size:1.05rem;line-height:1.6;color:var(--gray);max-width:700px;}
+.lead b,.lead strong{color:var(--ink);font-weight:700;}
+.dark .lead b,.dark .lead strong,.dark-split .lead b,.dark-split .lead strong{color:var(--white);}
+.dark .lead,.dark-split .lead{color:rgba(255,255,255,.6);}
+p{font-size:.92rem;line-height:1.65;color:var(--gray);}
+.divider{height:1px;background:rgba(0,0,0,.08);margin:24px 0;width:60px;}
+.dark .divider,.dark-split .divider{background:rgba(255,255,255,.2);}
+ul.pink-bullets{list-style:none;padding:0;}
+ul.pink-bullets li{position:relative;padding-left:20px;margin-bottom:6px;font-size:.9rem;color:var(--gray);}
+ul.pink-bullets li::before{content:'';position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--pink);}
+
+/* ── WORDMARK (SVG text approach) ── */
+.wordmark{font-family:var(--display);font-weight:800;font-size:1rem;letter-spacing:.32em;text-transform:uppercase;margin-bottom:40px;}
+.wordmark .e-letter{color:var(--pink);}
+.dark .wordmark,.dark-split .wordmark{color:var(--white);}
+
+/* ── COVER ── */
+.cover-meta{display:flex;flex-wrap:wrap;gap:12px 32px;font-size:.78rem;font-family:var(--display);color:var(--gray);margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,.08);}
+.cover-meta b{text-transform:uppercase;letter-spacing:.05em;font-size:.7rem;}
+.cover-meta a{color:var(--pink);}
+
+/* ── BIG HEADING DARK HERO ── */
+.hero-heading{font-family:var(--display);font-weight:800;font-size:clamp(3rem,6vw,5rem);line-height:1;margin-bottom:20px;}
+.hero-heading .dot{color:var(--pink);}
+
+/* ── FORMULA CIRCLES ── */
+.formula-circles{position:relative;width:380px;height:380px;}
+.formula-circle{position:absolute;width:160px;height:160px;border-radius:50%;border:2px solid var(--pink);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,123,172,.06);}
+.fc-strategy{top:0;left:80px;}
+.fc-content{top:55px;left:200px;}
+.fc-marketing{top:130px;left:10px;}
+.fc-design{top:160px;left:180px;}
+.fc-technology{top:220px;left:60px;}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;margin-top:24px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px 40px;margin-top:24px;}
+.four-col{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px 40px;margin-top:24px;}
+
+/* ── GANTT ── */
+.gantt{margin-top:24px;}
+.gantt-row{display:flex;align-items:center;margin-bottom:12px;}
+.gantt-label{width:180px;font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;flex-shrink:0;}
+.gantt-bar-area{flex:1;height:24px;position:relative;border-left:1px solid rgba(0,0,0,.08);}
+.gantt-bar{position:absolute;height:100%;background:var(--pink);border-radius:2px;}
+.gantt-footer{display:flex;margin-top:8px;border-top:1px solid rgba(0,0,0,.08);padding-top:8px;}
+.gantt-footer .gantt-label{font-weight:400;font-size:.7rem;text-transform:none;}
+.gantt-footer-item{flex:1;text-align:center;font-size:.65rem;font-family:var(--display);}
+.gantt-footer-item b{display:block;font-size:.75rem;}
+
+/* ── PRICING TABLE ── */
+.pricing-section{margin-bottom:24px;}
+.pricing-section h4{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);margin-bottom:12px;}
+.pricing-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.85rem;}
+.pricing-row .price{font-weight:600;white-space:nowrap;}
+.pricing-total{display:flex;justify-content:flex-end;gap:16px;padding:8px 0;font-family:var(--display);font-weight:700;font-size:1rem;}
+.pricing-total .label{color:var(--pink);}
+
+/* ── SCHEDULE LIST ── */
+.schedule-list{padding:0;margin:0;}
+.schedule-item{display:flex;align-items:flex-start;gap:24px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+.schedule-day{font-family:var(--display);font-weight:800;font-size:1.6rem;min-width:100px;flex-shrink:0;}
+
+/* ── VIDEO GRID ── */
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px 48px;}
+.video-group h4{font-family:var(--display);font-weight:700;font-size:.9rem;margin-bottom:12px;}
+.video-group h4 span{font-weight:400;color:var(--gray);}
+.video-thumb{position:relative;border-radius:4px;overflow:hidden;margin-bottom:4px;}
+.video-thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;}
+.video-label{font-size:.8rem;color:var(--gray);margin-bottom:16px;}
+
+/* ── CASE STUDY ── */
+.cs-layout{display:flex;gap:40px;width:100%;height:100%;padding:40px 60px;align-items:flex-start;overflow-y:auto;}
+.cs-text{width:40%;flex-shrink:0;padding-top:20px;}
+.cs-text h3{font-family:var(--display);font-weight:800;font-size:1.5rem;margin-bottom:16px;}
+.cs-screenshots{width:60%;display:flex;gap:16px;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding-top:20px;}
+.cs-screenshots img{max-height:85vh;width:auto;max-width:48%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.cs-btn{display:inline-block;background:var(--pink);color:var(--white);font-family:var(--display);font-weight:600;font-size:.85rem;padding:10px 24px;border-radius:4px;margin-top:16px;transition:.15s;}
+.cs-btn:hover{background:#e0608f;}
+
+/* ── LOGO GRID ── */
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;place-items:center;padding:20px 0;}
+.logo-grid img{max-height:100px;max-width:200px;object-fit:contain;}
+
+/* ── TEAM ── */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.team-card{display:flex;gap:12px;align-items:flex-start;}
+.team-card img{width:64px;height:64px;border-radius:4px;object-fit:cover;filter:grayscale(100%);}
+.team-card .name{font-family:var(--display);font-weight:700;font-size:.85rem;}
+.team-card .role{font-style:italic;font-size:.78rem;color:var(--gray);}
+.team-card .bio{font-size:.72rem;color:var(--gray);line-height:1.5;margin-top:4px;}
+.team-section-label{font-family:var(--display);font-weight:800;font-size:1.3rem;margin:20px 0 16px;}
+
+/* ── REFERENCES ── */
+.ref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px 40px;}
+.ref-card h4{font-family:var(--display);font-weight:700;font-size:.9rem;margin-bottom:4px;}
+.ref-card .contact-name{font-style:italic;font-size:.82rem;color:var(--gray);}
+.ref-card .contact-phone{font-size:.82rem;margin:2px 0;}
+.ref-card a{color:var(--pink);font-size:.78rem;}
+
+/* ── CLIENT LIST ── */
+.client-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 40px;}
+.client-cats h4{font-family:var(--display);font-weight:700;font-size:.9rem;margin-bottom:6px;}
+.client-cats ul{list-style:none;padding:0;}
+.client-cats li{font-size:.78rem;color:var(--gray);margin-bottom:3px;}
+
+/* ── MESSAGING MAP ── */
+.msg-map{width:100%;max-width:520px;}
+.msg-core{background:var(--pink);color:var(--white);text-align:center;padding:12px;font-family:var(--display);font-weight:600;font-size:.8rem;border-radius:4px;margin-bottom:8px;}
+.msg-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;}
+.msg-key{background:rgba(255,123,172,.15);text-align:center;padding:10px;font-family:var(--display);font-weight:600;font-size:.75rem;border-radius:4px;}
+.msg-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;}
+.msg-fact{background:rgba(0,0,0,.04);text-align:center;padding:6px 2px;font-family:var(--display);font-size:.6rem;color:var(--gray);border-radius:2px;}
+.msg-proof{background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.06);}
+
+/* ── NEXT STEPS ── */
+.steps{margin-top:24px;}
+.step{display:flex;gap:16px;margin-bottom:20px;}
+.step-num{font-family:var(--display);font-weight:800;font-size:2.5rem;color:var(--pink);line-height:1;min-width:40px;}
+.step-text h4{font-family:var(--display);font-weight:700;font-size:.95rem;margin-bottom:4px;}
+.step-text p{font-size:.85rem;line-height:1.6;color:var(--gray);}
+.contact-block{display:flex;gap:48px;margin:16px 0;font-size:.85rem;}
+.contact-block b{font-family:var(--display);display:block;margin-bottom:2px;}
+.contact-block a{color:var(--pink);}
+
+/* ── SIMPLE CENTERED ── */
+.slide-centered{display:flex;align-items:center;justify-content:center;text-align:center;}
+.slide-centered h2{font-family:var(--display);font-weight:800;font-size:2.5rem;}
+
+/* ── RESPONSIVE (basic) ── */
+@media(max-width:768px){
+  .topbar{padding:0 16px;}
+  .slide-inner{padding:24px 24px;}
+  .split-left,.gray-left{padding:32px 24px;}
+  .split-layout,.slide.gray-split .split-layout{flex-direction:column;}
+  .split-left,.split-right,.split-right-photo,.gray-left,.white-right,.photo-left,.text-right{width:100%;height:auto;}
+  .split-right,.split-right-photo{height:40vh;}
+  .four-col,.three-col{grid-template-columns:1fr 1fr;}
+  .two-col{grid-template-columns:1fr;}
+  .cs-layout{flex-direction:column;}
+  .cs-text,.cs-screenshots{width:100%;}
+  .cs-screenshots img{max-width:100%;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .ref-grid{grid-template-columns:1fr 1fr;}
+  .client-cats{grid-template-columns:1fr 1fr;}
+  .video-grid{grid-template-columns:1fr 1fr;}
+  .hero-heading{font-size:clamp(2rem,8vw,3.5rem);}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a class="back-btn" href="javascript:history.back()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      Back
+    </a>
+    <span class="topbar-title"><span id="topbar-service">[Enter Service Type]</span> Proposal &nbsp;<span>· <span id="topbar-org">[Enter Organization Name]</span></span></span>
+  </div>
+  <div class="topbar-right">
+    <span class="slide-counter" id="counter">1 / 59</span>
+    <div class="nav-arrows">
+      <button class="nav-btn" id="prev" onclick="go(-1)" disabled>←</button>
+      <button class="nav-btn" id="next" onclick="go(1)">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDES -->
+<div class="scroll-track">
+  <div class="slides-inner" id="track">
+
+    <div class="slide" data-slide="1">
+      <div class="slide-inner">
+        <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+        <h1 id="org-name">[Enter Organization Name]</h1>
+        <p style="font-family:var(--display);font-size:1.1rem;color:var(--gray);font-weight:500;"><span id="service-type">[Enter Service Type]</span> Proposal</p>
+        <div class="divider"></div>
+        <div class="cover-meta">
+          <span><b>Contact</b><br>John Mahood<br><a href="mailto:john@impactfuel.org">john@impactfuel.org</a><br>412-303-6477<br><a href="https://impactfuel.org" target="_blank">impactfuel.org</a></span>
+          <span><b>Date</b><br><span id="proposal-date">[Enter Month Day], 2026</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="2">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <h1 class="hero-heading">Hello &amp;<br>thank you<span class="dot">.</span></h1>
+          <div class="divider"></div>
+          <p class="lead">We're <strong>grateful</strong> for the opportunity to bid on your project.</p>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-hello.jpg" alt="Meeting"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="3">
+      <div class="slide-inner">
+        <div class="if-mark-large">if<span class="dot">.</span></div>
+        <h2 style="color:var(--gray);font-weight:700;font-size:clamp(1.4rem,2.5vw,2rem);">Impactfuel helps organizations <strong style="color:var(--ink);">create impact through powerful branding and engaging websites<span class="dot">.</span></strong></h2>
+        <div class="divider"></div>
+        <p class="lead">Our goal is to help you reach your goals.</p>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="4">
+      <div class="slide-inner" style="flex-direction:row;gap:60px;">
+        <div style="flex:1;">
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+          <h2>Our Formula</h2>
+          <p><strong>A website that does its job, must be built by a team of experts</strong> in all of the following areas: Strategy, Design, Content, Technology and Marketing. Projects fail when the team is lacking skills and experience in one or more of these crucial areas.</p>
+          <br>
+          <p>At Impactfuel, <strong>we build small yet diverse teams</strong> that works seamlessly across all these areas, and with your organization, to build a website that engages your visitors to take action.</p>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+          <div class="formula-circles">
+            <div class="formula-circle fc-strategy">Strategy</div>
+            <div class="formula-circle fc-content">Content</div>
+            <div class="formula-circle fc-marketing">Marketing</div>
+            <div class="formula-circle fc-design">Design</div>
+            <div class="formula-circle fc-technology">Technology</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="5">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <div class="section-label">PHASE 1</div>
+          <h1 class="hero-heading">Brand<br>strategy<span class="dot">.</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-brand-strategy.jpg" alt="Brand Strategy"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="6">
+      <div class="slide-inner" style="flex-direction:row;gap:40px;">
+        <div style="flex:1;">
+          <div class="section-label">MOVING PEOPLE TO ACTION</div>
+          <div style="margin-bottom:24px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:20px;">
+            <h2 style="font-size:clamp(2rem,4vw,3.5rem);">Get it<span class="dot">.</span></h2>
+          </div>
+          <div style="margin-bottom:24px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:20px;">
+            <h2 style="font-size:clamp(2rem,4vw,3.5rem);">Believe it<span class="dot">.</span></h2>
+          </div>
+          <div>
+            <h2 style="font-size:clamp(2rem,4vw,3.5rem);">Take action<span class="dot">.</span></h2>
+          </div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;">
+          <div class="if-mark-large" style="text-align:right;">if<span class="dot">.</span></div>
+          <p>The first step to getting people to take action on your website is that they “get it”. They understand what you do and why you do it. This should happen within 10 seconds. If they don’t “get it”, they’re unlikely to stick around.</p>
+          <p>Once they “get it”, they’ll stay to learn more. They want to prove to themselves that you understand their problem and have the right people, process and experience to solve it. They want to “believe” you can actually make a difference for them.</p>
+          <p>And once they “believe it”, they’re ready to take the required steps to “get behind it”. They’re ready to make the call, complete the form, download the report, make the appointment and take action.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="7">
+      <div class="slide-inner">
+        <div style="display:flex;gap:40px;margin-bottom:24px;">
+          <h2 style="min-width:200px;">Discovery<br>Workshop</h2>
+          <div>
+            <p class="lead"><strong>Success begins with strategy and strategy begins with understanding. We take our clients through an intensive discovery process, where our team really gets to understand your organization, what makes it special, and why your various audiences should care.</strong></p>
+          </div>
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:24px;">
+          <div class="four-col">
+            <div>
+              <div style="font-family:var(--display);font-weight:800;font-size:5rem;color:rgba(255,123,172,.15);line-height:1;">1</div>
+              <h3>Understanding Your Organization</h3>
+              <p>What do you do? Who do you do it for? How do you do it? And most importantly… Why do you do it? We’ll take the time to ask the right questions, organize your answers, craft them into clear messages, and tell the story on your website the way it deserves to be told.</p>
+            </div>
+            <div>
+              <div style="font-family:var(--display);font-weight:800;font-size:5rem;color:rgba(255,123,172,.15);line-height:1;">2</div>
+              <h3>Understanding Your Audience</h3>
+              <p>In order for your audience to understand you, we must understand them. We must understand their problems, concerns, beliefs and motivations. At the end of the day, we want them to not only hear your message, but to get it, believe it and get behind it.</p>
+            </div>
+            <div>
+              <div style="font-family:var(--display);font-weight:800;font-size:5rem;color:rgba(255,123,172,.15);line-height:1;">3</div>
+              <h3>Understanding Your Market &amp; Competition</h3>
+              <p>There are other organizations competing for the attention of your audience. We research these competitors taking a close look at how they’re telling their story, how they’re using the web, and how they’re spreading their word through blogging, social media, email, video and search.</p>
+            </div>
+            <div>
+              <div style="font-family:var(--display);font-weight:800;font-size:5rem;color:rgba(255,123,172,.15);line-height:1;">4</div>
+              <h3>Understanding Your Marketing History</h3>
+              <p>Much of our ongoing marketing strategy will be informed by your past successes and failures. What have you done? What have you tried to do? And what you have always wanted to do? We’ll identify the holes in your marketing funnel and help you better take advantage of every opportunity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="8">
+      <div class="slide-inner" style="flex-direction:row;gap:40px;">
+        <div style="flex:1;">
+          <h2>Personas Workshop</h2>
+          <p class="lead"><strong>For your audience to understand you, we must understand them.</strong> We must understand their problems, concerns, beliefs and motivations. We’ll dig deep into their personalities and work with you to create unique personas of your customers, partners and advocates.</p>
+          <br>
+          <div class="section-label">A PERSONA FOR EACH AUDIENCE</div>
+          <ul class="pink-bullets">
+            <li>Demographics</li><li>Goals</li><li>Challenges</li>
+            <li>Our Solutions</li><li>Our Message</li><li>Educational Content</li>
+          </ul>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center;">
+          <img src="/images/impactfuel/persona-1.jpg" alt="Persona Example" style="max-height:220px;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.1);">
+          <img src="/images/impactfuel/persona-2.jpg" alt="Persona Example" style="max-height:220px;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.1);margin-top:-30px;margin-left:60px;">
+          <img src="/images/impactfuel/persona-3.jpg" alt="Persona Example" style="max-height:220px;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.1);margin-top:-30px;">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="9">
+      <div class="slide-inner" style="flex-direction:row;gap:60px;">
+        <div style="flex:1;">
+          <h2>Messaging Workshop</h2>
+          <p><strong>Identifying effective messaging isn’t easy. It’s not always about what you say, it’s how you say it.</strong></p>
+          <br>
+          <p style="color:var(--gray);">In this interactive workshop, we’ll work with your team to craft a unique messaging framework that clarifies your beliefs, sharpens focus, and tells your story the way it deserves to be told.</p>
+          <br>
+          <div class="section-label">THE MESSAGING MAP</div>
+          <ul class="pink-bullets">
+            <li>Core Message</li><li>3 Key Messages</li>
+            <li>3 Supporting Facts each</li><li>3 Proof Points each</li>
+          </ul>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+          <div class="msg-map">
+            <div class="msg-core">THE CORE MESSAGE</div>
+            <div class="msg-keys"><div class="msg-key">KEY 1</div><div class="msg-key">KEY 2</div><div class="msg-key">KEY 3</div></div>
+            <div class="msg-facts">
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+              <div class="msg-fact">FACT</div><div class="msg-fact msg-proof">PROOF</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="10">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <div class="section-label">PHASE 2</div>
+          <h1 class="hero-heading">Web design &amp;<br>development<span class="dot">.</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-web-design.jpg" alt="Web Design"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="11">
+      <div class="slide-inner" style="flex-direction:row;gap:40px;">
+        <div style="flex:1.2;">
+          <h2>Our Web Solution</h2>
+          <p>Impactfuel is recommending WordPress, an open source CMS.</p>
+          <p><a href="https://wordpress.org" target="_blank" style="color:var(--pink);">wordpress.org</a></p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:24px;padding-top:24px;">
+            <div class="two-col">
+              <div>
+                <h3>Why Wordpress?</h3>
+                <ul class="pink-bullets"><li>Simple, easy-to-use CMS</li><li>Hundreds of thousands of users</li><li>Thousands of developers</li><li>Thousands of plugins</li><li>Built on PHP/MySQL</li><li>Can be hosted almost anywhere</li><li>Easy to upgrade</li><li>Well documented</li></ul>
+              </div>
+              <div>
+                <h3>Features and Functionality</h3>
+                <ul class="pink-bullets"><li>Search engine friendly</li><li>Design flexibility</li><li>Full W3C standards compliance</li><li>Full-featured CMS (add, edit, remove pages)</li><li>Full-featured Blog</li><li>Password protected posts</li><li>Multiple users with 10 levels of permissions</li><li>Auto-generated sitemap</li><li>Auto-generated breadcrumb navigation</li></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:.8;display:flex;flex-direction:column;justify-content:flex-start;padding-top:20px;">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+            <img src="/images/impactfuel/logo-wordpress.jpg" alt="WordPress" style="max-height:80px;">
+          </div>
+          <h3>Why <strong>open source</strong> over a <strong>proprietary</strong> CMS.</h3>
+          <br>
+          <p><strong>Free:</strong> Open source software is free and carries no licensing fee.</p><br>
+          <p><strong>Community &amp; Flexibility:</strong> A large developer community means more plugins and support and you won’t be tied to the same developer for the life of your website.</p><br>
+          <p><strong>Source Code/Customization:</strong> Complete access to the source code allows software modifications to fit the requirements of any project.</p><br>
+          <p><strong>Stability &amp; Performance:</strong> A broad installation base, tested extensively, and optimized through experience.</p><br>
+          <p><strong>Security:</strong> In recent years WordPress has added the functionality to auto-update, which means you never need to worry.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="12">
+      <div class="slide-inner">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <h2>Squarespace</h2>
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:16px;padding-top:24px;">
+          <div class="two-col">
+            <div>
+              <h3>Improved Navigation and Organization</h3>
+              <p>We’ll also be reorganizing all of the content and reworking the navigation to make it easy for visitors to find what they’re looking for.</p>
+              <br><h3>Mobile Responsive</h3>
+              <p>We build all websites “responsively”, which means it will dynamically resize for various screen sizes including desktop, laptop, tablet and phone.</p>
+              <br><h3>Accessibility</h3>
+              <p>Your site enables tabbed keyboard navigation and focus outlines. You’ll also have the ability to add custom page titles, SEO titles, form labels, alt text to any image, and video captions. Finally, we’ll be using AA compliant color contrast.</p>
+              <br><h3>Squarespace Administrative Access</h3>
+              <p>You will have full access to Squarespace’s administrative functions, allow you to add additional functionality in the future by enabling new features and functionality.</p>
+            </div>
+            <div>
+              <h3>Event Calendar</h3>
+              <p>We’ll be integrating Squarespace’s events calendar, which offers multiple views including list and grid. Each event has its own detail page which includes title, start/end date, description and featured image.</p>
+              <br><h3>Online Donations</h3>
+              <p>We’ll setup your choice of Stripe, PayPal or Apple Pay so visitors can deposit donations to your bank account. They’ll also have the option to signup for your mailing list. You’ll also be able to manage donations and download them as a CSV file.</p>
+              <br><h3>Forms</h3>
+              <p>You’ll be able to easily create forms that send notifications to email or integrate your existing Google Forms.</p>
+              <br><h3>Blog</h3>
+              <p>Squarespace includes a fully functional blog which includes categories, tags, commenting, drafts and scheduling.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="13">
+      <div class="slide-inner">
+        <div style="display:flex;gap:40px;margin-bottom:24px;">
+          <h2 style="min-width:180px;">Schedule</h2>
+          <div>
+            <p class="lead">This project has a <strong>90 day schedule</strong> as outlined below. Note that many milestones include dependencies that may affect the final launch date. Impactfuel will help you manage those dependencies, so the project <strong>remains on schedule</strong> and is reset when necessary.</p>
+          </div>
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:24px;">
+          <div class="gantt">
+            <div class="gantt-row"><div class="gantt-label">1. Strategy</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:0%;width:16%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">2. Content</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:11%;width:73%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">3. Design</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:16%;width:34%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">4. Development</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:22%;width:72%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">5. Testing</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:89%;width:11%;"></div></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:.7rem;font-family:var(--display);color:var(--gray);">
+            <span><b>1</b><br>Kick-Off</span><span><b>15</b><br>Strategy</span><span><b>20</b><br>Start Design</span><span><b>30</b><br>Approve Design</span><span><b>15</b><br>Begin Dev</span><span><b>45</b><br>Section Templates</span><span><b>70</b><br>Page Formatting</span><span><b>85</b><br>Client Revisions</span><span><b>90</b><br>Launch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="14">
+      <div class="slide-inner">
+        <div style="display:flex;gap:40px;margin-bottom:24px;">
+          <h2 style="min-width:180px;">Schedule</h2>
+          <div>
+            <p class="lead">This project has a <strong>120 day schedule</strong> as outlined below. Note that many milestones include dependencies that may affect the final launch date. Impactfuel will help you manage those dependencies, so the project <strong>remains on schedule</strong> and is reset when necessary.</p>
+          </div>
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:24px;">
+          <div class="gantt">
+            <div class="gantt-row"><div class="gantt-label">1. Strategy</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:0%;width:12%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">2. Content</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:8%;width:67%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">3. Design</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:12%;width:50%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">4. Development</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:25%;width:67%;"></div></div></div>
+            <div class="gantt-row"><div class="gantt-label">5. Testing</div><div class="gantt-bar-area"><div class="gantt-bar" style="left:87%;width:13%;"></div></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:.7rem;font-family:var(--display);color:var(--gray);">
+            <span><b>1</b><br>Kick-Off</span><span><b>15</b><br>Strategy</span><span><b>30</b><br>Brand Design</span><span><b>45</b><br>Website Design</span><span><b>60</b><br>Content Draft</span><span><b>75</b><br>Content Final</span><span><b>90</b><br>Content Placement</span><span><b>105</b><br>Client Revisions</span><span><b>120</b><br>Launch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide gray-split" data-slide="15">
+      <div class="split-layout">
+        <div class="gray-left">
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+          <h2>Schedule</h2>
+          <p class="lead">This project has a <strong>30 day schedule</strong> as outlined here. Note that many milestones include dependencies that may affect the final launch date. Impactfuel will help you manage those dependencies, so the project <strong>remains on schedule</strong> and is reset when necessary.</p>
+        </div>
+        <div class="white-right">
+          <div class="schedule-item"><div class="schedule-day">Week 1</div><ul class="pink-bullets"><li>Discovery workshop/kick-off</li><li>Squarespace account setup</li><li>Initial design work</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Week 2</div><ul class="pink-bullets"><li>Review design</li><li>Design revisions</li><li>Design approval</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Week 3</div><ul class="pink-bullets"><li>Page buildout</li><li>Content placement/formatting</li><li>Client training</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Week 4</div><ul class="pink-bullets"><li>Content revisions</li><li>Final approval</li><li>Launch</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide gray-split" data-slide="16">
+      <div class="split-layout">
+        <div class="gray-left">
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+          <h2>Schedule</h2>
+          <p class="lead">This project has a <strong>60 day schedule</strong> as outlined here. Note that many milestones include dependencies that may affect the final launch date. Impactfuel will help you manage those dependencies, so the project <strong>remains on schedule</strong> and is reset when necessary.</p>
+        </div>
+        <div class="white-right">
+          <div class="schedule-item"><div class="schedule-day">Day 1</div><ul class="pink-bullets"><li>Discovery workshop/kick-off</li><li>Squarespace account setup</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Day 7</div><ul class="pink-bullets"><li>Sitemap presentation</li><li>Design presentation</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Day 14</div><ul class="pink-bullets"><li>Sitemap approval</li><li>Design approval</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Day 30</div><ul class="pink-bullets"><li>Final content due</li><li>Begin content placement/formatting</li><li>Event calendar setup</li><li>Forms setup</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Day 45</div><ul class="pink-bullets"><li>Page buildout complete</li><li>Online donations setup</li><li>Client training</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Day 53</div><ul class="pink-bullets"><li>Final review/revisions</li></ul></div>
+          <div class="schedule-item"><div class="schedule-day">Day 60</div><ul class="pink-bullets"><li>Final approval</li><li>Launch</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide gray-split" data-slide="17">
+      <div class="split-layout">
+        <div class="gray-left">
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+          <h2>Investment</h2>
+          <p class="lead"><strong>When an agreement is signed, payments are due according to the following schedule: 1/3 upon approval of the estimate, 1/3 on approval of the design, 1/3 prior to launch.</strong></p>
+          <br><p style="font-size:.78rem;color:var(--gray);"><strong>Note:</strong> Any changes outside the scope of this estimate will require completion of a Client Change Request form. This estimate is valid for 60 days from the date listed on page one of this proposal.</p>
+        </div>
+        <div class="white-right">
+          <div class="pricing-section"><h4>ESTIMATE</h4>
+            <div class="pricing-row"><span>Discovery Workshop</span><span class="price">$250</span></div>
+            <div class="pricing-row"><span>Content Strategy and Sitemap</span><span class="price">$250</span></div>
+            <div class="pricing-row"><span>Squarespace Account Setup</span><span class="price">$250</span></div>
+            <div class="pricing-row"><span>Squarespace Customization</span><span class="price">$2,500</span></div>
+            <div class="pricing-row"><span>Page Buildout, Content Placement &amp; Formatting</span><span class="price">$1,000</span></div>
+            <div class="pricing-row"><span>Event Calendar</span><span class="price">$100</span></div>
+            <div class="pricing-row"><span>Donations Setup</span><span class="price">$250</span></div>
+            <div class="pricing-row"><span>Contact Form</span><span class="price">$100</span></div>
+            <div class="pricing-row"><span>Training</span><span class="price">$100</span></div>
+            <div class="pricing-row"><span>Launch</span><span class="price">$200</span></div>
+          </div>
+          <div class="pricing-total"><span class="label">Total:</span><span>$5,000</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide gray-split" data-slide="18">
+      <div class="split-layout">
+        <div class="gray-left">
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+          <h2>Investment</h2>
+          <p class="lead"><strong>When an agreement is signed, payments are due according to the following schedule: 1/3 upon approval of the estimate, 1/3 on approval of the design, 1/3 prior to launch.</strong></p>
+          <br><p style="font-size:.78rem;color:var(--gray);"><strong>Note:</strong> Any changes outside the scope of this estimate will require completion of a Client Change Request form. This estimate is valid for 60 days from the date listed on page one of this proposal.</p>
+        </div>
+        <div class="white-right" style="overflow-y:auto;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;">
+            <div>
+              <div class="pricing-section"><h4>BRAND STRATEGY</h4>
+                <div class="pricing-row"><span>Discovery Workshop</span><span class="price">$1,000</span></div>
+                <div class="pricing-row"><span>Personas Workshop</span><span class="price">$2,000</span></div>
+                <div class="pricing-row"><span>Messaging Workshop</span><span class="price">$2,000</span></div>
+                <div class="pricing-total"><span>$5,000</span></div>
+              </div>
+              <div class="pricing-section"><h4>WEBSITE</h4>
+                <div class="pricing-row"><span>Content Strategy and Sitemap</span><span class="price">$1,000</span></div>
+                <div class="pricing-row"><span>Website Design and Navigation</span><span class="price">$3,500</span></div>
+                <div class="pricing-row"><span>Software Installation/Hosting Setup</span><span class="price">$1,500</span></div>
+                <div class="pricing-row"><span>HTML/CSS/WordPress Customization</span><span class="price">$7,500</span></div>
+                <div class="pricing-row"><span>Page Buildout and Content Formatting</span><span class="price">$3,500</span></div>
+                <div class="pricing-row"><span>Event Calendar</span><span class="price">$1,500</span></div>
+                <div class="pricing-row"><span>Accessibility Optimization</span><span class="price">$1,500</span></div>
+                <div class="pricing-row"><span>SEO Retention</span><span class="price">$1,500</span></div>
+                <div class="pricing-row"><span>Google Analytics/Tag Manager</span><span class="price">$750</span></div>
+                <div class="pricing-row"><span>Meetings &amp; Communications</span><span class="price">$1,250</span></div>
+                <div class="pricing-row"><span>Training</span><span class="price">$750</span></div>
+                <div class="pricing-row"><span>Launch</span><span class="price">$750</span></div>
+                <div class="pricing-total"><span>$25,000</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="pricing-section"><h4>COPYWRITING</h4>
+                <div class="pricing-row"><span>Meetings</span><span class="price">$400</span></div>
+                <div class="pricing-row"><span>Research</span><span class="price">$300</span></div>
+                <div class="pricing-row"><span>First Draft</span><span class="price">$1,200</span></div>
+                <div class="pricing-row"><span>Revisions</span><span class="price">$1,000</span></div>
+                <div class="pricing-row"><span>Final Draft</span><span class="price">$600</span></div>
+                <div class="pricing-total"><span>$3,500</span></div>
+              </div>
+              <div class="pricing-section"><h4>MARKETING STRATEGY</h4>
+                <div class="pricing-row"><span>Content Marketing Workshop</span><span class="price">$1,000</span></div>
+                <div class="pricing-row"><span>Content Marketing/Social Media Plan</span><span class="price">$750</span></div>
+                <div class="pricing-row"><span>Editorial Calendar</span><span class="price">$500</span></div>
+                <div class="pricing-row"><span>Content Style Guide</span><span class="price">$500</span></div>
+                <div class="pricing-row"><span>Social Media Profile Optimization</span><span class="price">$500</span></div>
+                <div class="pricing-row"><span>Email Marketing Template</span><span class="price">$500</span></div>
+                <div class="pricing-row"><span>SEO Keyword Research</span><span class="price">$250</span></div>
+                <div class="pricing-row"><span>SEO Content Rewrite</span><span class="price">$1,000</span></div>
+                <div class="pricing-total"><span>$5,000</span></div>
+              </div>
+              <div class="pricing-total" style="font-size:1.2rem;margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;"><span>Grand Total</span><span style="margin-left:24px;">$38,500</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide gray-split" data-slide="19">
+      <div class="split-layout">
+        <div class="gray-left">
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+          <h2>Optional Additional Items</h2>
+          <p>Additional work can be provided at the agency rate of $100/hour. Some of our most popular add-ons are listed on this page.</p>
+          <br><p style="font-style:italic;color:var(--gray);">Looking for something else?<br>Ask us and we’ll see what we can do!</p>
+        </div>
+        <div class="white-right" style="overflow-y:auto;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;">
+            <div>
+              <div class="pricing-section"><h4>CONTENT DEVELOPMENT</h4><div class="pricing-row"><span>Copywriting <em>(per page)</em></span><span class="price">$50-200</span></div></div>
+              <div class="pricing-section"><h4>WEBSITE ADDONS</h4>
+                <div class="pricing-row"><span>Resource Center <em>(filters/search)</em></span><span class="price">$1,500</span></div>
+                <div class="pricing-row"><span>Bio/Team Grid Page Template</span><span class="price">$750</span></div>
+                <div class="pricing-row"><span>Landing Page Template</span><span class="price">$1,200</span></div>
+                <div class="pricing-row"><span>Custom Illustrations <em>(ea.)</em></span><span class="price">$250-750</span></div>
+                <div class="pricing-row"><span>Additional Content Pages <em>(ea.)</em></span><span class="price">$200</span></div>
+                <div class="pricing-row"><span>Stock Photography <em>(ea.)</em></span><span class="price">$20</span></div>
+              </div>
+              <div class="pricing-section"><h4>PRINT COLLATERAL DESIGN</h4>
+                <div class="pricing-row"><span>Business Card</span><span class="price">$300</span></div>
+                <div class="pricing-row"><span>Postcard</span><span class="price">$700</span></div>
+                <div class="pricing-row"><span>Advertisements <em>(ea.)</em></span><span class="price">$200-400</span></div>
+                <div class="pricing-row"><span>Sell Sheet <em>(1-sided 8.5x11)</em></span><span class="price">$1,000</span></div>
+                <div class="pricing-row"><span>Trifold Brochure <em>(2-sided 8.5x11)</em></span><span class="price">$1,400</span></div>
+                <div class="pricing-row"><span>4-Page Brochure <em>(2-sided 11x17)</em></span><span class="price">$1,800</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="pricing-section"><h4>VIDEO PACKAGES</h4>
+                <div class="pricing-row"><span><strong>Intro</strong></span><span class="price">$1,000</span></div>
+                <ul class="pink-bullets" style="margin-bottom:8px;"><li>Planning phone call</li><li>1 hour shoot</li><li>3 hours of editing</li></ul>
+                <div class="pricing-row"><span><strong>Short</strong></span><span class="price">$1,750</span></div>
+                <ul class="pink-bullets" style="margin-bottom:8px;"><li>Storyboard session</li><li>2 hour shoot</li><li>6 hours of editing</li></ul>
+                <div class="pricing-row"><span><strong>Feature</strong></span><span class="price">$2,500</span></div>
+                <ul class="pink-bullets" style="margin-bottom:8px;"><li>Storyboard session</li><li>1 hour pre-production</li><li>3 hour shot</li><li>9 hours of editing</li></ul>
+                <div class="pricing-row"><span><strong>Mini Documentary</strong></span><span class="price">$5,000</span></div>
+                <ul class="pink-bullets"><li>Storyboard session</li><li>2 hour pre-production</li><li>5 hour shoot</li><li>20 hours of editing</li></ul>
+              </div>
+            </div>
+          </div>
+          <div style="background:rgba(255,123,172,.06);border:1px solid rgba(255,123,172,.15);padding:12px 16px;border-radius:4px;margin-top:16px;">
+            <p style="font-size:.85rem;"><strong>Ongoing Maintenance/Support</strong><br>Additional support is available at $100/hr. An estimate will be provided before larger add-on projects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="20">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <div class="section-label">PHASE 3</div>
+          <h1 class="hero-heading">Content<br>marketing<span class="dot">.</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-content-marketing.jpg" alt="Content Marketing"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="21">
+      <div class="slide-inner">
+        <p class="lead" style="font-size:1.3rem;max-width:600px;">Impactfuel helps you create a digital marketing machine as well as engaging content that’s easy to produce.</p>
+        <div class="if-mark-large" style="margin-top:24px;">if<span class="dot">.</span></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="22">
+      <div class="slide-inner" style="flex-direction:row;gap:40px;">
+        <div style="flex:1;">
+          <div class="section-label">CONTENT MARKETING PLAN</div>
+          <div style="margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:12px;"><h2 style="font-size:clamp(1.8rem,3.5vw,3rem);">Podcasting<span class="dot">.</span></h2></div>
+          <div style="margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:12px;"><h2 style="font-size:clamp(1.8rem,3.5vw,3rem);">Video<span class="dot">.</span></h2></div>
+          <div style="margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:12px;"><h2 style="font-size:clamp(1.8rem,3.5vw,3rem);">Blogging<span class="dot">.</span></h2></div>
+          <div style="margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:12px;"><h2 style="font-size:clamp(1.8rem,3.5vw,3rem);">Social<span class="dot">.</span></h2></div>
+          <div><h2 style="font-size:clamp(1.8rem,3.5vw,3rem);">Email<span class="dot">.</span></h2></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;">
+          <p><strong>Why podcasting?</strong> With today’s information overload, it’s one of the only platforms where you can get your audience’s attention for 10-40 minutes. It doesn’t require 100% focus like video or writing. You can multitask while listening.</p>
+          <p><strong>Why video?</strong> Video is the most engaging form of media to get people’s attention quick. It’s also the best way to drive them to more in-depth content like your blog or podcast.</p>
+          <p><strong>Why blogging?</strong> The best way to get found is still Google and Google still loves written content. Writing is hard, but transcribing an interview and posting it on your website is easy.</p>
+          <p><strong>Why social media?</strong> Where people stay connected to their friends, their news, and their world. That said, it’s not enough to simply participate anymore. You need to actively solve their problems.</p>
+          <p><strong>Why email?</strong> Email is still the most direct and measurable way to reach your audience. You can track what individual people open, what they click on, what they see on your website, and what they spend time with.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="23">
+      <div class="slide-inner" style="flex-direction:row;gap:40px;">
+        <div style="flex:1;">
+          <div class="section-label">INTERVIEW-BASED CONTENT CREATION</div>
+          <div style="margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:12px;"><h2 style="font-size:clamp(2rem,4vw,3.5rem);">Unique<span class="dot">.</span></h2></div>
+          <div style="margin-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:12px;"><h2 style="font-size:clamp(2rem,4vw,3.5rem);">Good<span class="dot">.</span></h2></div>
+          <div><h2 style="font-size:clamp(2rem,4vw,3.5rem);">Easy<span class="dot">.</span></h2></div>
+          <div class="divider"></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;">
+          <div class="if-mark-large" style="text-align:right;">if<span class="dot">.</span></div>
+          <p>The last thing we want to do is copy or even reinterpret information your visitors can get somewhere else. Your mission is to educate them as no one else can. Enlighten them with your unique perspective and offer them solutions they can’t get anywhere else.</p>
+          <p>Secondly, the content needs to be good. Our clients are changing the world with their innovative ideas and ground breaking solutions. They have volumes of great content trapped in their heads. It’s our job to get it out.</p>
+          <p>Not everyone’s a writer. With Impactfuel, you don’t need to write. You don’t even have to prepare. All you need to do is sit down with us and have a conversation. We plan and record awesome interviews where you tell us what makes you special and we package that for the world.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="24">
+      <div class="slide-inner">
+        <div class="section-label">VIDEO STORIES</div>
+        <div class="if-mark-large" style="position:absolute;top:60px;right:60px;">if<span class="dot">.</span></div>
+        <h1 style="font-size:clamp(3rem,6vw,5rem);margin-top:40px;">Prove the Impact</h1>
+        <p class="lead"><strong style="color:var(--gray);">A picture’s worth a thousand words, but</strong> <strong>a video’s worth a thousand pictures.</strong></p>
+        <br><p>Video stories of real people, solving real problems is the most engaging way to prove your impact.</p>
+        <div class="divider"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="25">
+      <div class="slide-inner">
+        <div class="section-label">VIDEO STORIES</div>
+        <div class="if-mark-large" style="position:absolute;top:60px;right:60px;">if<span class="dot">.</span></div>
+        <div class="two-col" style="margin-top:40px;">
+          <div>
+            <h2>Production</h2>
+            <ul class="pink-bullets"><li>Strategy/Message</li><li>Determine Interviewees</li><li>Conversation Design/Questions</li><li>Schedule Interviews</li><li>Record Interviews</li><li>Shoot B-Roll</li><li>Edit</li></ul>
+          </div>
+          <div>
+            <h2>Distribution</h2>
+            <ul class="pink-bullets"><li>Upload to YouTube</li><li>Post Story Page</li><li>Post on Facebook, Twitter &amp; LinkedIn</li><li>Send Email</li><li>Measure Engagement</li><li>Repeat What’s Working</li></ul>
+          </div>
+        </div>
+        <div class="divider"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="26">
+      <div class="slide-inner" style="overflow-y:auto;">
+        <div class="section-label">VIDEO STORY EXAMPLES <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;color:var(--gray);">(Click thumbnails to view on YouTube)</span></div>
+        <div class="video-grid" style="margin-top:24px;">
+          <div class="video-group"><h4><strong>Individuals:</strong> <span>Life’sWork</span></h4>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-michael.jpg" alt="Michael"></div><div class="video-label">Michael</div>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-jeremy.jpg" alt="Jeremy"></div><div class="video-label">Jeremy</div>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-tracy.jpg" alt="Tracy"></div><div class="video-label">Tracy</div>
+          </div>
+          <div class="video-group"><h4><strong>Families:</strong> <span>Pressley Ridge</span></h4>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-reicharts.jpg" alt="The Reicharts"></div><div class="video-label">The Reicharts</div>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-yoni.jpg" alt="Yoni"></div><div class="video-label">Yoni</div>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-adams.jpg" alt="The Adams"></div><div class="video-label">The Adams</div>
+          </div>
+          <div class="video-group"><h4><strong>Employees:</strong> <span>Goodwill</span></h4>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-welcome.jpg" alt="Welcome"></div><div class="video-label">Welcome</div>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-why-goodwill.jpg" alt="Why Goodwill"></div><div class="video-label">Why Goodwill</div>
+            <div class="video-thumb"><img src="/images/impactfuel/vid-core-values.jpg" alt="Core Values"></div><div class="video-label">Core Values</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="27">
+      <div class="slide-inner" style="flex-direction:row;gap:40px;">
+        <div style="flex:.4;">
+          <div class="section-label">STORY PAGES</div>
+          <p style="font-style:italic;color:var(--gray);">(optional)</p>
+        </div>
+        <div style="flex:.6;">
+          <p class="lead"><strong>Story pages are a home for stories on your website.</strong> <span style="color:var(--gray);">Although this content provides a compelling message on social media and in email, the goal is to send visitors to your website for the full story and to engage with other stories as well as your services.</span></p>
+          <br><img src="/images/impactfuel/story-pages-wireframe.jpg" alt="Story Pages Wireframe" style="border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="28">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <h1 class="hero-heading">Case<br>studies<span class="dot">.</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-case-studies.jpg" alt="Case Studies"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="29">
+      <div class="slide-inner" style="overflow-y:auto;">
+        <div class="section-label">LOGO DESIGN</div>
+        <div class="logo-grid" style="margin-top:24px;">
+          <img src="/images/impactfuel/logo-row1.jpg" alt="Logo"><img src="/images/impactfuel/logo-row2.jpg" alt="Logo"><img src="/images/impactfuel/logo-row3.jpg" alt="Logo">
+          <img src="/images/impactfuel/logo-row4.jpg" alt="Logo"><img src="/images/impactfuel/logo-row5.jpg" alt="Logo"><img src="/images/impactfuel/logo-row6.jpg" alt="Logo">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="30">
+      <div class="slide-inner" style="overflow-y:auto;">
+        <div class="section-label">LOGO DESIGN <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--gray);">(continued)</span></div>
+        <div class="logo-grid" style="margin-top:24px;">
+          <img src="/images/impactfuel/logo-row7.jpg" alt="Logo"><img src="/images/impactfuel/logo-row8.jpg" alt="Logo"><img src="/images/impactfuel/logo-row9.jpg" alt="Logo">
+          <img src="/images/impactfuel/logo-row10.jpg" alt="Logo"><img src="/images/impactfuel/logo-row11.jpg" alt="Logo"><img src="/images/impactfuel/logo-row12.jpg" alt="Logo">
+          <img src="/images/impactfuel/logo-row13.jpg" alt="Logo">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="31">
+      <div class="slide-inner">
+        <div class="section-label">BRAND GUIDELINES</div>
+        <div style="display:flex;justify-content:center;margin-top:24px;">
+          <img src="/images/impactfuel/brand-guidelines.jpg" alt="Brand Guidelines" style="max-height:70vh;border-radius:4px;">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark" data-slide="32" style="padding:0;">
+      <div style="width:100%;height:100%;background:var(--ink);display:flex;align-items:center;justify-content:center;">
+      </div>
+    </div>
+
+    <div class="slide" data-slide="33">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>AI Power Pittsburgh —</strong> We developed the name, logo, and full brand identity for this citywide initiative positioning Pittsburgh as a global hub for artificial intelligence. Using AI-assisted writing, we created all site content and messaging, then designed and built the website on Squarespace—showcasing the region’s energy, talent, and innovation under one bold idea: <em>AI Power. Here. Now.</em></p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Naming</li><li>Logo Design</li><li>Content Organization</li><li>AI Assisted Copywriting</li><li>Website Design & Development</li><li>YouTube Channel Creation</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-aipower-1.jpg" alt="AI Power Pittsburgh Screenshot">
+          <img src="/images/impactfuel/cs-aipower-2.jpg" alt="AI Power Pittsburgh Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="34">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>AIA Connecticut —</strong> We redesigned and rebuilt the organization’s website to better serve architects, members, and the public. Streamlined content, reusable design patterns, and MembershipWorks integration make updates effortless, while carousels and slideshows highlight events and awards—advancing AIA Connecticut’s mission to connect, educate, and inspire.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Content Organization</li><li>WordPress Development</li><li>Easy Client Maintenance</li><li>Reusable Design Patterns</li><li>Carousels and Slideshows</li><li>MembershipWorks Integration</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-aiact-1.jpg" alt="AIA Connecticut Screenshot">
+          <img src="/images/impactfuel/cs-aiact-2.jpg" alt="AIA Connecticut Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="35">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>AIA New Hampshire —</strong> Building on an intern-created Squarespace site, we transformed the design and restructured the content to create a polished, professional web presence. By refining layout, navigation, and visual hierarchy, we elevated the site’s clarity and impact—ensuring the original work wasn’t lost but brought to its full potential.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Content Organization</li><li>Squarespace Design/Development</li><li>Easy Client Maintenance</li><li>Carousels and Slideshows</li><li>MembershipWorks Integration</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-aianh-1.jpg" alt="AIA New Hampshire Screenshot">
+          <img src="/images/impactfuel/cs-aianh-2.jpg" alt="AIA New Hampshire Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="36">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>Deep Varnish —</strong> We helped transform a complex offering into a clear, compelling digital presence. By refining the brand’s story and creating a clean, intuitive website supported by custom visuals, we turned scattered messaging into a cohesive narrative.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Messaging Strategy</li><li>Brand Guidelines</li><li>Content Organization</li><li>AI Assisted Copywriting</li><li>Website Design & Development</li><li>Custom Icons & Diagrams</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-deepvarnish-1.jpg" alt="Deep Varnish Screenshot">
+          <img src="/images/impactfuel/cs-deepvarnish-2.jpg" alt="Deep Varnish Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="37">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>APOST —</strong> We refreshed the brand for Allegheny Partners for Out-of-School Time with a cleaned-up logo, updated colors and typography, and clear brand guidelines. On Squarespace, we reorganized content and redesigned the site for easier navigation and stronger visual consistency.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Logo Cleanup</li><li>Colors/Typography</li><li>Brand Guidelines</li><li>Content Organization</li><li>Squarespace Design/Development</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-apost-1.jpg" alt="APOST Screenshot">
+          <img src="/images/impactfuel/cs-apost-2.jpg" alt="APOST Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="38">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>Highland Park Tennis Club —</strong> We modernized this historic Pittsburgh club with a refreshed logo, custom icons, and AI-enhanced imagery. The new Squarespace site streamlines content, memberships, and donations—honoring the club’s legacy while positioning it for the future.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Logo Reworking</li><li>Content Organization</li><li>AI Image Editing</li><li>Iconography</li><li>Squarespace Design/Development</li><li>Online Membership/Donations</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-hptc-1.jpg" alt="Highland Park Tennis Club Screenshot">
+          <img src="/images/impactfuel/cs-hptc-2.jpg" alt="Highland Park Tennis Club Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="39">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>Module —</strong> We redesigned and restructured the modular housing company’s website to better tell its story and showcase its projects. Through clear site mapping, organized content, and dynamic features like videos, carousels, and accordions, we built a Squarespace site that highlights partners and brings Module’s innovative approach to housing to life.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Content Organization</li><li>Site Mapping</li><li>Squarespace Design/Development</li><li>Videos/Carousels</li><li>Accordions</li><li>Partner Directories</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-module-1.jpg" alt="Module Screenshot">
+          <img src="/images/impactfuel/cs-module-2.jpg" alt="Module Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="40">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>Our Black Rose —</strong> We created a compassionate, modern brand and website for this nonprofit supporting families through loss. From logo design and AI-generated artwork to clear content organization and intuitive site mapping, every detail helps guide visitors with empathy.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Logo Design</li><li>AI Generated Artwork</li><li>Content Organization</li><li>Site Mapping</li><li>Forms</li><li>Donations</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-blackrose-1.jpg" alt="Our Black Rose Screenshot">
+          <img src="/images/impactfuel/cs-blackrose-2.jpg" alt="Our Black Rose Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="41">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>Steel City Squash —</strong> We reimagined the brand and website for this community hub uniting sport and mentorship. With new strategy, logo, and AI-assisted content on Squarespace, the site streamlines memberships, donations, and engagement.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Brand Strategy</li><li>Messaging</li><li>Logo Design</li><li>AI Assisted Content Writing</li><li>Squarespace Design/Development</li><li>Online Donations</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-steelcity-1.jpg" alt="Steel City Squash Screenshot">
+          <img src="/images/impactfuel/cs-steelcity-2.jpg" alt="Steel City Squash Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="42">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>The Westinghouse Legacy —</strong> We designed and built a digital archive celebrating inventor and industrialist George Westinghouse, Jr. Organized content, AI-enhanced imagery, and a searchable library bring his innovations to life.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Content Organization</li><li>AI Photo Editing</li><li>Squarespace Design/Development</li><li>Archives Library</li><li>Squarespace Training</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-westinghouse-1.jpg" alt="The Westinghouse Legacy Screenshot">
+          <img src="/images/impactfuel/cs-westinghouse-2.jpg" alt="The Westinghouse Legacy Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="43">
+      <div class="cs-layout">
+        <div class="cs-text">
+          <p class="lead"><strong>Watersheds of South Pittsburgh —</strong> We created a vibrant brand and website for this organization revitalizing the city’s waterways and communities. With clear content, event and gallery features, and new brand guidelines, the Squarespace site highlights their impact.</p>
+          <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:20px;padding-top:16px;">
+            <h3 style="font-size:.95rem;">Deliverables</h3>
+            <ul class="pink-bullets"><li>Brand Guidelines</li><li>Content Organization</li><li>Squarespace Design/Development</li><li>Event Calendar</li><li>Gallery</li><li>Squarespace Training</li></ul>
+          </div>
+          <a class="cs-btn" href="#">Visit Their Site</a>
+        </div>
+        <div class="cs-screenshots">
+          <img src="/images/impactfuel/cs-watersheds-1.jpg" alt="Watersheds of South Pittsburgh Screenshot">
+          <img src="/images/impactfuel/cs-watersheds-2.jpg" alt="Watersheds of South Pittsburgh Screenshot">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide slide-centered" data-slide="44">
+      <h2>WSCC</h2>
+    </div>
+
+    <div class="slide slide-centered" data-slide="45">
+      <h2>Always B Smiling</h2>
+    </div>
+
+    <div class="slide slide-centered" data-slide="46">
+      <h2>Arc Human Services</h2>
+    </div>
+
+    <div class="slide slide-centered" data-slide="47">
+      <h2>Al Bright Foundation</h2>
+    </div>
+
+    <div class="slide slide-centered" data-slide="48">
+      <h2>Magee Nurses</h2>
+    </div>
+
+    <div class="slide slide-centered" data-slide="49">
+      <h2>NPPEF</h2>
+    </div>
+
+    <div class="slide dark-split" data-slide="50">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <h1 class="hero-heading">Working with<br>Impactfuel<span class="dot">.</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-working-with.jpg" alt="Working with Impactfuel"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="51">
+      <div class="split-layout">
+        <div class="photo-left">
+          <img src="/images/impactfuel/photo-our-story.jpg" alt="Our Story">
+          <div class="if-mark">if<span class="dot">.</span></div>
+        </div>
+        <div class="text-right">
+          <h2>Our Story</h2>
+          <p class="lead"><strong style="color:var(--ink);">We are a team of branding, marketing, web design and graphic design experts</strong> working in Pittsburgh, Pennsylvania.</p>
+          <br><p>On January 1st, 2023, John Mahood merged his web design and development company (Imagebox) with an established agency (Chemistry) to become React Digital. React works with national brands on enterprise level web applications.</p>
+          <br><p>Impactfuel was formed to continue the work Imagebox began in 2002 working with small businesses and nonprofits. We believe your website should be affordable to build, easy to maintain, and do its job to grow your organization.</p>
+          <br><p>Remote working has enabled us to build dynamic teams and work with designers and developers from around the world. That said, John will always be there to guide you and the team through every step in the process.</p>
+          <br><p><strong>We look forward to working with you.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="52">
+      <div class="split-layout">
+        <div class="photo-left">
+          <img src="/images/impactfuel/photo-we-believe.jpg" alt="We Believe">
+          <div class="if-mark">if<span class="dot">.</span></div>
+        </div>
+        <div class="text-right">
+          <h2>We believe...</h2>
+          <div style="display:flex;gap:24px;align-items:flex-start;margin-bottom:32px;">
+            <img src="/images/impactfuel/icon-websites-that-work.jpg" alt="Websites that Work" style="width:120px;border-radius:4px;">
+            <div>
+              <p class="lead"><strong style="color:var(--ink);">Your website is the hub of everything</strong> your organization does.</p>
+              <br><p>It’s the doorway to your organization – and the only place where you can tell your whole story. All of your collateral and marketing efforts should direct your audience back to the website to learn more.</p>
+            </div>
+          </div>
+          <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:24px;display:flex;gap:24px;align-items:flex-start;">
+            <img src="/images/impactfuel/icon-meaningful-marketing.jpg" alt="Meaningful Marketing" style="width:120px;border-radius:4px;">
+            <div>
+              <p class="lead"><strong style="color:var(--gray);">Every conversation is a chance to spark connections and</strong> <strong style="color:var(--ink);">amplify your impact.</strong></p>
+              <br><p>Your supporters are smarter than ever. They’ll only acknowledge purposeful marketing that comes from the heart. We’re here to provide you with the tools, expertise, and processes you need to get meaningful results.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="53">
+      <div class="slide-inner">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <h2 style="font-size:2rem;">Our Process</h2>
+          <div class="if-mark-large">if<span class="dot">.</span></div>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);margin-top:16px;padding-top:24px;">
+          <div class="three-col" style="gap:32px 48px;">
+            <div>
+              <h3>Communication</h3>
+              <p>We manage all communications through an online project management solution. It brings everything we’re working on under one roof. It’s how we manage projects, timelines, discussions and pretty much all client-related communication. At the start of our project together, we’ll give you a brief intro to the software and show you the ropes.</p>
+            </div>
+            <div>
+              <h3>Content Creation &amp; Management</h3>
+              <p>For a website to do its job, it needs well thought out and organized content. For this reason, all of our projects include content strategy. This includes assisting in the creation of an intuitive sitemap, offering ideas for new content as well as making recommendations for improving existing content.</p>
+              <br><p style="font-size:.78rem;"><strong>Note:</strong> Unless specifically requested, copywriting is not included in the project, though this service can be added for an additional fee.</p>
+            </div>
+            <div>
+              <h3>Quality Control</h3>
+              <p>Our internal staff maintains a set of checks and balances to ensure that projects are as complete as possible, before launch. Additionally, we use a variety of online tools to help test and support the websites that we build.</p>
+              <br><h3>Training</h3>
+              <p>Before handing over the keys, we want to make sure that your team is up-to-speed and equipped to take things over. Therefore, we will provide a website training session to show you how to manage the website.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="54" style="background:var(--light-gray);">
+      <div class="slide-inner" style="overflow-y:auto;">
+        <div style="display:flex;gap:40px;margin-bottom:16px;">
+          <h2 style="min-width:300px;">We’re Passionate About Growing Organizations</h2>
+          <p class="lead">Formally, as Imagebox, the <strong>Impactfuel team</strong> has worked with several of Pittsburgh’s fastest growing technology, nonprofit, healthcare, education and social enterprise organizations.</p>
+        </div>
+        <div style="text-align:center;margin:8px 0;"><span class="section-label">VISIT SOME OF THE WEBSITES WE’VE BUILT</span></div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:16px;">
+          <div class="client-cats">
+            <div><h4>Technology</h4><ul><li>Fluence Energy</li><li>G&amp;G Industrial Lighting</li><li>Professional Arts Pharmacy</li><li>Blast Point</li><li>PANTHERx</li><li>Interstacks</li><li>Green Light Wireless</li><li>Encentiv Energy</li><li>NCSolutions</li><li>ClearCost</li><li>Idelic</li><li>CoMira Solutions</li><li>Novum Pharmaceutical</li></ul></div>
+            <div><h4>Nonprofit</h4><ul><li>Contemporary Craft</li><li>Pittsburgh Food Bank</li><li>Children’s Home of Pittsburgh</li><li>Pittsburgh History &amp; Landmarks Foundation</li><li>Grounded Strategies (gTECH)</li><li>New Sun Rising</li><li>Neighborhood Allies</li><li>Neighborhood Resilience Project</li></ul>
+            <h4 style="margin-top:12px;">Religion</h4><ul><li>Shadyside Presbyterian</li><li>East Liberty Presbyterian</li><li>Temple Emanuel</li></ul></div>
+            <div><h4>Healthcare</h4><ul><li>Heritage Valley Hospital</li><li>St. Clair Hospital</li></ul>
+            <h4 style="margin-top:12px;">Social Enterprise</h4><ul><li>Innovation Works</li><li>Pittsburgh Life Sciences Greenhouse</li><li>Bridgeway Capital</li><li>Alphalab &amp; Alphalab Gear</li></ul>
+            <h4 style="margin-top:12px;">Theatre Arts</h4><ul><li>Pittsburgh Ballet Theatre</li><li>Dramatist Guild Foundation</li></ul></div>
+            <div><h4>Professional Services</h4><ul><li>R3Architects</li><li>Pashek+MTR</li><li>Rothschild Doyno</li><li>Hardin Compliance</li><li>YourCFO</li></ul>
+            <h4 style="margin-top:12px;">Education</h4><ul><li>University of Pittsburgh College of Business Administration</li><li>University of Pittsburgh Innovation Institute</li><li>Carnegie Mellon University Mobility 21</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="55" style="background:var(--light-gray);">
+      <div class="slide-inner" style="overflow-y:auto;">
+        <h2 style="margin-bottom:8px;">Leadership</h2>
+        <div class="team-grid">
+          <div class="team-card"><img src="/images/impactfuel/team-john.jpg" alt="John Mahood"><div><div class="name">John Mahood</div><div class="role">Chief Strategist</div><div class="bio">Over 20 years experience leading design &amp; content strategy for website projects that meet organizations’ business objectives.</div></div></div>
+          <div class="team-card"><img src="/images/impactfuel/team-tracy.jpg" alt="Tracy Mahood"><div><div class="name">Tracy Mahood</div><div class="role">Managing Director</div><div class="bio">Over 20 years of brand management and marketing experience with global companies such as Philips Respironics and GlaxoSmithKline.</div></div></div>
+          <div class="team-card"><img src="/images/impactfuel/team-caitlin.jpg" alt="Caitlin Ewing"><div><div class="name">Caitlin Ewing</div><div class="role">Creative Director</div><div class="bio">A member of the team for 10 years with expertise in design, content strategy, information architecture &amp; illustration.</div></div></div>
+          <div class="team-card"><img src="/images/impactfuel/team-thad.jpg" alt="Thad Bloom"><div><div class="name">Thad Bloom</div><div class="role">Senior Developer</div><div class="bio">Senior Web Developer with over 10 years of experience. Specializes in Front-end development &amp; WordPress customization.</div></div></div>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.1);margin-top:20px;padding-top:16px;">
+          <div class="team-section-label">Team</div>
+          <div class="team-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="team-card"><img src="/images/impactfuel/team-kevin.jpg" alt="Kevin Corrado"><div><div class="name">Kevin Corrado</div><div class="role">Graphic Designer</div></div></div>
+            <div class="team-card"><img src="/images/impactfuel/team-jake.jpg" alt="Jake Bolan"><div><div class="name">Jake Bolan</div><div class="role">Web Developer</div></div></div>
+            <div class="team-card"><img src="/images/impactfuel/team-chris.jpg" alt="Chris Brennan"><div><div class="name">Chris Brennan</div><div class="role">Web Developer</div></div></div>
+            <div class="team-card"><img src="/images/impactfuel/team-jenna.jpg" alt="Jenna Mahood"><div><div class="name">Jenna Mahood</div><div class="role">Marketing Assistant</div></div></div>
+            <div class="team-card"><img src="/images/impactfuel/team-james.jpg" alt="James Shults"><div><div class="name">James Shults</div><div class="role">Web Developer</div></div></div>
+            <div class="team-card"><img src="/images/impactfuel/team-chip.jpg" alt="Chip Sheppard"><div><div class="name">Chip Sheppard</div><div class="role">Web Developer</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="56">
+      <div class="slide-inner" style="overflow-y:auto;">
+        <div style="display:flex;gap:40px;margin-bottom:24px;">
+          <h2 style="min-width:200px;">Client<br>References</h2>
+          <p class="lead">Impactfuel strives to make every client a repeat client, and a great reference. Below is a list of those we’ve helped see success in their marketing efforts. Feel free to contact any of them and hear their stories about the great work we’ve done for them.</p>
+        </div>
+        <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:24px;">
+          <div class="ref-grid">
+            <div class="ref-card"><h4>Goodwill</h4><div class="contact-name">David Tobiczyk</div><div class="contact-phone">412-760-0348</div><a href="mailto:david.tobiczyk@goodwillswpa.org">david.tobiczyk@goodwillswpa.org</a></div>
+            <div class="ref-card"><h4>Shadyside Presbyterian Church</h4><div class="contact-name">Peter Bodnar</div><div class="contact-phone">412-682-4300, ext. 116</div><a href="mailto:pbodnar@shadysidepres.org">pbodnar@shadysidepres.org</a></div>
+            <div class="ref-card"><h4>Pittsburgh Mercy</h4><div class="contact-name">Linda Ross</div><div class="contact-phone">412-578-6224</div><a href="mailto:LRoss@pittsburghmercy.org">LRoss@pittsburghmercy.org</a></div>
+            <div class="ref-card"><h4>East Liberty Presbyterian</h4><div class="contact-name">Randall K. Bush</div><div class="contact-phone">412-441-3800</div><a href="mailto:randyb@coh.net">randyb@coh.net</a></div>
+            <div class="ref-card"><h4>Bridgeway Capital</h4><div class="contact-name">Adam Kenney</div><div class="contact-phone">412-201-2450</div><a href="mailto:akenney@bridgewaycapital.org">akenney@bridgewaycapital.org</a></div>
+            <div class="ref-card"><h4>Life’sWork of Western PA</h4><div class="contact-name">Tim Park</div><div class="contact-phone">412-471-5808</div><a href="mailto:tparks@lifesworkwpa.org">tparks@lifesworkwpa.org</a></div>
+            <div class="ref-card"><h4>Neighborhood Allies</h4><div class="contact-name">Talia Piazza</div><div class="contact-phone">412-471-3727</div><a href="mailto:talia@neighborhoodallies.org">talia@neighborhoodallies.org</a></div>
+            <div class="ref-card"><h4>Variety Pittsburgh</h4><div class="contact-name">Zach Marsh</div><div class="contact-phone">724-933-0460</div><a href="mailto:zach@varietypittsburgh.org">zach@varietypittsburgh.org</a></div>
+            <div class="ref-card"><h4>Kids Plus Pediatrics</h4><div class="contact-name">Chad Herman</div><div class="contact-phone">412-427-7178</div><a href="mailto:chad@kidspluspgh.com">chad@kidspluspgh.com</a></div>
+            <div class="ref-card"><h4>Pittsburgh Life Science Greenhouse</h4><div class="contact-name">Diane Hill</div><div class="contact-phone">617-504-6686</div><a href="mailto:dhill@plsg.com">dhill@plsg.com</a></div>
+            <div class="ref-card"><h4>Pittsburgh History &amp; Landmarks Foundation</h4><div class="contact-name">Karamagi Rujumba</div><div class="contact-phone">412-471-5808</div><a href="mailto:karamagi@phlf.org">karamagi@phlf.org</a></div>
+            <div class="ref-card"><h4>Innovation Works</h4><div class="contact-name">Terri Glueck</div><div class="contact-phone">412-894-9514</div><a href="mailto:tglueck@innovationworks.org">tglueck@innovationworks.org</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="57">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <h1 class="hero-heading">What’s<br>next<span style="color:var(--pink);">?</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-whats-next.jpg" alt="What's Next"></div>
+      </div>
+    </div>
+
+    <div class="slide" data-slide="58">
+      <div class="split-layout">
+        <div class="photo-left" style="width:35%;">
+          <img src="/images/impactfuel/photo-garfield.jpg" alt="Garfield Office">
+          <div class="if-mark">if<span class="dot">.</span></div>
+          <div style="position:absolute;bottom:60px;left:40px;color:var(--white);">
+            <p style="color:var(--white);"><strong>Our office is located on<br>Penn Avenue in Garfield.</strong></p>
+            <p style="color:rgba(255,255,255,.7);font-size:.85rem;">4933 Penn Avenue<br>Pittsburgh, PA 15224</p>
+          </div>
+        </div>
+        <div class="text-right" style="width:65%;">
+          <h2>Have questions?</h2>
+          <p class="lead"><strong style="color:var(--gray);">We’re available any time to</strong> <strong>answer questions</strong> <strong style="color:var(--gray);">and revise this proposal where needed. Please don’t hesitate to contact us.</strong></p>
+          <div class="contact-block">
+            <div><b>Call</b>412.303.6477</div>
+            <div><b>Email</b><a href="mailto:john@impactfuel.org">john@impactfuel.org</a></div>
+            <div><b>Browse</b><a href="https://impactfuel.org" target="_blank">impactfuel.org</a></div>
+          </div>
+          <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:24px;margin-top:8px;">
+            <h2>Ready to start?</h2>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><h4>Review the Proposal:</h4><p>We welcome the opportunity to walk you through what we’ve presented in this document. Our best proposals are always crafted in collaboration with our clients.</p></div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><h4>Sign an Agreement:</h4><p>The next step would be to agree on the scope, schedule and investment. Impactfuel will then provide a formal document outlining the relationship.</p></div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><h4>Schedule the Kick-Off Meeting:</h4><p>The project then begins with our Discovery Workshop.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide dark-split" data-slide="59">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="wordmark">I M P A C T F U<span class="e-letter">ε</span>L</div>
+          <div style="position:absolute;top:60px;right:120px;"><img src="/images/impactfuel/badge-lets-make.jpg" alt="Let's make something together" style="width:80px;border-radius:50%;filter:invert(1);"></div>
+          <h1 class="hero-heading">We hope to<br>hear from<br>you soon<span style="color:var(--pink);">!</span></h1>
+          <div class="divider"></div>
+        </div>
+        <div class="split-right-photo"><img src="/images/impactfuel/hero-closing.jpg" alt="Closing"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOTS -->
+<div class="dots" id="dots"></div>
+
+<!-- NAV HINT -->
+<div class="nav-hint">
+  <kbd>←</kbd> <kbd>→</kbd> to navigate &middot; Space to advance
+</div>
+
+<script>
+const TOTAL = 59;
+let current = 0;
+const track = document.getElementById('track');
+const counter = document.getElementById('counter');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dotsEl = document.getElementById('dots');
+for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.addEventListener('click',()=>goTo(i));dotsEl.appendChild(d);}
+function goTo(n){current=Math.max(0,Math.min(TOTAL-1,n));track.style.transform=`translateX(-${current*100}vw)`;counter.textContent=`${current+1} / ${TOTAL}`;prevBtn.disabled=current===0;nextBtn.disabled=current===TOTAL-1;dotsEl.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('active',i===current);});}
+function go(dir){goTo(current+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}else if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50){go(dx<0?1:-1);}},{passive:true});
+let wheelAccum=0;let wheelLocked=false;document.addEventListener('wheel',e=>{e.preventDefault();if(wheelLocked)return;const delta=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;wheelAccum+=delta;if(Math.abs(wheelAccum)>=80){const dir=wheelAccum>0?1:-1;wheelAccum=0;wheelLocked=true;go(dir);setTimeout(()=>{wheelLocked=false;wheelAccum=0;},950);}},{passive:false});
+</script>
+</body>
+</html>
