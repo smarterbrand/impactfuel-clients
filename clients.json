@@ -1,0 +1,18 @@
+{
+  "clients": [
+    {
+      "name": "Martin Perry",
+      "slug": "martin-perry",
+      "status": "active",
+      "deliverables": [
+        { "path": "/martin-perry", "label": "Client Hub", "group": "Hub", "primary": true },
+        { "path": "/martin-perry/proposal", "label": "Proposal", "group": "Hub" },
+        { "path": "/martin-perry/positioning", "label": "Positioning", "group": "Strategy" },
+        { "path": "/martin-perry/audience", "label": "Audience", "group": "Strategy" },
+        { "path": "/martin-perry/voice", "label": "Voice", "group": "Strategy" },
+        { "path": "/martin-perry/content-engine", "label": "Content Engine", "group": "Strategy" }
+      ],
+      "reports": []
+    }
+  ]
+}
