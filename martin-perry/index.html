@@ -3,24 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Martin Perry — Impact Fuel</title>
+<title>Martin Perry — Impactfuel</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#12100E; --fuel:#E8591A; --fuel-dim:rgba(232,89,26,.12);
-    --offwhite:#FAF9F7; --gray:#6B6762; --gray-soft:#A8A39E;
-    --white:#FFFFFF; --line:rgba(18,16,14,.13); --line-soft:rgba(18,16,14,.07);
+    --ink:#000000; --fuel:#ff7bac; --fuel-dim:#ff96be;
+    --offwhite:#F5F5F5; --gray:#86868b; --gray-soft:#b0b0b5;
+    --white:#FFFFFF; --line:rgba(0,0,0,.12); --line-soft:rgba(0,0,0,.07);
     --shadow-sm:0 1px 1px rgba(18,16,14,.04), 0 8px 22px -16px rgba(18,16,14,.28);
-    --maxw:920px; --display:"Inter",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+    --maxw:920px; --display:"Outfit",system-ui,sans-serif; --serif:"Poppins",system-ui,sans-serif;
+    --fuel-ink:#c9296b;
+    --slate:#000000;
+    --cream:#fff0f6;
   }
   *{box-sizing:border-box;}
   body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
-  .fp{color:var(--fuel);}
+  .fp{color:var(--fuel-ink);}
 
   /* Topbar */
   .topbar{position:sticky;top:0;z-index:50;background:rgba(250,249,247,.9);backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line);}
@@ -42,21 +45,21 @@
   /* Category groups */
   .cat-group{margin-top:52px;}
   .cat-label{font-family:var(--display);font-weight:700;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-soft);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;}
-  .cat-label .sep{color:var(--fuel);}
+  .cat-label .sep{color:var(--fuel-ink);}
 
   /* Cards */
   .cards{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
   a.card{display:flex;align-items:center;gap:20px;background:var(--white);padding:24px 26px;text-decoration:none;color:inherit;transition:.15s;}
   a.card:hover{background:#fff;box-shadow:var(--shadow-sm);z-index:1;position:relative;}
-  .card .ix{font-family:var(--display);font-weight:800;font-size:.82rem;color:var(--fuel);min-width:28px;}
+  .card .ix{font-family:var(--display);font-weight:800;font-size:.82rem;color:var(--fuel-ink);min-width:28px;}
   .card .body{flex:1;}
   .card h3{font-family:var(--display);font-weight:700;font-size:1.12rem;color:var(--ink);margin:0 0 .22em;letter-spacing:-.025em;}
   .card p{font-family:var(--serif);font-size:.94rem;color:var(--gray);margin:0;line-height:1.4;}
   .card .status{font-family:var(--display);font-weight:600;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;margin-top:8px;display:inline-flex;align-items:center;gap:6px;}
-  .status.live{color:var(--fuel);}
+  .status.live{color:var(--fuel-ink);}
   .status.live::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--fuel);}
   .status.soon{color:var(--gray-soft);}
-  .card .arrow{font-family:var(--display);font-weight:700;color:var(--fuel);font-size:1.2rem;opacity:.7;}
+  .card .arrow{font-family:var(--display);font-weight:700;color:var(--fuel-ink);font-size:1.2rem;opacity:.7;}
   a.card:hover .arrow{opacity:1;}
   a.card.disabled{opacity:.55;pointer-events:none;cursor:default;}
 
@@ -72,7 +75,7 @@
 
 <div class="topbar">
   <div class="row">
-    <a href="/"><img src="/impactfuel-logo.png" alt="Impact Fuel" style="height:28px;display:block;"></a>
+    <a href="/"><img src="/impactfuel-logo.png" alt="Impactfuel" style="height:28px;display:block;"></a>
     <span class="ttl">Martin Perry &nbsp;·&nbsp; Client Workspace</span>
   </div>
 </div>
@@ -80,13 +83,13 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="eyebrow"><span class="dot"></span>Impact Fuel <span class="mid">&nbsp;·&nbsp; Client Workspace</span></div>
+    <div class="eyebrow"><span class="dot"></span>Impactfuel <span class="mid">&nbsp;·&nbsp; Client Workspace</span></div>
     <h1>Martin Perry<span class="fp">.</span></h1>
     <p class="sub">Corporate real estate advisor. The strategy, voice, and content that turn deep expertise into a publishing engine — built here as we go.</p>
     <div class="meta">
       <span><b>Industry</b> &nbsp;Commercial Real Estate</span>
       <span><b>Market</b> &nbsp;Pittsburgh, PA &amp; Southwest PA</span>
-      <span><b>Managed by</b> &nbsp;John Mahood, Impact Fuel</span>
+      <span><b>Managed by</b> &nbsp;John Mahood, Impactfuel</span>
     </div>
   </header>
 
@@ -165,9 +168,9 @@
 
   <footer>
     <div class="fgrid">
-      <img src="/impactfuel-logo.png" alt="Impact Fuel" style="height:22px;display:block;">
+      <img src="/impactfuel-logo.png" alt="Impactfuel" style="height:22px;display:block;">
       <div class="c">
-        <b>John Mahood</b> · Principal, Impact Fuel<br>
+        <b>John Mahood</b> · Principal, Impactfuel<br>
         john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
       </div>
     </div>

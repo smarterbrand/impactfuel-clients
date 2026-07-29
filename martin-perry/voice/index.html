@@ -7,23 +7,25 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#12100E; --fuel:#E8591A; --fuel-dim:rgba(232,89,26,.1);
-    --offwhite:#FAF9F7; --gray:#6B6762; --gray-soft:#A8A39E;
-    --white:#FFFFFF; --cream:#F2EBE2;
-    --line:rgba(18,16,14,.13); --line-soft:rgba(18,16,14,.07);
+    --ink:#000000; --fuel:#ff7bac; --fuel-dim:#ff96be;
+    --offwhite:#F5F5F5; --gray:#86868b; --gray-soft:#b0b0b5;
+    --white:#FFFFFF; --cream:#fff0f6;
+    --line:rgba(0,0,0,.12); --line-soft:rgba(0,0,0,.07);
     --shadow:0 1px 1px rgba(18,16,14,.04), 0 18px 46px -30px rgba(18,16,14,.36);
     --shadow-sm:0 1px 1px rgba(18,16,14,.04), 0 8px 22px -16px rgba(18,16,14,.24);
-    --maxw:940px; --display:"Inter",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+    --maxw:940px; --display:"Outfit",system-ui,sans-serif; --serif:"Poppins",system-ui,sans-serif;
     --topbar:54px; --sidebar:210px;
+    --fuel-ink:#c9296b;
+    --slate:#000000;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
-  .fp{color:var(--fuel);}
+  .fp{color:var(--fuel-ink);}
 
   /* Topbar */
   .topbar{position:sticky;top:0;z-index:100;height:var(--topbar);background:rgba(250,249,247,.92);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
@@ -45,14 +47,14 @@
   .sn-nav{display:flex;flex-direction:column;}
   .sn-link{font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);padding:7px 8px 7px 12px;border-left:2px solid transparent;transition:color .15s, border-color .15s;line-height:1.2;}
   .sn-link:hover{color:var(--ink);}
-  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel);}
+  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel-ink);}
   @media(max-width:860px){
     .shell{display:block;}
     .sidenav{position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto;overflow-y:visible;white-space:nowrap;}
     .sidenav .sn-lbl{display:none;}
     .sn-nav{flex-direction:row;display:inline-flex;}
     .sn-link{border-left:none;border-bottom:2px solid transparent;padding:10px 10px;display:inline-block;}
-    .sn-link.is-active{border-bottom-color:var(--fuel);border-left:none;}
+    .sn-link.is-active{border-bottom-color:var(--fuel-ink);border-left:none;}
   }
 
   .main{flex:1;min-width:0;overflow:hidden;}
@@ -74,7 +76,7 @@
   section{padding:52px 0;border-top:1px solid var(--line);}
   section:first-of-type{border-top:none;padding-top:36px;}
   .shead{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
-  .shead .num,.shead .sep{color:var(--fuel);}
+  .shead .num,.shead .sep{color:var(--fuel-ink);}
   h2{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4.8vw,2.5rem);line-height:1.0;letter-spacing:-.04em;color:var(--ink);margin:0 0 .4em;}
   h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ink);margin:1.8em 0 .4em;letter-spacing:-.02em;}
   p{margin:0 0 1.05em;}
@@ -85,17 +87,17 @@
   .qa{margin-top:24px;}
   .qa-item{border-top:1px solid var(--line);padding:24px 0;}
   .qa-item:first-child{border-top:none;padding-top:0;}
-  .qa-q{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fuel);margin-bottom:12px;}
+  .qa-q{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:12px;}
   .qa-a{font-family:var(--serif);font-size:1.05rem;line-height:1.6;color:var(--ink);}
   .qa-a p{margin:0 0 .8em;}
   .qa-a p:last-child{margin:0;}
 
   /* Identity block */
   .id-block{background:var(--ink);color:var(--offwhite);border-radius:8px;padding:38px 42px;box-shadow:var(--shadow);margin-top:24px;}
-  .id-block .id-lbl{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel);margin-bottom:16px;}
+  .id-block .id-lbl{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:16px;}
   .id-block p{font-family:var(--serif);font-size:clamp(1.15rem,2.8vw,1.5rem);line-height:1.5;margin:0 0 1em;}
   .id-block p:last-child{margin:0;}
-  .id-block .hl{color:var(--fuel);font-style:italic;}
+  .id-block .hl{color:var(--fuel-ink);font-style:italic;}
 
   /* Do/Don't table */
   .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--white);box-shadow:var(--shadow-sm);margin-top:18px;}
@@ -103,7 +105,7 @@
   thead th{background:var(--ink);color:var(--offwhite);text-align:left;font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:13px 18px;}
   tbody td{padding:14px 18px;border-top:1px solid var(--line-soft);vertical-align:top;font-family:var(--display);font-size:.9rem;line-height:1.5;}
   tbody tr:nth-child(even){background:var(--offwhite);}
-  td .go{color:var(--fuel);font-weight:800;margin-right:7px;}
+  td .go{color:var(--fuel-ink);font-weight:800;margin-right:7px;}
   td .no{color:var(--gray-soft);font-weight:800;margin-right:7px;}
   td strong{font-weight:700;color:var(--ink);}
 
@@ -117,13 +119,13 @@
   /* Writing mechanics */
   .mech-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:18px;}
   .mcard{background:var(--offwhite);padding:22px 22px;}
-  .mcard .mk{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel);margin-bottom:10px;}
+  .mcard .mk{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:10px;}
   .mcard p{font-family:var(--serif);font-size:.95rem;line-height:1.5;margin:0;color:var(--ink);}
   @media(max-width:640px){.mech-grid{grid-template-columns:1fr;}}
 
   /* Callout */
   .callout{border-left:3px solid var(--fuel);padding:18px 22px;margin:24px 0;background:var(--fuel-dim);border-radius:0 8px 8px 0;}
-  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:8px;}
   .callout p{font-family:var(--serif);font-size:1rem;margin:0;line-height:1.55;}
 
   /* Footer */
@@ -138,7 +140,7 @@
 
 <div class="topbar">
   <div class="row">
-    <a href="/"><img src="/impactfuel-logo.png" alt="Impact Fuel" style="height:28px;display:block;"></a>
+    <a href="/"><img src="/impactfuel-logo.png" alt="Impactfuel" style="height:28px;display:block;"></a>
     <a href="/martin-perry" class="ttl">Martin Perry</a>
     <nav class="mainnav">
       <a href="/martin-perry/voice" class="mn mn--active">Voice</a>
@@ -172,7 +174,7 @@
       <p class="sub">The beliefs, mechanics, and guardrails that keep every piece of content sounding like Martin — not a brochure.</p>
       <div class="meta">
         <span><b>Use this for</b> &nbsp;Every draft, every post, every email</span>
-        <span><b>Prepared by</b> &nbsp;John Mahood, Impact Fuel</span>
+        <span><b>Prepared by</b> &nbsp;John Mahood, Impactfuel</span>
       </div>
     </header>
 
@@ -333,9 +335,9 @@
 
     <footer>
       <div class="fgrid">
-        <img src="/impactfuel-logo.png" alt="Impact Fuel" style="height:22px;display:block;">
+        <img src="/impactfuel-logo.png" alt="Impactfuel" style="height:22px;display:block;">
         <div class="c">
-          <b>John Mahood</b> · Principal, Impact Fuel<br>
+          <b>John Mahood</b> · Principal, Impactfuel<br>
           john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
         </div>
       </div>

@@ -7,23 +7,25 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#12100E; --fuel:#E8591A; --fuel-dim:rgba(232,89,26,.1);
-    --offwhite:#FAF9F7; --gray:#6B6762; --gray-soft:#A8A39E;
-    --white:#FFFFFF; --cream:#F2EBE2;
-    --line:rgba(18,16,14,.13); --line-soft:rgba(18,16,14,.07);
+    --ink:#000000; --fuel:#ff7bac; --fuel-dim:#ff96be;
+    --offwhite:#F5F5F5; --gray:#86868b; --gray-soft:#b0b0b5;
+    --white:#FFFFFF; --cream:#fff0f6;
+    --line:rgba(0,0,0,.12); --line-soft:rgba(0,0,0,.07);
     --shadow:0 1px 1px rgba(18,16,14,.04), 0 18px 46px -30px rgba(18,16,14,.36);
     --shadow-sm:0 1px 1px rgba(18,16,14,.04), 0 8px 22px -16px rgba(18,16,14,.24);
-    --maxw:940px; --display:"Inter",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+    --maxw:940px; --display:"Outfit",system-ui,sans-serif; --serif:"Poppins",system-ui,sans-serif;
     --topbar:54px; --sidebar:210px;
+    --fuel-ink:#c9296b;
+    --slate:#000000;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--offwhite);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
-  .fp{color:var(--fuel);}
+  .fp{color:var(--fuel-ink);}
 
   /* Topbar */
   .topbar{position:sticky;top:0;z-index:100;height:var(--topbar);background:rgba(250,249,247,.92);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
@@ -45,14 +47,14 @@
   .sn-nav{display:flex;flex-direction:column;}
   .sn-link{font-family:var(--display);font-weight:500;font-size:.76rem;color:var(--gray);padding:7px 8px 7px 12px;border-left:2px solid transparent;transition:color .15s, border-color .15s;line-height:1.2;}
   .sn-link:hover{color:var(--ink);}
-  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel);}
+  .sn-link.is-active{color:var(--ink);font-weight:700;border-left-color:var(--fuel-ink);}
   @media(max-width:860px){
     .shell{display:block;}
     .sidenav{position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto;overflow-y:visible;white-space:nowrap;}
     .sidenav .sn-lbl{display:none;}
     .sn-nav{flex-direction:row;display:inline-flex;}
     .sn-link{border-left:none;border-bottom:2px solid transparent;padding:10px 10px;display:inline-block;}
-    .sn-link.is-active{border-bottom-color:var(--fuel);border-left:none;}
+    .sn-link.is-active{border-bottom-color:var(--fuel-ink);border-left:none;}
   }
   .main{flex:1;min-width:0;overflow:hidden;}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;}
@@ -73,7 +75,7 @@
   section{padding:52px 0;border-top:1px solid var(--line);}
   section:first-of-type{border-top:none;padding-top:36px;}
   .shead{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
-  .shead .num,.shead .sep{color:var(--fuel);}
+  .shead .num,.shead .sep{color:var(--fuel-ink);}
   h2{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4.8vw,2.5rem);line-height:1.0;letter-spacing:-.04em;color:var(--ink);margin:0 0 .4em;}
   h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ink);margin:1.8em 0 .5em;letter-spacing:-.02em;}
   p{margin:0 0 1.05em;}
@@ -83,21 +85,21 @@
   /* Stat grid */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:24px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
   .stat{background:var(--offwhite);padding:24px 20px;}
-  .stat .big{font-family:var(--display);font-weight:900;font-size:2rem;letter-spacing:-.04em;color:var(--fuel);line-height:1;}
+  .stat .big{font-family:var(--display);font-weight:900;font-size:2rem;letter-spacing:-.04em;color:var(--fuel-ink);line-height:1;}
   .stat .cap{font-family:var(--display);font-weight:600;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:8px;line-height:1.3;}
   @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr);}}
 
   /* Steps / process */
   .steps{margin-top:24px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
   .step{background:var(--offwhite);padding:24px 26px;display:flex;gap:20px;align-items:flex-start;}
-  .step .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--fuel);letter-spacing:-.04em;min-width:44px;line-height:1;}
+  .step .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--fuel-ink);letter-spacing:-.04em;min-width:44px;line-height:1;}
   .step .body h4{font-family:var(--display);font-weight:700;font-size:1.0rem;color:var(--ink);margin:0 0 .3em;letter-spacing:-.02em;}
   .step .body p{font-family:var(--serif);font-size:.95rem;color:var(--gray);margin:0;line-height:1.5;}
 
   /* Week view */
   .week{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:20px;}
   .wday{background:var(--offwhite);padding:20px 18px;}
-  .wday .wk{font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .wday .wk{font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:8px;}
   .wday .wd{font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em;}
   .wday p{font-family:var(--display);font-size:.8rem;color:var(--gray);margin:0;line-height:1.45;}
   @media(max-width:640px){.week{grid-template-columns:repeat(2,1fr);}}
@@ -108,20 +110,20 @@
   .brief .q-list{margin:0;padding:0;list-style:none;}
   .brief .q-list li{font-family:var(--display);font-size:.85rem;color:var(--gray);line-height:1.55;padding:10px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:12px;}
   .brief .q-list li:last-child{border-bottom:none;}
-  .brief .q-list li .qnum{font-weight:800;color:var(--fuel);font-size:.75rem;flex-shrink:0;padding-top:2px;}
+  .brief .q-list li .qnum{font-weight:800;color:var(--fuel-ink);font-size:.75rem;flex-shrink:0;padding-top:2px;}
   .brief .q-list li p{margin:0;}
   .brief .q-list li strong{color:var(--ink);}
 
   /* Output block */
   .output{background:var(--ink);color:var(--offwhite);border-radius:8px;padding:32px 36px;margin-top:16px;box-shadow:var(--shadow);}
-  .output .o-lbl{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel);margin-bottom:16px;}
+  .output .o-lbl{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:16px;}
   .output ul{margin:0;padding:0 0 0 1.2em;}
   .output ul li{font-family:var(--display);font-size:.9rem;color:var(--offwhite);line-height:1.5;margin:.5em 0;padding-left:.2em;}
-  .output ul li::marker{color:var(--fuel);}
+  .output ul li::marker{color:var(--fuel-ink);}
 
   /* Callout */
   .callout{border-left:3px solid var(--fuel);padding:18px 22px;margin:24px 0;background:var(--fuel-dim);border-radius:0 8px 8px 0;}
-  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel);margin-bottom:8px;}
+  .callout .ct{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fuel-ink);margin-bottom:8px;}
   .callout p{font-family:var(--serif);font-size:1rem;margin:0;line-height:1.55;}
   .callout p + p{margin-top:.6em;}
 
@@ -143,7 +145,7 @@
 
 <div class="topbar">
   <div class="row">
-    <a href="/"><img src="/impactfuel-logo.png" alt="Impact Fuel" style="height:28px;display:block;"></a>
+    <a href="/"><img src="/impactfuel-logo.png" alt="Impactfuel" style="height:28px;display:block;"></a>
     <a href="/martin-perry" class="ttl">Martin Perry</a>
     <nav class="mainnav">
       <a href="/martin-perry/voice" class="mn">Voice</a>
@@ -177,7 +179,7 @@
       <div class="meta">
         <span><b>Cadence</b> &nbsp;4 posts/month · weekly interview</span>
         <span><b>Outputs</b> &nbsp;Post · Email · 3 LinkedIn excerpts</span>
-        <span><b>Managed by</b> &nbsp;John Mahood, Impact Fuel</span>
+        <span><b>Managed by</b> &nbsp;John Mahood, Impactfuel</span>
       </div>
     </header>
 
@@ -210,7 +212,7 @@
         </div>
         <div class="step">
           <div class="n">03.</div>
-          <div class="body"><h4>Produce the content</h4><p>AI trained on Martin's voice and guardrails drafts the post, email, and three LinkedIn excerpts from the recording. Impact Fuel reviews against the voice profile before anything leaves our hands.</p></div>
+          <div class="body"><h4>Produce the content</h4><p>AI trained on Martin's voice and guardrails drafts the post, email, and three LinkedIn excerpts from the recording. Impactfuel reviews against the voice profile before anything leaves our hands.</p></div>
         </div>
         <div class="step">
           <div class="n">04.</div>
@@ -242,7 +244,7 @@
         <div class="wday">
           <div class="wk">Week 3</div>
           <div class="wd">Create the content</div>
-          <p>We produce the blog post, email, three social posts, and optionally a short podcast clip from the recording — with AI assistance, reviewed by Impact Fuel.</p>
+          <p>We produce the blog post, email, three social posts, and optionally a short podcast clip from the recording — with AI assistance, reviewed by Impactfuel.</p>
         </div>
         <div class="wday">
           <div class="wk">Week 4</div>
@@ -346,9 +348,9 @@
 
     <footer>
       <div class="fgrid">
-        <img src="/impactfuel-logo.png" alt="Impact Fuel" style="height:22px;display:block;">
+        <img src="/impactfuel-logo.png" alt="Impactfuel" style="height:22px;display:block;">
         <div class="c">
-          <b>John Mahood</b> · Principal, Impact Fuel<br>
+          <b>John Mahood</b> · Principal, Impactfuel<br>
           john@impactfuel.com &nbsp;·&nbsp; Pittsburgh, PA
         </div>
       </div>
